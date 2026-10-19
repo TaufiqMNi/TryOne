@@ -28,6 +28,20 @@ node tools/render.mjs templates/google.html samples/google_example.json work/goo
 Data: `query`, `results` (site, url, title, snippet pilihan), `highlight` (indeks hasil untuk marker).
 Isi hasil carian dengan tajuk/URL sebenar — jangan reka.
 
+## 3. Kad teks (tajuk hook, hadis/ayat Arab, CTA)
+```
+node tools/render.mjs templates/card.html work/card_hook.json work/card_hook.mp4
+```
+Data: `kind` (`title` | `hadith` | `cta`), `lines`, `highlight` (teks kuning #FFD400), `arabic` (teks atau senarai baris),
+`source` (kredit di bawah kad), `duration`, `full` (true = latar hitam penuh; lalai lutsinar untuk tindih atas footage).
+Fon: Bebas Neue (tajuk) & Amiri (Arab) dalam `fonts/` (OFL).
+
+## Semakan satu frame
+```
+node tools/still.mjs <templat.html> <data.json> <out.png> [saat]
+```
+Screencap satu frame sahaja — guna untuk semakan sebelum pengguna benarkan render.
+
 ## Nota
 - Sesetengah laman sekat bot (cth. Reuters, Pexels) — guna sumber lain.
 - Footage berita berhak cipta: beri link + timestamp sahaja, muat turun manual.
