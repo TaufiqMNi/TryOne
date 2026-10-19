@@ -1,0 +1,149 @@
+{
+ "_nota": "Podcast Bumi Merdeka EP6 (https://youtu.be/YDWJADGp3OU) — klip 00:46:51-00:48:06, perjanjian damai Gaza",
+ "src": "work/footage/ep6_c1.mp4",
+ "speaker_side": "left",
+ "start": 0.0,
+ "end": 70.2,
+ "articles": {
+  "art_ap": [
+   "https://www.kunc.org/npr-news/2026-06-17/over-1-000-people-killed-during-gaza-ceasefire-palestinian-authorities-say",
+   "killed 1,005 Palestinians since a ceasefire was reached"
+  ],
+  "art_aj": [
+   "https://www.aljazeera.com/news/2026/6/3/israel-is-building-more-military-posts-in-gaza-satellite-imagery-shows",
+   "eight of these bases were constructed entirely from scratch after the October 2025 truce"
+  ],
+  "art_na": [
+   "https://www.newarab.com/news/hamas-calls-fighters-be-allowed-out-gaza-tunnels",
+   "Dozens of Hamas fighters are believed to trapped in tunnels beneath Rafah"
+  ]
+ },
+ "cues": [
+  {
+   "at": 0.0,
+   "dur": 2.3,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Gencatan senjata",
+     "di Gaza —",
+     "palsu?"
+    ],
+    "highlight": "palsu?",
+    "full": true,
+    "instant": true
+   },
+   "sfx": "hit"
+  },
+  {
+   "phrase": "yang sedang dijalankan",
+   "dur": 4.2,
+   "tpl": "highlight",
+   "data": "art_ap",
+   "source": "AP / NPR, 17 Jun 2026"
+  },
+  {
+   "phrase": "membina penempatan tentera",
+   "dur": 4.5,
+   "tpl": "highlight",
+   "data": "art_aj",
+   "source": "Al Jazeera, 3 Jun 2026"
+  },
+  {
+   "phrase": "ancaman terowong",
+   "dur": 2.8,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Ancaman",
+     "terowong"
+    ],
+    "highlight": "terowong",
+    "full": true
+   }
+  },
+  {
+   "phrase": "pihak luar akan gagal",
+   "dur": 2.6,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Pihak luar",
+     "akan gagal"
+    ],
+    "highlight": "gagal",
+    "full": true
+   }
+  },
+  {
+   "phrase": "beberapa syuhada",
+   "dur": 4.0,
+   "tpl": "highlight",
+   "data": "art_na",
+   "source": "The New Arab, 26 Nov 2025"
+  },
+  {
+   "phrase": "tak sampai 10%",
+   "dur": 3.2,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Tak sampai",
+     "10%",
+     "terowong terjejas"
+    ],
+    "highlight": "10%",
+    "full": true,
+    "source": "Podcast Bumi Merdeka EP6"
+   },
+   "sfx": "hit",
+   "riser": true
+  }
+ ],
+ "english": [
+  "stand",
+  "solid",
+  "Board of Peace"
+ ],
+ "proper": [
+  "Gaza",
+  "Israel",
+  "Islam",
+  "Allah",
+  "SWT",
+  "Nabi",
+  "SAW",
+  "Board",
+  "Peace"
+ ],
+ "groups": [
+  "Allah SWT",
+  "Nabi SAW"
+ ],
+ "arabic": [
+  "lā",
+  "yaḍurruhum",
+  "man",
+  "khadhalahum",
+  "wa",
+  "khālafahum"
+ ],
+ "cta": {
+  "dur": 2.4,
+  "tpl": "card",
+  "data": {
+   "kind": "cta",
+   "lines": [
+    "cuba korang",
+    "share"
+   ],
+   "highlight": "share",
+   "full": true
+  },
+  "sfx": "hit"
+ }
+}

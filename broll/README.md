@@ -36,6 +36,23 @@ Data: `kind` (`title` | `hadith` | `cta`), `lines`, `highlight` (teks kuning #FF
 `source` (kredit di bawah kad), `duration`, `full` (true = latar hitam penuh; lalai lutsinar untuk tindih atas footage).
 Fon: Bebas Neue (tajuk) & Amiri (Arab) dalam `fonts/` (OFL).
 
+## 4. Reel penuh dari klip podcast
+Satu konfigurasi setiap reel dalam `reels/<id>.json` (sumber, masa mula/tamat, cue B-roll ikut frasa transkrip,
+artikel, istilah Inggeris/nama khas/Arab untuk kapsyen) + `reels/<id>.fixes.json` (pembetulan proofread).
+Letak footage di `work/footage/` (laluan `src` dalam config), kemudian:
+```
+pip install faster-whisper "opencv-python-headless<5" numpy pillow   # sekali
+for s in faces transcribe capture plan vo render audio assemble final; do python3 tools/build_reel.py <id> $s; done
+python3 tools/build_reel.py <id> still 12.5      # screencap semakan
+```
+- Jump cut pada setiap senyap > 0.45s, shot ~2.5s dengan punch-in 1.0/1.15 selang-seli, crop 9:16 ikut muka
+  (muka 25-65% tinggi, dagu atas 1450px), gred low-key + vignette, gradien atas tutup logo asal footage.
+- Kapsyen 2-4 perkataan (maks 22 aksara) di y≈1356; istilah Inggeris kuning #FFD400 italic.
+- Bed muzik ambient + whoosh/hit/riser disintesis (tiada aset berlesen diperlukan); master ~-8 LUFS.
+- Langkah `vo` transkrip semula audio suntingan supaya masa kapsyen tepat; `src_windows` ambil semula bahagian
+  yang Whisper tertinggal (cth. bacaan Arab), `tail_words` sematkan perkataan akhir.
+- Contoh: `reels/ep6_c1.json`, `reels/ep6_c2.json` (Podcast Bumi Merdeka EP6, perjanjian damai Gaza).
+
 ## Semakan satu frame
 ```
 node tools/still.mjs <templat.html> <data.json> <out.png> [saat]
