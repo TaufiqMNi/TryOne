@@ -1,4 +1,4 @@
-# Brand guideline & style guide (Draf v2 — belum dimuktamadkan)
+# Brand guideline & style guide (Draf v3 — belum dimuktamadkan)
 
 ## 1. Identiti & nada
 - Pencerita yang dipercayai, menerangkan isu berat (geopolitik, kemanusiaan, Palestin) dengan bahasa santai.
@@ -45,6 +45,7 @@
 - Kapsyen: 2-4 perkataan, sans-serif bold putih + bayang lembut, tengah di y≈1356 (~70%).
 - Huruf kecil, kecuali nama khas & akronim (Palestin, Gaza, NGO, US).
 - Petikan Inggeris: kuning #FFD400, bold italic, satu perkataan sekali.
+- **Perkataan/istilah yang tak pasti (nama orang, organisasi, tempat, istilah teknikal, slang, ejaan) — TANYA dulu sebelum guna dalam kapsyen. Jangan teka.**
 - Kad tajuk: condensed bold putih uppercase (Bebas Neue / Oswald), nombor ditaip masuk.
 
 ## 8. Overlay tetap (wajib setiap video)
@@ -70,7 +71,7 @@
 
 ## 10. Transkrip (dibuat oleh Claude)
 1. `broll/tools/transcribe.py` — transkrip automatik (Whisper large-v3-turbo, Bahasa Melayu) → SRT kapsyen + timestamp setiap perkataan.
-2. Claude proofread: betulkan salah dengar, ejaan nama khas & istilah → `<video>.fixes.json`.
+2. Claude proofread: betulkan salah dengar yang jelas → `<video>.fixes.json`. Senaraikan semua perkataan/istilah yang tak pasti (dengan timestamp & cadangan) dan **tanya pengguna dulu** sebelum kapsyen dimuktamadkan.
 3. `broll/tools/fix_transcript.py` — kenakan pembetulan, timestamp kekal.
 4. Segmen bahasa Inggeris (klip arkib) disemak manual.
 
@@ -98,7 +99,8 @@ Masuk pop (scale 0.88→1), keluar fade 0.25s.
 - SFX whoosh/hit setiap potongan, riser sebelum pendedahan. Tiada senyap.
 
 ## 13. Semakan
-- Screencap frame sahaja — tiada render pratonton video.
+- Semakan guna screencap frame sahaja.
+- **Jangan render pratonton (video atau klip ujian) selagi pengguna belum beri kebenaran untuk proceed.**
 
 ## Prompt tetap
 ```
@@ -137,7 +139,9 @@ maroon shadows (#322528, #070306), burgundy accent (#662A34). Archival
 desaturated with halftone. Highlight/emphasis #FFD400, motion graphics #E0B04A.
 
 CAPTIONS: 2–4 words, bold white sans with soft shadow, centered at y≈1356,
-casual Malay, lowercase except proper nouns/acronyms. English quotes: #FFD400
+casual Malay, lowercase except proper nouns/acronyms. If any word or term
+is uncertain (names, organisations, places, jargon, slang, spelling), ASK the
+user before using it — never guess. English quotes: #FFD400
 bold italic, one word at a time. Title cards: bold condensed white uppercase.
 
 AUDIO: Clear VO, low tension/ambient music bed, whoosh/hit on every cut,
@@ -147,5 +151,6 @@ TEMPLATE OVERLAY (mandatory, top layer): template/overlay_1080x1920.png —
 partner logos (y 220–275) and donation banner (y 1471–1920). Nothing important
 may sit under the logo bar or banner.
 
-REVIEW: Provide single-frame screenshots only, no preview renders.
+REVIEW: Provide single-frame screenshots only. Do not render any preview
+(video or test clip) until the user explicitly allows proceeding.
 ```
