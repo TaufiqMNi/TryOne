@@ -20,7 +20,8 @@
 <script>
 // DATA: { image, boxes:[{x,y,w,h}], title:{x,y,w,h}|null, source, duration? }
 const D = window.DATA, CW = 780, CH = 975;
-window.DURATION = D.duration || 4.5;
+window.DURATION = Math.max(2, D.duration || 4.5);   // ikut panjang cue (min 2s)
+const S = window.DURATION / 4.5;                       // skala garis masa asal 4.5s
 const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;   // easeInOutCubic
 const back = t => { const c = 1.6; return 1 + (c+1)*Math.pow(t-1,3) + c*Math.pow(t-1,2); };  // easeOutBack
 const seg = (t, a, b) => Math.min(1, Math.max(0, (t - a) / (b - a)));
@@ -49,15 +50,15 @@ const clampY = s => Math.min(0, Math.max(CH - D.height * s.s, s.y));
 shotA.y = clampY(shotA); shotB.y = clampY(shotB);
 
 window.seek = t => {
-  const pop = back(seg(t, 0, .45));                                          // kad masuk
-  card.style.opacity = seg(t, 0, .2);
+  const pop = back(seg(t, 0, .45 * S));                                          // kad masuk
+  card.style.opacity = seg(t, 0, .2 * S);
   card.style.transform = `scale(${lerp(.88, 1, pop)})`;
-  const k = ease(seg(t, .7, 1.7));                                           // pan + zoom ke frasa
-  const drift = 1 + .025 * seg(t, 1.7, window.DURATION);                    // Ken Burns perlahan
+  const k = ease(seg(t, .7 * S, 1.7 * S));                                           // pan + zoom ke frasa
+  const drift = 1 + .025 * seg(t, 1.7 * S, window.DURATION);                    // Ken Burns perlahan
   const s = lerp(shotA.s, shotB.s, k) * drift;
   const x = lerp(shotA.x, shotB.x, k) - (drift - 1) * CW / 2, y = lerp(shotA.y, shotB.y, k) - (drift - 1) * CH / 2;
   cam.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
-  let p = ease(seg(t, 1.8, 2.9)) * total;                                     // marker sapu baris demi baris
+  let p = ease(seg(t, 1.8 * S, 2.9 * S)) * total;                                     // marker sapu baris demi baris
   D.boxes.forEach((b, i) => { const w = Math.min(b.w + 12, Math.max(0, p)); marks[i].style.width = w + 'px'; p -= b.w + 12; });
   const out = seg(t, window.DURATION - .25, window.DURATION);                // fade keluar
   document.body.style.opacity = 1 - out;

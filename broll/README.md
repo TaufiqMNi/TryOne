@@ -6,13 +6,20 @@ jadi zon logo, kapsyen (~1356) dan banner (≥1471) kekal kosong.
 
 Pasang sekali: `npm install` (dalam folder `broll/`).
 
+## 0. Transkrip
+```
+pip install faster-whisper   # sekali
+python3 tools/transcribe.py <video> work/v1          # -> v1.srt, v1.words.json, v1.txt
+python3 tools/fix_transcript.py work/v1 work/v1.fixes.json   # pembetulan proofread, timestamp kekal
+```
+
 ## 1. Screencap artikel + highlight marker
 ```
 node tools/capture_article.mjs <url> "<frasa tepat dari artikel>" work/art1
 node tools/render.mjs templates/highlight.html work/art1.json work/highlight_art1.mp4
 ```
 Animasi: kad masuk → tunjuk tajuk → pan/zoom ke ayat → marker sapu baris demi baris → Ken Burns perlahan.
-Kredit sumber automatik di bawah kad.
+Kredit sumber automatik di bawah kad. Tambah `"duration": 2.5` dalam JSON untuk ikut panjang cue.
 
 ## 2. Carian gaya Google
 ```
