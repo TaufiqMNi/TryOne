@@ -1,4 +1,4 @@
-# Brand guideline & style guide (Draf v3 — belum dimuktamadkan)
+# Brand guideline & style guide — v1.0 (muktamad, 19 Okt 2026)
 
 ## 1. Identiti & nada
 - Pencerita yang dipercayai, menerangkan isu berat (geopolitik, kemanusiaan, Palestin) dengan bahasa santai.
@@ -101,6 +101,12 @@ Masuk pop (scale 0.88→1), keluar fade 0.25s.
 ## 13. Semakan
 - Semakan guna screencap frame sahaja.
 - **Jangan render pratonton (video atau klip ujian) selagi pengguna belum beri kebenaran untuk proceed.**
+
+## 14. Podcast penuh → pilih segmen reel
+1. Input: link Google Drive "Anyone with the link – Viewer" (satu fail video, bukan folder), atau link YouTube. Transkrip sedia ada (jika ada) mempercepatkan proses.
+2. Transkrip penuh dengan timestamp (~1 minit proses bagi setiap minit audio).
+3. Cadangkan 2–3 segmen (60–90s), setiap satu dengan: masa mula/tamat, hook, sebab ia berkesan, ringkasan, CTA penutup, potensi B-roll, dan screencap frame permulaan.
+4. Pengguna pilih segmen → senarai perkataan/istilah tak pasti untuk disahkan → edit. Tiada potongan atau render sebelum pengguna benarkan.
 
 ## Prompt tetap
 ```

@@ -11,6 +11,10 @@
 6. **Jangan render pratonton (video atau klip ujian) selagi pengguna belum beri kebenaran untuk proceed.** Semakan guna screencap satu frame.
 7. **Kapsyen: kalau ada perkataan atau istilah yang tak pasti (nama, organisasi, tempat, istilah, slang, ejaan), tanya pengguna dulu — jangan teka.**
 
+## Aliran kerja
+- Video mentah / podcast penuh → ikut seksyen 10, 11 & 14 dalam `template/STYLE_GUIDE.md`.
+- Alat transkrip & B-roll: `broll/` (lihat `broll/README.md`).
+
 ## Tukar logo / banner
 Ganti fail dalam `template/assets/` (nama fail sama), kemudian:
 `python3 template/build_overlay.py template/ template/assets/`
