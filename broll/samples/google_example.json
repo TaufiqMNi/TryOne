@@ -1,0 +1,12 @@
+{
+  "query": "Holy Land Foundation convicted 2008",
+  "highlight": 0,
+  "results": [
+    { "site": "The Christian Science Monitor", "url": "https://www.csmonitor.com/World/terrorism-security/2008/1125/p99s04-duts.html",
+      "title": "Heads of US charity convicted on terror-financing charges",
+      "snippet": "Five leaders of the Holy Land Foundation funneled money to organizations controlled by the militant group Hamas, a jury decided Monday." },
+    { "site": "Al Jazeera", "url": "https://www.aljazeera.com/program/al-jazeera-world/2016/10/5/the-holy-land-five/",
+      "title": "The Holy Land Five" },
+    { "site": "Wikipedia", "url": "https://en.wikipedia.org/wiki/Ghassan_Elashi", "title": "Ghassan Elashi" }
+  ]
+}
