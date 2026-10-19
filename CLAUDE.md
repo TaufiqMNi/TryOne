@@ -12,7 +12,7 @@
 7. **Kapsyen: kalau ada perkataan atau istilah yang tak pasti (nama, organisasi, tempat, istilah, slang, ejaan), tanya pengguna dulu — jangan teka.**
 
 ## Aliran kerja
-- Video mentah / podcast penuh → ikut seksyen 10, 11 & 14 dalam `template/STYLE_GUIDE.md`.
+- Transkrip & B-roll → ikut seksyen 10 & 11 dalam `template/STYLE_GUIDE.md`.
 - Alat transkrip & B-roll: `broll/` (lihat `broll/README.md`).
 
 ## Tukar logo / banner
