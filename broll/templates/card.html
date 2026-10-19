@@ -70,7 +70,7 @@ window.seek = t => {
   const pop = back(seg(t, 0, .45));
   card.style.opacity = seg(t, 0, .2);
   card.style.transform = `scale(${lerp(.88, 1, pop)})`;
-  const typeEnd = Math.min(1.2, window.DURATION * .5);
+  const typeEnd = Math.min(0.85, window.DURATION * .4);
   typed.forEach((s, i) => { s.style.opacity = t >= .2 + (i / typed.length) * (typeEnd - .2) ? 1 : 0; });
   if (glow) glow.style.opacity = seg(t, .25, .9);
   if (rule) rule.style.width = (seg(t, .5, 1.1) * 260) + 'px';
