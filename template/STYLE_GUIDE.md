@@ -1,52 +1,54 @@
-# Brand guideline & style guide — v1.0 (muktamad, 19 Okt 2026)
+# Brand guideline & style guide — v2.0 (muktamad, 20 Okt 2026)
+
+Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65s).
 
 ## 1. Identiti & nada
-- Pencerita yang dipercayai, menerangkan isu berat (geopolitik, kemanusiaan, Palestin) dengan bahasa santai.
-- Serius, mendesak, mendidik — tapi mesra. Bahasa Melayu santai ("korang", "dorang", "benda ni"), ayat pendek, soalan retorik.
+- Klip podcast reflektif: host berkongsi pandangan tentang isu Palestin / Baitul Maqdis dengan nada tenang, insaf dan memberi harapan.
+- Bahasa Melayu santai-formal ("kita", "saudara kita", "insyaAllah"), ayat pendek, penekanan emosi.
 
 ## 2. Format
-- 9:16, 1080x1920, 30fps, H.264, 60-90s. Audio master ~-8 LUFS.
+- 9:16, 1080x1920, 30fps, H.264, 60-70s. Audio master ~-8 LUFS.
 
 ## 3. Struktur cerita
-1. Hook (0-1s): soalan retorik ("Korang perasan tak...")
-2. Konteks: kad tajuk tarikh/peristiwa
-3. Isu + bukti: fakta, artikel, footage arkib
-4. Kaitan masa kini
-5. CTA: "cuba korang share"
+1. Hook (0-3s): imej arkib/B-roll bertekstur penuh skrin + host dalam kad PiP + kapsyen kuning besar menyatakan tema.
+2. Isi: host bersilih dengan B-roll bertekstur pada setiap kata kunci visual.
+3. Montaj laju pada titik emosi (realiti semasa: kebuluran, khemah, senjata).
+4. Penutup: imej terang, lembut, penuh harapan (cth. Kubah As-Sakhrah overexposed).
 
 ## 4. Editing
-- Purata shot ~2.5s (rujukan: ~2.2s). Durasi tepat ikut transkrip.
-- Talking head: jump cut + punch-in zoom.
-- Potong ke B-roll setiap kali sebut fakta, nama, tarikh atau tempat.
-- Peralihan flash putih / fade cepat. Montaj laju 3-4 shot pada titik penekanan.
+- Purata shot ~2.5s: host 3-5s, B-roll 1.5-3s. Durasi tepat ikut transkrip.
+- Host: jump cut + punch-in, kedudukan bertukar kiri/kanan setiap potongan.
+- Potong ke B-roll setiap kali sebut kata nama / imej (tempat, orang, objek, peristiwa).
+- Peralihan: flash putih / overexpose, crossfade double-exposure, glitch streak putih menegak, motion blur.
+- Montaj laju 3-4 shot pada titik penekanan.
 
 ## 5. Framing host
-- Tengah, medium shot paras dada, mikrofon podcast dalam frame, tangan aktif.
-- Latar studio gelap (rak buku, lampu practical), depth of field cetek + bokeh.
+- Medium close-up ketat, host di sepertiga kiri atau kanan, mikrofon podcast di tepi frame.
+- Latar studio: panel akustik ungu gelap + backdrop percikan hijau neon (huruf "bu" putih).
 - Muka antara 25-65% tinggi frame, dagu di atas ~1450px (tak tertutup banner).
+- Hook: host dalam kad PiP bucu bulat (~28px), separuh bawah zon kandungan.
 
 ## 6. Warna
 | Peranan | Hex |
 |---|---|
-| Hitam asas | #070306 |
-| Gelap 2 | #181418 |
-| Maroon gelap (latar) | #322528 |
-| Burgundy aksen | #662A34 |
-| Kelabu warm | #5B5A58 / #9A9691 |
-| Neutral hangat | #857270 |
-| Sage | #AAB8A8 |
-| Kuning penekanan / marker | #FFD400 |
-| Emas motion graphic | #E0B04A |
+| Ungu gelap studio | #150F20 / #1E122F / #251634 |
+| Hijau neon backdrop | #A5E09F |
+| Kulit hangat | #AF9073 / #9B8871 |
+| Kuning hook | #FFD400 |
+| Merah (banner sahaja) | GAZA pada banner |
 
-- Low-key sinematik: hitam di-crush, vignette kuat, kulit hangat.
-- Arkib dinyahtepu + tekstur halftone halus. Elak warna neon/terang dan latar cerah.
+- Shot host: warna asal studio, kulit hangat, kontras sederhana.
+- B-roll: **warna bebas** ikut tema video (warna asal, hitam-putih, sepia, dll.) — tapi **wajib bertekstur** (lihat seksyen 11).
+- Warna terang/neon hanya dari studio & banner.
 
 ## 7. Tipografi & kapsyen
-- Kapsyen: 2-4 perkataan, sans-serif bold putih + bayang lembut, tengah di y≈1356 (~70%).
-- Huruf kecil, kecuali nama khas & akronim (Palestin, Gaza, NGO, US).
-- Petikan Inggeris: kuning #FFD400, bold italic, satu perkataan sekali.
+- Kapsyen: sans-serif bold putih (Inter / SF Pro Display Bold), tracking rapat, bayang lembut, tengah di y≈1356 (~70%).
+- Muncul perkataan demi perkataan secara terkumpul (1-4 perkataan), kemudian reset.
+- Huruf kecil, kecuali nama khas & akronim (Allah, Gaza, al-Aqsa).
+- Perkataan terpotong dalam ucapan ditanda sempang ("berita-", "duga-").
+- Hook: kuning #FFD400, bold besar dua baris (baris 2 lebih kecil), atas zon kandungan.
 - **Perkataan/istilah yang tak pasti (nama orang, organisasi, tempat, istilah teknikal, slang, ejaan) — TANYA dulu sebelum guna dalam kapsyen. Jangan teka.**
-- Kad tajuk: condensed bold putih uppercase (Bebas Neue / Oswald), nombor ditaip masuk.
+- Pilihan: overlay kaligrafi Arab samar (putih, legap rendah) pada B-roll keagamaan.
 
 ## 8. Overlay tetap (wajib setiap video)
 | Elemen | Kedudukan (1080x1920) |
@@ -62,41 +64,43 @@
 ## 9. Peta zon skrin
 | Zon | Julat Y | Kegunaan |
 |---|---|---|
-| UI platform | 0-200 | Kosong |
+| UI platform | 0-200 | Kosong (B-roll penuh skrin boleh lalu) |
 | Logo bar | 220-275 | Logo |
-| Kad B-roll | 300-1275 | Artikel, carian, gambar, footage |
-| Kredit sumber | ~1290 | Teks kecil kelabu |
+| Hook kuning | ~450-650 | Kapsyen hook (0-3s sahaja) |
+| Kandungan | 300-1300 | Muka host, subjek utama B-roll |
 | Kapsyen | ~1325-1390 | Kapsyen |
 | Banner | 1471-1920 | Iklan kempen |
+
+- B-roll penuh skrin 1080x1920, tapi subjek utama mesti dalam zon kandungan.
 
 ## 10. Transkrip (dibuat oleh Claude)
 1. `broll/tools/transcribe.py` — transkrip automatik (Whisper large-v3-turbo, Bahasa Melayu) → SRT kapsyen + timestamp setiap perkataan.
 2. Claude proofread: betulkan salah dengar yang jelas → `<video>.fixes.json`. Senaraikan semua perkataan/istilah yang tak pasti (dengan timestamp & cadangan) dan **tanya pengguna dulu** sebelum kapsyen dimuktamadkan.
 3. `broll/tools/fix_transcript.py` — kenakan pembetulan, timestamp kekal.
-4. Segmen bahasa Inggeris (klip arkib) disemak manual.
+4. Segmen bahasa Arab / Inggeris disemak manual.
 
 ## 11. B-roll
 **Jenis (ikut keutamaan):**
-1. Screencap artikel + highlight marker (tajuk → zoom ke ayat → marker kuning sapu baris demi baris)
-2. Carian gaya Google — kad putih (taip query → hasil sebenar → marker pada hasil berkaitan)
-3. Footage berita/arkib (dinyahtepu, dalam kad)
-4. Gambar (Unsplash / Wikimedia) + Ken Burns perlahan
-5. Motion graphic simbolik 3D/AI (emas atas biru gelap)
+1. Foto / footage penuh skrin ikut kata kunci (tempat, orang, objek, peristiwa) + Ken Burns perlahan
+2. Footage berita/arkib, penuh skrin
+3. Imej arkib sejarah (untuk hook / konteks)
+4. Screencap artikel / carian Google (kad, `broll/templates/`) — hanya bila perlu bukti fakta
 
-**Gaya kad:** bucu bulat 28px, latar hitam + vignette maroon, bayang dalam, grain halus.
-Masuk pop (scale 0.88→1), keluar fade 0.25s.
+**Gaya:** penuh skrin, kontras tinggi, vignette. Warna bebas ikut tema video.
 
-**Durasi:** ikut panjang cue dalam transkrip, purata ~2.5s (min 2s). Animasi dimampatkan ikut durasi.
+**Tekstur (WAJIB pada setiap B-roll):** sekurang-kurangnya satu lapisan — grain filem, halftone, tekstur kertas lama, atau habuk & calar filem. B-roll licin/bersih tanpa tekstur tidak dibenarkan.
+Masuk dengan flash putih / double-exposure; keluar crossfade atau glitch streak.
+
+**Durasi:** ikut panjang cue dalam transkrip, purata ~2.5s (min 1.5s). Animasi dimampatkan ikut durasi.
 
 **Peraturan sumber:**
 - Fakta, tajuk & URL mesti dari sumber sebenar — tak boleh direka.
-- Kredit sumber wajib pada setiap B-roll pihak ketiga.
 - Footage berhak cipta: link + timestamp sahaja, muat turun manual.
 - Laman yang sekat akses automatik → guna sumber lain.
 
 ## 12. Audio
-- VO jelas di atas, music bed tension/ambient perlahan sepanjang video.
-- SFX whoosh/hit setiap potongan, riser sebelum pendedahan. Tiada senyap.
+- VO jelas di atas, music bed emosi/reflektif berterusan sepanjang video — tiada senyap.
+- SFX whoosh/impact pada peralihan besar (hook, masuk montaj, flash putih). Riser sebelum penutup.
 
 ## 13. Semakan
 - Semakan guna screencap frame sahaja.
@@ -104,52 +108,50 @@ Masuk pop (scale 0.88→1), keluar fade 0.25s.
 
 ## Prompt tetap
 ```
-Create a 9:16 vertical short-form video (1080x1920, 30fps, 60–90s) in a
-documentary-essay talking-head style about [TOPIK], from [VIDEO MENTAH].
+Create a 9:16 vertical short (1080x1920, 30fps, H.264, 60–70s) in a reflective
+podcast-clip style about [TOPIC], from [RAW PODCAST FOOTAGE].
 
 TRANSCRIPT: Transcribe the video (Malay), proofread names/terms, keep
 word-level timestamps. Use it for captions and B-roll cues.
 
-STRUCTURE: Hook question in first 1s ("Korang perasan tak...") → context with
-date/event title card → core issue with evidence → link to present day →
-CTA ("cuba korang share").
+HOOK (0–3s): Full-frame textured archival/B-roll image with the host in a rounded
+(28px) picture-in-picture card; big two-line yellow (#FFD400) bold caption
+in the upper content area stating the theme.
 
-HOST: Centered medium shot, chest-up, podcast mic in frame, expressive hands.
-Dark home-studio bookshelf background, shallow depth of field. Keep face
-between 25–65% frame height, chin above 1450px.
+HOST: Tight medium close-up, alternating left/right third on each cut,
+podcast mic visible at frame edge. Studio: dark purple acoustic panels,
+green neon splatter backdrop. Jump cuts with punch-in. Face 25–65% of frame
+height, chin above 1450px.
 
-EDITING: Average shot ~2.5s, timed to the transcript. Jump cuts with punch-in
-zoom on host. Cut to B-roll on every fact, name, date or place. White flash /
-quick fade transitions. Rapid 3–4 shot montage on emphasis beats.
+B-ROLL: Full-frame (no cards), high contrast, vignette. Color treatment is
+free to suit each video's theme, but EVERY B-roll MUST carry texture: film
+grain, halftone, aged paper, or film dust & scratches — never clean/flat.
+Cut to B-roll on every key noun/image in the speech. Optional faint white
+Arabic calligraphy overlay on religious imagery. Article/search cards only
+when a fact needs proof. Source only real material; never invent facts, headlines or URLs.
 
-B-ROLL ASSISTANT: From the transcript, build a cue list (timestamp, line,
-B-roll type, search query). Source only real material and never invent facts,
-headlines or URLs. Priority:
- 1. Article screenshot + yellow highlight marker on the key sentence
- 2. Google-style search animation, white card (typed query → real results → marker)
- 3. Archival/news footage (links + timestamps only; manual download)
- 4. Photos (Unsplash / Wikimedia) with slow Ken Burns
- 5. Symbolic 3D/AI motion graphics (glowing gold on dark navy)
-Each clip lasts as long as its cue (avg ~2.5s, min 2s). Present all B-roll as
-rounded (28px) cards inside y 300–1275 on black with maroon vignette and subtle
-grain; pop-in 0.88→1, 0.25s fade out; small grey source credit under the card.
+EDITING: Average ~2.5s per shot (host 3–5s, B-roll 1.5–3s), timed to the
+transcript. Transitions: white flash, double-exposure crossfade, vertical
+white-streak glitch, motion blur. Rapid 3–4 shot montage on emphasis
+beats. Close on a bright, soft, hopeful image.
 
-COLOR: Low-key cinematic grade, crushed blacks, strong vignette, warm skin,
-maroon shadows (#322528, #070306), burgundy accent (#662A34). Archival
-desaturated with halftone. Highlight/emphasis #FFD400, motion graphics #E0B04A.
+COLOR: Host shots — deep purple #150F20/#251634, neon green #A5E09F, warm
+skin. B-roll — color free per video, always textured. Yellow only for the
+hook; red only in the banner.
 
-CAPTIONS: 2–4 words, bold white sans with soft shadow, centered at y≈1356,
-casual Malay, lowercase except proper nouns/acronyms. If any word or term
-is uncertain (names, organisations, places, jargon, slang, spelling), ASK the
-user before using it — never guess. English quotes: #FFD400
-bold italic, one word at a time. Title cards: bold condensed white uppercase.
+CAPTIONS: Bold white sans (Inter/SF Pro Display Bold), tight tracking, soft
+shadow, centered at y≈1356. Words appear cumulatively (1–4 words) then
+reset; lowercase except proper nouns; hyphen on cut-off words. If any word
+or term is uncertain (names, organisations, places, jargon, slang,
+spelling), ASK the user before using it — never guess.
 
-AUDIO: Clear VO, low tension/ambient music bed, whoosh/hit on every cut,
-riser before reveals, master ~-8 LUFS, no dead air.
+AUDIO: Continuous emotive/reflective music bed (no dead air), whoosh/impact
+on major transitions, riser before the closing, clear VO on top, master
+~-8 LUFS.
 
 TEMPLATE OVERLAY (mandatory, top layer): template/overlay_1080x1920.png —
-partner logos (y 220–275) and donation banner (y 1471–1920). Nothing important
-may sit under the logo bar or banner.
+partner logos (y 220–275) and donation banner (y 1471–1920). Nothing
+important may sit under the logo bar or banner.
 
 REVIEW: Provide single-frame screenshots only. Do not render any preview
 (video or test clip) until the user explicitly allows proceeding.

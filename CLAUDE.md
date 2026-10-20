@@ -1,7 +1,7 @@
 # Projek video pendek 9:16
 
 ## Peraturan tetap untuk SETIAP video
-1. Edit ikut gaya dalam `template/STYLE_GUIDE.md` (dari video rujukan pertama).
+1. Edit ikut gaya dalam `template/STYLE_GUIDE.md` (v2.0, dari video rujukan kedua).
 2. Output akhir: 1080x1920, 30fps, H.264, audio ~-8 LUFS.
 3. **Wajib** tampal overlay logo + banner sebagai layer paling atas:
    `template/apply_overlay.sh input.mp4 output.mp4`
