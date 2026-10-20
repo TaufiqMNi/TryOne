@@ -81,7 +81,7 @@ Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65
 
 ## 11. B-roll
 **Jenis (ikut keutamaan):**
-1. Foto / footage penuh skrin ikut kata kunci (tempat, orang, objek, peristiwa) + Ken Burns perlahan
+1. Foto / footage penuh skrin ikut kata kunci (tempat, orang, objek, peristiwa)
 2. Footage berita/arkib, penuh skrin
 3. Imej arkib sejarah (untuk hook / konteks)
 4. Screencap artikel / carian Google (kad, `broll/templates/`) — hanya bila perlu bukti fakta
@@ -89,7 +89,12 @@ Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65
 **Gaya:** penuh skrin, kontras tinggi, vignette. Warna bebas ikut tema video.
 
 **Tekstur (WAJIB pada setiap B-roll):** sekurang-kurangnya satu lapisan — grain filem, halftone, tekstur kertas lama, atau habuk & calar filem. B-roll licin/bersih tanpa tekstur tidak dibenarkan.
-Masuk dengan flash putih / double-exposure; keluar crossfade atau glitch streak.
+
+**Animasi (WAJIB pada setiap B-roll):** gerakan halus sepanjang klip — zoom in perlahan (~100%→108%) atau Ken Burns/pan perlahan. Tiada B-roll statik.
+
+**SFX B-roll:** setiap B-roll masuk dengan SFX halus (whoosh lembut / swell rendah), perlahan di bawah VO — bukan hentakan kuat.
+
+**Peralihan:** masuk dengan flash putih / double-exposure; keluar crossfade atau glitch streak.
 
 **Durasi:** ikut panjang cue dalam transkrip, purata ~2.5s (min 1.5s). Animasi dimampatkan ikut durasi.
 
@@ -100,7 +105,8 @@ Masuk dengan flash putih / double-exposure; keluar crossfade atau glitch streak.
 
 ## 12. Audio
 - VO jelas di atas, music bed emosi/reflektif berterusan sepanjang video — tiada senyap.
-- SFX whoosh/impact pada peralihan besar (hook, masuk montaj, flash putih). Riser sebelum penutup.
+- SFX halus pada setiap B-roll (whoosh lembut / swell, di bawah VO).
+- SFX whoosh/impact lebih kuat hanya pada peralihan besar (hook, masuk montaj, flash putih). Riser sebelum penutup.
 
 ## 13. Semakan
 - Semakan guna screencap frame sahaja.
@@ -128,7 +134,9 @@ free to suit each video's theme, but EVERY B-roll MUST carry texture: film
 grain, halftone, aged paper, or film dust & scratches — never clean/flat.
 Cut to B-roll on every key noun/image in the speech. Optional faint white
 Arabic calligraphy overlay on religious imagery. Article/search cards only
-when a fact needs proof. Source only real material; never invent facts, headlines or URLs.
+when a fact needs proof. Every B-roll MUST move subtly for its whole
+duration: slow zoom-in (~100%→108%) or slow Ken Burns/pan — never static —
+and enter with a subtle, soft SFX (gentle whoosh/swell) sitting under the VO. Source only real material; never invent facts, headlines or URLs.
 
 EDITING: Average ~2.5s per shot (host 3–5s, B-roll 1.5–3s), timed to the
 transcript. Transitions: white flash, double-exposure crossfade, vertical
@@ -145,8 +153,8 @@ reset; lowercase except proper nouns; hyphen on cut-off words. If any word
 or term is uncertain (names, organisations, places, jargon, slang,
 spelling), ASK the user before using it — never guess.
 
-AUDIO: Continuous emotive/reflective music bed (no dead air), whoosh/impact
-on major transitions, riser before the closing, clear VO on top, master
+AUDIO: Continuous emotive/reflective music bed (no dead air), subtle soft
+SFX on every B-roll, stronger whoosh/impact only on major transitions, riser before the closing, clear VO on top, master
 ~-8 LUFS.
 
 TEMPLATE OVERLAY (mandatory, top layer): template/overlay_1080x1920.png —
