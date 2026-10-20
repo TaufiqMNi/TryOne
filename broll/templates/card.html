@@ -4,24 +4,24 @@
   @font-face { font-family: 'Bebas Neue'; src: url('../fonts/BebasNeue-Regular.ttf'); }
   @font-face { font-family: 'Amiri'; src: url('../fonts/Amiri-Bold.ttf'); font-weight: 700; }
   html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; font-family: Inter, sans-serif; }
-  html.full, html.full body { background: #070306; }
-  #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #2a1d20 0%, #120a0d 45%, #070306 80%); display: none; }
+  html.full, html.full body { background: #0a0710; }
+  #vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 42%, #251634 0%, #150F20 45%, #0a0710 80%); display: none; }
   html.full #vignette { display: block; }
   #card { position: absolute; left: 150px; top: 300px; width: 780px; height: 975px; border-radius: 28px; overflow: hidden;
           box-shadow: 0 30px 80px rgba(0,0,0,.65), inset 0 0 120px rgba(0,0,0,.7); transform-origin: 50% 50%;
           display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-sizing: border-box; padding: 60px; }
-  .title  { background: radial-gradient(ellipse at 50% 40%, #322528 0%, #181418 55%, #070306 100%); }
-  .hadith { background: radial-gradient(ellipse at 50% 40%, #16264a 0%, #0b1530 55%, #050a18 100%); }
-  .cta    { background: radial-gradient(ellipse at 50% 40%, #662A34 0%, #322528 50%, #070306 100%); }
+  .title  { background: radial-gradient(ellipse at 50% 40%, #251634 0%, #150F20 55%, #0a0710 100%); }
+  .hadith { background: radial-gradient(ellipse at 50% 40%, #2b1a3e 0%, #150F20 55%, #0a0710 100%); }
+  .cta    { background: radial-gradient(ellipse at 50% 40%, #3a2356 0%, #1E122F 50%, #0a0710 100%); }
   .big { font-family: 'Bebas Neue', sans-serif; color: #fff; font-size: 150px; line-height: .95; letter-spacing: .01em; text-transform: uppercase; }
   .big .y { color: #FFD400; }
-  .rule { width: 0; height: 6px; background: #E0B04A; margin: 40px auto; border-radius: 3px; }
-  .ar { font-family: 'Amiri', serif; font-weight: 700; color: #E0B04A; font-size: 88px; line-height: 1.8; direction: rtl;
-        text-shadow: 0 0 40px rgba(224,176,74,.35); }
+  .rule { width: 0; height: 6px; background: #A5E09F; margin: 40px auto; border-radius: 3px; }
+  .ar { font-family: 'Amiri', serif; font-weight: 700; color: #fff; font-size: 88px; line-height: 1.8; direction: rtl;
+        text-shadow: 0 0 40px rgba(255,255,255,.3); }
   .sub { color: #9A9691; font-size: 30px; letter-spacing: .04em; margin-top: 10px; }
   .line { display: block; }
   #credit { position: absolute; left: 150px; width: 780px; top: 1290px; text-align: center; color: #9a9691; font-size: 22px; letter-spacing: .02em; }
-  #grain { position: absolute; inset: 0; pointer-events: none; opacity: .06;
+  #grain { position: absolute; inset: 0; pointer-events: none; opacity: .14;
            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 </style></head>
 <body>
@@ -32,7 +32,7 @@
 <script>
 // DATA: { kind: 'title'|'hadith'|'cta', lines: [...], highlight?: "teks kuning", arabic?: teks atau [baris], source?, duration?, full?: bool }
 //  title  — kad tajuk condensed putih uppercase, huruf ditaip masuk; `highlight` jadi kuning #FFD400
-//  hadith — teks Arab emas #E0B04A atas biru gelap, kredit sumber di bawah kad
+//  hadith — teks Arab putih atas ungu gelap, kredit sumber di bawah kad
 //  cta    — kad penutup ("cuba korang share")
 // instant: true = teks penuh dari frame pertama (sesuai untuk hook 0-1s)
 // full: true = latar hitam penuh (kad berdiri sendiri); false = latar lutsinar untuk ditindih atas footage

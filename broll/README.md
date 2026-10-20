@@ -1,8 +1,8 @@
-# B-roll assistant (draf, belum dimuktamadkan)
+# B-roll assistant
 
-Alat untuk jana B-roll animasi 1080x1920 ikut gaya `template/STYLE_GUIDE.md`
-(kad bucu bulat atas hitam + vignette, marker kuning #FFD400). Kad duduk di y 300-1275,
-jadi zon logo, kapsyen (~1356) dan banner (≥1471) kekal kosong.
+Alat untuk jana B-roll animasi 1080x1920 ikut `template/STYLE_GUIDE.md` v2.0:
+B-roll penuh skrin, warna bebas, **tekstur & gerakan halus wajib**, SFX halus setiap B-roll.
+Kad artikel/carian/teks (latar ungu gelap) hanya bila perlu bukti fakta; kad duduk di y 300-1275.
 
 Pasang sekali: `npm install` (dalam folder `broll/`).
 
@@ -13,7 +13,18 @@ python3 tools/transcribe.py <video> work/v1          # -> v1.srt, v1.words.json,
 python3 tools/fix_transcript.py work/v1 work/v1.fixes.json   # pembetulan proofread, timestamp kekal
 ```
 
-## 1. Screencap artikel + highlight marker
+## 1. B-roll penuh skrin (utama)
+```
+node tools/render.mjs templates/photo.html work/b1.json work/b1.mp4
+```
+Data: `image` (relatif folder JSON), `duration`, `grade` (`color` lalai | `bw` | `sepia` | `bright` | `none`, atau `filter` CSS),
+`texture` (`grain` | `halftone` | `paper` | `scratches`; kosong -> `grain`), `motion` (`zoom-in` lalai 100%->108% | `zoom-out` |
+`pan-left` | `pan-right` | `pan-up` | `pan-down`), `focus` {x,y} 0..1, `calligraphy` (teks Arab samar — tanya pengguna dulu), `source`.
+
+Footage video: `tpl: "footage"` dalam config reel (ffmpeg, tiada Playwright) — data `video` (relatif `work/`), `in`,
+`duration`, `grade`, `texture` (grain sentiasa; `halftone`/`paper` ditindih), `motion`, `focus`.
+
+## 1b. Screencap artikel + highlight marker
 ```
 node tools/capture_article.mjs <url> "<frasa tepat dari artikel>" work/art1
 node tools/render.mjs templates/highlight.html work/art1.json work/highlight_art1.mp4
@@ -33,22 +44,31 @@ Isi hasil carian dengan tajuk/URL sebenar — jangan reka.
 node tools/render.mjs templates/card.html work/card_hook.json work/card_hook.mp4
 ```
 Data: `kind` (`title` | `hadith` | `cta`), `lines`, `highlight` (teks kuning #FFD400), `arabic` (teks atau senarai baris),
-`source` (kredit di bawah kad), `duration`, `full` (true = latar hitam penuh; lalai lutsinar untuk tindih atas footage).
+`source` (kredit di bawah kad), `duration`, `full` (true = latar ungu gelap penuh; lalai lutsinar untuk tindih atas footage).
 Fon: Bebas Neue (tajuk) & Amiri (Arab) dalam `fonts/` (OFL).
 
 ## 4. Reel penuh dari klip podcast
-Satu konfigurasi setiap reel dalam `reels/<id>.json` (sumber, masa mula/tamat, cue B-roll ikut frasa transkrip,
+Satu konfigurasi setiap reel dalam `reels/<id>.json` (sumber, masa mula/tamat, `hook`, cue B-roll ikut frasa transkrip,
 artikel, istilah Inggeris/nama khas/Arab untuk kapsyen) + `reels/<id>.fixes.json` (pembetulan proofread).
+
+Medan v2.0:
+- `hook`: `{dur, image, grade, texture, motion}` — B-roll penuh skrin 0-dur + host dalam kad PiP bucu bulat (900x450, y 1000)
+  + kapsyen hook kuning besar di atas (y≈460, baris 2 lebih kecil).
+- Cue: `tpl` `photo` | `footage` | `highlight` | `google` | `card`; `trans` `flash` (lalai) | `dissolve` | `streak` | `cut`;
+  `sfx` `soft` (lalai, whoosh lembut + swell) | `hit` (peralihan besar) | `none`; `riser`; `until_end` untuk imej penutup terang.
+- `host_thirds` (lalai true): host di sepertiga kiri/kanan bersilih. `cta` pilihan (tiada lalai).
 Letak footage di `work/footage/` (laluan `src` dalam config), kemudian:
 ```
 pip install faster-whisper "opencv-python-headless<5" numpy pillow   # sekali
 for s in faces transcribe capture plan vo render audio assemble final; do python3 tools/build_reel.py <id> $s; done
 python3 tools/build_reel.py <id> still 12.5      # screencap semakan
 ```
-- Jump cut pada setiap senyap > 0.45s, shot ~2.5s dengan punch-in 1.0/1.15 selang-seli, crop 9:16 ikut muka
-  (muka 25-65% tinggi, dagu atas 1450px), gred low-key + vignette, gradien atas tutup logo asal footage.
-- Kapsyen 2-4 perkataan (maks 22 aksara) di y≈1356; istilah Inggeris kuning #FFD400 italic.
-- Bed muzik ambient + whoosh/hit/riser disintesis (tiada aset berlesen diperlukan); master ~-8 LUFS.
+- Jump cut pada setiap senyap > 0.45s, shot ~2.5s, medium close-up dengan punch-in 1.15/1.3 selang-seli, host di
+  sepertiga kiri/kanan bersilih (muka 25-65% tinggi, dagu atas 1450px), gred warna asal studio + kulit hangat +
+  vignette ringan, gradien atas tutup logo asal footage.
+- Kapsyen terkumpul perkataan demi perkataan (1-4, maks 22 aksara) di y≈1356, putih; Inggeris/Arab italic.
+- Bed muzik berterusan + SFX halus setiap B-roll + whoosh/hit/riser peralihan besar, semua disintesis
+  (tiada aset berlesen diperlukan); master ~-8 LUFS.
 - Langkah `vo` transkrip semula audio suntingan supaya masa kapsyen tepat; `src_windows` ambil semula bahagian
   yang Whisper tertinggal (cth. bacaan Arab), `tail_words` sematkan perkataan akhir.
 - Contoh: `reels/ep6_c1.json`, `reels/ep6_c2.json` (Podcast Bumi Merdeka EP6, perjanjian damai Gaza).

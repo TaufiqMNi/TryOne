@@ -34,7 +34,7 @@ Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65
 | Ungu gelap studio | #150F20 / #1E122F / #251634 |
 | Hijau neon backdrop | #A5E09F |
 | Kulit hangat | #AF9073 / #9B8871 |
-| Kuning hook | #FFD400 |
+| Kuning hook / marker artikel / kad tajuk | #FFD400 |
 | Merah (banner sahaja) | GAZA pada banner |
 
 - Shot host: warna asal studio, kulit hangat, kontras sederhana.
@@ -84,7 +84,9 @@ Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65
 1. Foto / footage penuh skrin ikut kata kunci (tempat, orang, objek, peristiwa)
 2. Footage berita/arkib, penuh skrin
 3. Imej arkib sejarah (untuk hook / konteks)
-4. Screencap artikel / carian Google (kad, `broll/templates/`) — hanya bila perlu bukti fakta
+4. Screencap artikel / carian Google / kad teks (latar ungu gelap) — hanya bila perlu bukti fakta
+
+Alat: `broll/templates/photo.html` (gambar) & `tpl: "footage"` (video) dalam `broll/tools/build_reel.py` — lihat `broll/README.md`.
 
 **Gaya:** penuh skrin, kontras tinggi, vignette. Warna bebas ikut tema video.
 
@@ -145,7 +147,7 @@ beats. Close on a bright, soft, hopeful image.
 
 COLOR: Host shots — deep purple #150F20/#251634, neon green #A5E09F, warm
 skin. B-roll — color free per video, always textured. Yellow only for the
-hook; red only in the banner.
+hook, article marker and title cards; red only in the banner.
 
 CAPTIONS: Bold white sans (Inter/SF Pro Display Bold), tight tracking, soft
 shadow, centered at y≈1356. Words appear cumulatively (1–4 words) then

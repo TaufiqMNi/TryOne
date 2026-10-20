@@ -7,9 +7,9 @@ Guna (dalam folder broll/):
   python3 tools/build_reel.py <id> capture    -> screencap artikel B-roll (config "articles")
   python3 tools/build_reel.py <id> plan       -> EDL (jump cut pada senyap), shot + punch-in, cue B-roll
   python3 tools/build_reel.py <id> vo         -> transkrip semula audio suntingan (masa kapsyen tepat), kemudian plan semula
-  python3 tools/build_reel.py <id> render     -> render B-roll & kad (templates/)
-  python3 tools/build_reel.py <id> audio      -> music bed + SFX sintetik (whoosh/hit/riser)
-  python3 tools/build_reel.py <id> assemble   -> grade, B-roll, kapsyen, mix, master ~-8 LUFS
+  python3 tools/build_reel.py <id> render     -> render B-roll (photo/footage penuh skrin bertekstur) & kad (templates/)
+  python3 tools/build_reel.py <id> audio      -> music bed + SFX sintetik (halus setiap B-roll, whoosh/hit peralihan besar)
+  python3 tools/build_reel.py <id> assemble   -> grade, hook PiP, B-roll + peralihan, kapsyen terkumpul, mix, master ~-8 LUFS
   python3 tools/build_reel.py <id> final      -> tampal overlay (template/apply_overlay.sh) -> work/<id>_final.mp4
   python3 tools/build_reel.py <id> still T    -> screencap satu frame pada saat T (semakan)
 Semua fail kerja dalam work/ (tak masuk git).
@@ -27,7 +27,8 @@ FPS = 30
 def cfg(cid):
     C = json.load(open(f"{BROLL}/reels/{cid}.json"))
     C["src"] = os.path.join(BROLL, C["src"])
-    C.setdefault("cta", dict(dur=2.4, tpl="card", data=dict(kind="cta", lines=["cuba korang", "share"], highlight="share", full=True)))
+    C.setdefault("cta", None)                    # v2: tiada kad CTA lalai; penutup = B-roll terang (until_end)
+    C.setdefault("hook", None)
     C.setdefault("english", []); C.setdefault("proper", []); C.setdefault("arabic", []); C.setdefault("groups", [])
     return C
 
@@ -86,21 +87,25 @@ def plan(cid):
             cur = cut + 0.04
         shots.append([cur, b])
 
-    # 3. Crop ikut muka (median dalam shot), zum selang-seli 1.0 / 1.15 (punch-in)
+    # 3. Crop ikut muka (median dalam shot): medium close-up, zum selang-seli 1.15 / 1.3 (punch-in),
+    #    host di sepertiga kiri/kanan bersilih setiap potongan (config "host_thirds": false -> tengah)
     faces = [f for f in json.load(open(f"{WORK}/{cid}_faces.json")) if f["box"]]
     allcx = st.median(f["box"][0] + f["box"][2] / 2 for f in faces)
     allcy = st.median(f["box"][1] + f["box"][3] / 2 for f in faces)
-    out_shots = []
+    thirds = C.get("host_thirds", True)
+    out_shots, face_y = [], []
     for k, (a, b) in enumerate(shots):
         fs = [f["box"] for f in faces if a <= f["t"] <= b]
         cx = st.median(x + w / 2 for x, y, w, h in fs) if fs else allcx
         cy = st.median(y + h / 2 for x, y, w, h in fs) if fs else allcy
-        z = 1.0 if k % 2 == 0 else 1.15
+        z = 1.15 if k % 2 == 0 else 1.3
         h = round(1080 / z / 2) * 2
         w = round(h * 9 / 16 / 2) * 2
-        y0 = 0 if z == 1.0 else int(min(max(cy - 0.45 * h, 0), 1080 - h))
-        x0 = int(min(max(cx + 60 - w / 2, 0), 1920 - w))
+        y0 = int(min(max(cy - 0.42 * h, 0), 1080 - h))
+        fx = (1 / 3 if k % 2 == 0 else 2 / 3) if thirds else 0.5
+        x0 = int(min(max(cx - fx * w, 0), 1920 - w))
         out_shots.append(dict(src=[round(a, 3), round(b, 3)], crop=[w, h, x0, y0], z=z))
+        face_y.append((cy - y0) * 1920 / h)      # pusat muka dalam frame output (untuk PiP hook)
 
     # 4. Cue B-roll -> masa output
     src_mapped = [dict(w, start=round(out_t(w["start"]), 3), end=round(out_t(w["end"]), 3)) for w in words]
@@ -130,9 +135,19 @@ def plan(cid):
             dur = total - t0 + 0.15
         else:
             dur = q["dur"]
+        # sfx: "soft" (lalai, SFX halus setiap B-roll) | "hit" (peralihan besar) | "none"
+        # trans: "flash" (lalai) | "dissolve" (crossfade double-exposure) | "streak" (glitch streak putih) | "cut"
         cues.append(dict(name=f"{cid}_b{n}", t=round(max(0.0, t0), 3), dur=round(dur, 2), tpl=q["tpl"], data=q["data"],
-                         source=q.get("source"), sfx=q.get("sfx", "whoosh"), riser=q.get("riser", False)))
-    cues.append(dict(name=f"{cid}_cta", t=round(total, 3), dur=CTA["dur"], tpl=CTA["tpl"], data=CTA["data"], sfx="hit", riser=False, source=None))
+                         source=q.get("source"), sfx=q.get("sfx", "soft"), riser=q.get("riser", False), trans=q.get("trans", "flash")))
+    H = C["hook"]
+    if H:   # hook 0-dur: B-roll bertekstur penuh skrin + host dalam kad PiP + kapsyen kuning besar di atas
+        pip_y = int(min(max(face_y[0] - 270, 0), 1920 - 540))
+        cues.insert(0, dict(name=f"{cid}_hook", t=0.0, dur=H["dur"], tpl=H.get("tpl", "photo"),
+                            data={k: v for k, v in H.items() if k not in ("dur", "tpl")}, source=None, sfx="hit",
+                            riser=False, trans="cut", pip=pip_y))
+    if CTA:
+        cues.append(dict(name=f"{cid}_cta", t=round(total, 3), dur=CTA["dur"], tpl=CTA["tpl"], data=CTA["data"], sfx="hit",
+                         riser=False, source=None, trans="flash"))
     for a, b in zip(cues, cues[1:]):          # elak bertindih
         if a["t"] + a["dur"] > b["t"] - 0.3 and b["name"] != f"{cid}_cta":
             a["dur"] = round(b["t"] - 0.3 - a["t"], 2)
@@ -144,13 +159,18 @@ def plan(cid):
             d.update(duration=c["dur"], source=c["source"])
         else:
             d = dict(c["data"], duration=c["dur"])
+            if c["source"]:
+                d["source"] = c["source"]
         json.dump(d, open(f"{WORK}/{c['name']}.json", "w"), ensure_ascii=False)
 
     mapped = src_mapped
-    P = dict(segs=segs, shots=out_shots, cues=cues, total=round(total, 3), words=mapped)
+    end = total + (CTA["dur"] if CTA else 0)
+    P = dict(segs=segs, shots=out_shots, cues=cues, total=round(total, 3), end=round(end, 3),
+             hook_end=H["dur"] if H else 0, words=mapped)
     json.dump(P, open(f"{WORK}/{cid}.plan.json", "w"), ensure_ascii=False, indent=1)
     lens = [s["src"][1] - s["src"][0] for s in out_shots]
-    print(f"{cid}: {len(segs)} segmen, {len(out_shots)} shot (purata {st.mean(lens):.2f}s), tempoh {total:.2f}s + CTA {CTA['dur']}s")
+    print(f"{cid}: {len(segs)} segmen, {len(out_shots)} shot (purata {st.mean(lens):.2f}s), tempoh {total:.2f}s"
+          + (f" + CTA {CTA['dur']}s" if CTA else ""))
     for c in cues:
         print(f"  {c['t']:6.2f}s  {c['dur']:4.2f}s  {c['name']}  {c['tpl']}")
 
@@ -170,8 +190,50 @@ def render(cid):
     P = json.load(open(f"{WORK}/{cid}.plan.json"))
     for c in P["cues"]:
         out = f"{WORK}/{c['name']}.mp4"
+        if c["tpl"] == "footage":
+            footage(f"{WORK}/{c['name']}.json", out)
+            continue
         tpl = f"{BROLL}/templates/{c['tpl']}.html"
         subprocess.run(["node", f"{BROLL}/tools/render.mjs", tpl, f"{WORK}/{c['name']}.json", out], check=True)
+
+
+# Footage B-roll (video): sama gaya dengan templates/photo.html — warna bebas, tekstur & gerakan halus wajib.
+# Data: { video (relatif work/), in (saat mula), duration, grade?, texture?, motion?, focus? }
+# Tekstur: grain sentiasa (ffmpeg noise); 'halftone' / 'paper' ditindih dari photo.html (textureOnly).
+FOOT_GRADE = dict(none="null", color="eq=contrast=1.08:saturation=0.95", bw="hue=s=0,eq=contrast=1.35:brightness=0.02",
+                  sepia="hue=s=0,colorchannelmixer=.393:.769:.189:0:.349:.686:.168:0:.272:.534:.131,eq=contrast=1.15",
+                  bright="eq=brightness=0.12:contrast=0.82:saturation=0.85")
+FOOT_MOVE = {"zoom-in": ("1+0.08*on/{n}", "{fx}*(iw-iw/zoom)", "{fy}*(ih-ih/zoom)"),
+             "zoom-out": ("1.08-0.08*on/{n}", "{fx}*(iw-iw/zoom)", "{fy}*(ih-ih/zoom)"),
+             "pan-left": ("1.1", "(iw-iw/zoom)*on/{n}", "{fy}*(ih-ih/zoom)"),
+             "pan-right": ("1.1", "(iw-iw/zoom)*(1-on/{n})", "{fy}*(ih-ih/zoom)"),
+             "pan-up": ("1.1", "{fx}*(iw-iw/zoom)", "(ih-ih/zoom)*on/{n}"),
+             "pan-down": ("1.1", "{fx}*(iw-iw/zoom)", "(ih-ih/zoom)*(1-on/{n})")}
+
+
+def footage(data_file, out):
+    d = json.load(open(data_file))
+    dur = max(1.5, d.get("duration", 2.5)); n = round(dur * FPS)
+    foc = d.get("focus", {}); fx, fy = foc.get("x", 0.5), foc.get("y", 0.5)
+    z, x, y = (e.format(n=n, fx=fx, fy=fy) for e in FOOT_MOVE[d.get("motion", "zoom-in")])
+    vf = (f"scale=2160:3840:force_original_aspect_ratio=increase,crop=2160:3840:(iw-ow)*{fx}:(ih-oh)*{fy},fps={FPS},"
+          f"{d.get('ffilter') or FOOT_GRADE[d.get('grade', 'color')]},"
+          f"zoompan=z='{z}':x='{x}':y='{y}':d=1:s=1080x1920:fps={FPS},"
+          "noise=c0s=16:allf=t+u,vignette=angle=PI/4.5")
+    inp = ["-ss", str(d.get("in", 0)), "-t", f"{dur + 0.5}", "-i", os.path.join(WORK, d["video"])]
+    extra = [k for k in d.get("texture", []) if k in ("halftone", "paper")]
+    if extra:
+        tj, tp = data_file[:-5] + "_tex.json", data_file[:-5] + "_tex.png"
+        json.dump(dict(textureOnly=True, texture=extra), open(tj, "w"))
+        subprocess.run(["node", f"{BROLL}/tools/still.mjs", f"{BROLL}/templates/photo.html", tj, tp, "0"], check=True,
+                       capture_output=True)
+        inp += ["-i", tp]
+        fc = f"[0:v]{vf}[v];[v][1:v]overlay=0:0,format=yuv420p[o]"
+    else:
+        fc = f"[0:v]{vf},format=yuv420p[o]"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", *inp, "-filter_complex", fc, "-map", "[o]", "-frames:v", str(n),
+                    "-c:v", "libx264", "-crf", "18", "-r", str(FPS), "-an", out], check=True)
+    print("ok", out, n, "frame")
 
 
 # ---------------- audio sintetik ----------------
@@ -211,6 +273,15 @@ def riser(rng, dur=1.6, peak=0.22):
     return s * (t / dur) ** 2.2 * peak
 
 
+def swell(rng, dur=0.9, peak=0.07):
+    """SFX halus masuk B-roll: nada rendah naik perlahan + udara, di bawah VO."""
+    n = int(dur * SR); t = np.arange(n) / SR
+    body = np.sin(2 * np.pi * np.cumsum(np.interp(t, [0, dur], [62, 96])) / SR)
+    air = onepole(rng.standard_normal(n), np.full(n, 0.03))
+    s = 0.6 * body + 0.4 * air / (np.abs(air).max() + 1e-9)
+    return s * np.sin(np.pi * t / dur) ** 2 * peak
+
+
 def bed(total):
     n = int(total * SR); t = np.arange(n) / SR
     out = np.zeros(n)
@@ -228,7 +299,7 @@ def bed(total):
 
 def audio(cid):
     P = json.load(open(f"{WORK}/{cid}.plan.json"))
-    total = P["total"] + cfg(cid)["cta"]["dur"]
+    total = P["end"]
     rng = np.random.default_rng(1)
     n = int(total * SR) + SR
     music = np.zeros(n); sfx = np.zeros(n)
@@ -238,15 +309,14 @@ def audio(cid):
         i = int(t * SR)
         if i < 0: sig, i = sig[-i:], 0
         e = min(n, i + len(sig)); sfx[i:e] += sig[:e - i]
-    # setiap jump cut: whoosh lembut
-    acc = 0.0
-    for s in P["shots"][:-1]:
-        acc += s["src"][1] - s["src"][0]
-        put(whoosh(rng, .4, .10), acc - .22)
+    # jump cut host tanpa SFX; setiap B-roll: SFX halus; peralihan besar ("hit"): whoosh kuat + impact
     for c in P["cues"]:
-        put(whoosh(rng, .55, .32), c["t"] - .3)
         if c["sfx"] == "hit":
+            put(whoosh(rng, .55, .32), c["t"] - .3)
             put(hit(rng), c["t"])
+        elif c["sfx"] != "none":
+            put(whoosh(rng, .7, .12), c["t"] - .45)
+            put(swell(rng), c["t"] - .3)
         if c["riser"]:
             put(riser(rng), c["t"] - 1.6)
     for name, sig in (("music", music), ("sfx", sfx)):
@@ -329,41 +399,69 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Inter ExtraBold,66,&H00FFFFFF,&H00FFFFFF,&H64000000,&H8C000000,1,0,0,0,100,100,0,0,1,2,4,5,60,60,0,1
+Style: Cap,Inter ExtraBold,66,&H00FFFFFF,&H00FFFFFF,&H64000000,&H8C000000,1,0,0,0,100,100,-2,0,1,2,4,5,60,60,0,1
+Style: Hook,Inter ExtraBold,104,&H0000D4FF,&H0000D4FF,&H64000000,&H8C000000,1,0,0,0,100,100,-3,0,1,2,5,8,60,60,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
+    def fmt(ws, hook):
+        # Inggeris & Arab: italic (putih); hook: baris 1 besar, selebihnya baris 2 lebih kecil
+        parts = [(r"{\i1}" + w["txt"] + r"{\i0}") if w["eng"] or w["arab"] else w["txt"] for w in ws]
+        if not hook:
+            return " ".join(parts)
+        n1, width = 0, 0
+        while n1 < len(ws) and (n1 == 0 or width + 1 + len(ws[n1]["txt"]) <= 11):
+            width += (1 if n1 else 0) + len(ws[n1]["txt"]); n1 += 1
+        line2 = " ".join(parts[n1:])
+        return " ".join(parts[:n1]) + (r"\N{\fs72}" + line2 if line2 else "")
+
+    # kapsyen terkumpul: perkataan muncul satu demi satu dalam kumpulan 1-4, kemudian reset
     lines = []
     for k, c in enumerate(caps):
         a = c[0]["start"]
         nxt = caps[k + 1][0]["start"] if k + 1 < len(caps) else P["total"] + 0.3
         b = nxt if nxt - c[-1]["end"] < 0.45 else c[-1]["end"] + 0.2
         b = min(max(b, a + 0.25), nxt) if nxt > a else b
-        text = " ".join(w["txt"] for w in c)
-        if c[0]["eng"]:
-            text = r"{\c&H00D4FF&\i1}" + text
-        elif all(w["arab"] for w in c):
-            text = r"{\i1}" + text
-        pop = r"{\pos(540,1356)\fscx88\fscy88\t(0,90,\fscx100\fscy100)}"
-        lines.append(f"Dialogue: 0,{ass_time(a)},{ass_time(b)},Cap,,0,0,0,,{pop}{text}")
+        hook = a < P.get("hook_end", 0)
+        style, pos = ("Hook", r"{\an8\pos(540,460)}") if hook else ("Cap", r"{\pos(540,1356)}")
+        for j in range(len(c)):
+            s = a if j == 0 else max(a, c[j]["start"])
+            e = b if j == len(c) - 1 else min(b, c[j + 1]["start"])
+            if e - s < 0.02:
+                continue
+            lines.append(f"Dialogue: 0,{ass_time(s)},{ass_time(e)},{style},,0,0,0,,{pos}{fmt(c[:j + 1], hook)}")
     open(f"{WORK}/{cid}.ass", "w").write(head + "\n".join(lines) + "\n")
     return len(caps)
 
 
 def assemble(cid):
-    C = cfg(cid); CTA = C["cta"]; P = json.load(open(f"{WORK}/{cid}.plan.json"))
+    C = cfg(cid); P = json.load(open(f"{WORK}/{cid}.plan.json"))
     ncap = captions(cid, P)
-    total = P["total"] + CTA["dur"]
+    total = P["end"]
     # gradien gelap atas: tutup logo asal dalam footage (zon UI platform)
-    from PIL import Image
+    from PIL import Image, ImageDraw, ImageFilter
     g = Image.new("RGBA", (1080, 1920), (0, 0, 0, 0)); px = g.load()
     for y in range(0, 360):
         a = 255 if y < 215 else int(255 * (1 - (y - 215) / 145) ** 1.6)
-        for x in range(1080): px[x, y] = (7, 3, 6, a)
+        for x in range(1080): px[x, y] = (0, 0, 0, a)
     g.save(f"{WORK}/topfade.png")
+    # peralihan glitch streak: 2 frame jalur putih menegak
+    rng = np.random.default_rng(3)
+    for k in range(2):
+        al = np.full((1920, 1080), 0.12, np.float32)
+        for _ in range(70):
+            x0 = int(rng.integers(0, 1080)); al[:, x0:x0 + int(rng.integers(1, 12))] = rng.uniform(.25, .95)
+        al *= rng.uniform(.7, 1, (1920, 1)).astype(np.float32)
+        s = Image.merge("RGBA", [Image.new("L", (1080, 1920), 255)] * 3 + [Image.fromarray((al * 255).astype(np.uint8))])
+        s.filter(ImageFilter.GaussianBlur(1.5)).save(f"{WORK}/streak{k}.png")
+    # topeng bucu bulat 28px untuk PiP host (hook)
+    m = Image.new("L", (900, 450), 0); ImageDraw.Draw(m).rounded_rectangle((0, 0, 899, 449), 28, fill=255)
+    m.save(f"{WORK}/pipmask.png")
 
-    inp = ["-i", C["src"], "-i", f"{WORK}/topfade.png", "-i", f"{WORK}/{cid}_music.wav", "-i", f"{WORK}/{cid}_sfx.wav"]
+    inp = ["-i", C["src"], "-i", f"{WORK}/topfade.png", "-i", f"{WORK}/{cid}_music.wav", "-i", f"{WORK}/{cid}_sfx.wav",
+           "-i", f"{WORK}/streak0.png", "-i", f"{WORK}/streak1.png", "-i", f"{WORK}/pipmask.png"]
+    B0 = 7                                         # indeks input B-roll pertama
     for c in P["cues"]:
         inp += ["-i", f"{WORK}/{c['name']}.mp4"]
     fc = []
@@ -379,19 +477,44 @@ def assemble(cid):
         vs.append(f"[v{k}]"); as_.append(f"[a{k}]")
     n = len(P["shots"])
     fc.append("".join(v + a for v, a in zip(vs, as_)) + f"concat=n={n}:v=1:a=1[vc][ac]")
-    fc.append(f"[vc]tpad=stop_mode=clone:stop_duration={CTA['dur'] + 0.5},"
-              "eq=contrast=1.09:brightness=-0.025:saturation=0.82:gamma=0.96,"
-              "colorbalance=rs=0.05:gs=-0.01:bs=-0.03:rm=0.03:bm=-0.03:rh=0.02:bh=-0.03,"
-              "vignette=angle=PI/4.2,noise=alls=5:allf=t,format=yuv420p[vg]")
-    fc.append("[vg][1:v]overlay=0:0[vt]")
+    # gred host v2: warna asal studio (ungu/hijau), kulit hangat, kontras sederhana, vignette ringan
+    fc.append(f"[vc]tpad=stop_mode=clone:stop_duration={total - P['total'] + 0.5},"
+              "eq=contrast=1.05:saturation=1.04,"
+              "colorbalance=rm=0.025:gm=0.005:bm=-0.02,"
+              "vignette=angle=PI/5,noise=alls=4:allf=t,format=yuv420p[vg]")
+    pip = [c for c in P["cues"] if c.get("pip") is not None]
+    if pip:
+        hd = pip[0]["dur"]
+        fc.append("[vg]split=2[vgm][vgp]")
+        fc.append(f"[vgp]trim=end={hd},setpts=PTS-STARTPTS,crop=1080:540:0:{pip[0]['pip']},scale=900:450,format=yuva420p[pp0]")
+        fc.append("[6:v]format=gray[pm];[pp0][pm]alphamerge[pp]")
+        fc.append("[vgm][1:v]overlay=0:0[vt]")
+    else:
+        fc.append("[vg][1:v]overlay=0:0[vt]")
     last = "[vt]"
     for i, c in enumerate(P["cues"]):
         t, d = c["t"], c["dur"]
-        fc.append(f"[{4 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
+        if c["tpl"] in ("photo", "footage"):
+            # B-roll penuh skrin: fade alpha (dissolve = crossfade double-exposure 0.3s), keluar crossfade 0.2s
+            fin = f"fade=t=in:st=0:d=0.3:alpha=1," if c.get("trans") == "dissolve" else ""
+            fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"
+                      f"setpts=PTS-STARTPTS+{t}/TB[b{i}]")
+        else:
+            fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         fc.append(f"{last}[b{i}]overlay=0:0:eof_action=pass:enable='between(t,{t},{t + d - 0.02})'[o{i}]")
         last = f"[o{i}]"
-    flashes = ",".join(f"drawbox=x=0:y=0:w=iw:h=ih:color=white@0.5:t=fill:enable='between(t,{c['t'] - 0.03},{c['t'] + 0.06})'" for c in P["cues"])
-    fc.append(f"{last}{flashes},ass={WORK}/{cid}.ass:fontsdir=/usr/share/fonts/opentype/inter,trim=duration={total},format=yuv420p[vout]")
+        if c.get("pip") is not None:
+            fc.append(f"{last}[pp]overlay=90:1000:eof_action=pass:enable='between(t,0,{d - 0.02})'[o{i}p]")
+            last = f"[o{i}p]"
+    for i, c in enumerate(c for c in P["cues"] if c.get("trans") == "streak"):
+        for k in range(2):
+            a = c["t"] - 0.04 + k * 0.07
+            fc.append(f"{last}[{4 + k}:v]overlay=0:0:enable='between(t,{a:.3f},{a + 0.07:.3f})'[s{i}{k}]")
+            last = f"[s{i}{k}]"
+    flashes = ",".join(f"drawbox=x=0:y=0:w=iw:h=ih:color=white@0.5:t=fill:enable='between(t,{c['t'] - 0.03},{c['t'] + 0.06})'"
+                       for c in P["cues"] if c.get("trans", "flash") == "flash")
+    fc.append(f"{last}{flashes + ',' if flashes else ''}ass={WORK}/{cid}.ass:fontsdir=/usr/share/fonts/opentype/inter,"
+              f"trim=duration={total},format=yuv420p[vout]")
     # audio: VO bersih + bed + SFX, kemudian master
     fc.append("[ac]highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=2,"
               f"apad=whole_dur={total},aresample=48000,aformat=channel_layouts=stereo[vo]")
