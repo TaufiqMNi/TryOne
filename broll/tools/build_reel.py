@@ -7,7 +7,7 @@ Guna (dalam folder broll/):
   python3 tools/build_reel.py <id> capture    -> screencap artikel B-roll (config "articles")
   python3 tools/build_reel.py <id> plan       -> EDL (jump cut pada senyap), shot + punch-in, cue B-roll
   python3 tools/build_reel.py <id> vo         -> transkrip semula audio suntingan (masa kapsyen tepat), kemudian plan semula
-  python3 tools/build_reel.py <id> render     -> render B-roll (photo/footage penuh skrin bertekstur) & kad (templates/)
+  python3 tools/build_reel.py <id> render     -> render B-roll (photo/footage penuh skrin bertekstur, templates/) & kad (Remotion)
   python3 tools/build_reel.py <id> audio      -> music bed + SFX sintetik (halus setiap B-roll, whoosh/hit peralihan besar)
   python3 tools/build_reel.py <id> assemble   -> grade, hook PiP, B-roll + peralihan, kapsyen terkumpul, mix, master ~-8 LUFS
   python3 tools/build_reel.py <id> final      -> tampal overlay (template/apply_overlay.sh) -> work/<id>_final.mp4
@@ -20,6 +20,7 @@ import numpy as np
 
 BROLL = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REPO = os.path.dirname(BROLL)
+REMOTION = f"{REPO}/remotion"
 WORK = f"{BROLL}/work"
 FPS = 30
 
@@ -192,6 +193,11 @@ def render(cid):
         out = f"{WORK}/{c['name']}.mp4"
         if c["tpl"] == "footage":
             footage(f"{WORK}/{c['name']}.json", out)
+            continue
+        if c["tpl"] == "card":
+            # kad teks: komposisi Remotion `Card` (remotion/src/card/Card.tsx), data JSON sama dengan card.html
+            subprocess.run([f"{REMOTION}/node_modules/.bin/remotion", "render", "Card", out,
+                            f"--props={WORK}/{c['name']}.json", "--log=error"], cwd=REMOTION, check=True)
             continue
         tpl = f"{BROLL}/templates/{c['tpl']}.html"
         subprocess.run(["node", f"{BROLL}/tools/render.mjs", tpl, f"{WORK}/{c['name']}.json", out], check=True)

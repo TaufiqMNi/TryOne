@@ -40,12 +40,15 @@ Data: `query`, `results` (site, url, title, snippet pilihan), `highlight` (indek
 Isi hasil carian dengan tajuk/URL sebenar — jangan reka.
 
 ## 3. Kad teks (tajuk hook, hadis/ayat Arab, CTA)
+Dirender dengan Remotion — komposisi `Card` dalam `../remotion/` (pasang sekali: `npm install` dalam `remotion/`).
+`build_reel.py render` guna Remotion secara automatik untuk cue `tpl: "card"`. Render sendiri:
 ```
-node tools/render.mjs templates/card.html work/card_hook.json work/card_hook.mp4
+cd ../remotion && npx remotion render Card out/card.mp4 --props=../broll/work/card_hook.json
 ```
 Data: `kind` (`title` | `hadith` | `cta`), `lines`, `highlight` (teks kuning #FFD400), `arabic` (teks atau senarai baris),
-`source` (kredit di bawah kad), `duration`, `full` (true = latar ungu gelap penuh; lalai lutsinar untuk tindih atas footage).
-Fon: Bebas Neue (tajuk) & Amiri (Arab) dalam `fonts/` (OFL).
+`source` (kredit di bawah kad), `duration`, `full` (true = latar ungu gelap penuh; lalai lutsinar untuk tindih atas footage),
+`instant` (teks penuh dari frame pertama, untuk hook). Lihat `remotion/README.md`.
+`templates/card.html` disimpan sebagai rujukan lama (masih boleh guna `tools/render.mjs`).
 
 ## 4. Reel penuh dari klip podcast
 Satu konfigurasi setiap reel dalam `reels/<id>.json` (sumber, masa mula/tamat, `hook`, cue B-roll ikut frasa transkrip,
