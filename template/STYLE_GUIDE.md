@@ -16,14 +16,22 @@ Diganti dari v1.0 berdasarkan video rujukan kedua (klip podcast bumi merdeka, 65
 4. Penutup: imej terang, lembut, penuh harapan (cth. Kubah As-Sakhrah overexposed).
 
 ## 4. Editing
-- Purata shot ~2.5s: host 3-5s, B-roll 1.5-3s. Durasi tepat ikut transkrip.
-- Host: jump cut + punch-in, kedudukan bertukar kiri/kanan setiap potongan.
-- Potong ke B-roll setiap kali sebut kata nama / imej (tempat, orang, objek, peristiwa).
-- Peralihan: flash putih / overexpose, crossfade double-exposure, glitch streak putih menegak, motion blur.
-- Montaj laju 3-4 shot pada titik penekanan.
+- Pace tenang dan stabil — tidak jumpy atau tergesa-gesa. Biar setiap idea "sampai".
+- Purata shot ~3-4s: host 4-6s, B-roll 2-3s. Durasi tepat ikut transkrip.
+- **Buang:** senyap/dead air (>0.4s), filler (emm, aaa), mula semula & perkataan berulang, dan pose janggal
+  (pandang ke tempat lain, betulkan mikrofon, mulut/ekspresi beku, kelip mata panjang tengah perkataan).
+- Potong hanya di hujung frasa, jangan tengah perkataan. Tinggalkan nafas ~0.15-0.25s supaya suara tak terpotong.
+- Potongan tengah ayat: sorok dengan tukar framing (kiri/kanan) atau B-roll.
+- Potong ke B-roll pada kata kunci utama (tempat, orang, objek, peristiwa) — bukan setiap ayat.
+- Peralihan: kebanyakannya potongan bersih / crossfade lembut. Flash putih, double-exposure & glitch streak
+  untuk titik besar sahaja.
+- Maksimum satu montaj pendek 3 shot pada puncak emosi.
 
 ## 5. Framing host
 - Medium close-up ketat, host di sepertiga kiri atau kanan, mikrofon podcast di tepi frame.
+- **Gerakan halus (WAJIB):** setiap shot host bergerak perlahan sepanjang shot — push-in (~100%→105%) atau drift
+  lembut, arah bersilih antara shot. Tiada shot statik, tiada gerakan kasar.
+- Tukar kedudukan kiri/kanan antara shot untuk sorok jump cut — bukan punch-in besar.
 - Latar studio: panel akustik ungu gelap + backdrop percikan hijau neon (huruf "bu" putih).
 - Muka antara 25-65% tinggi frame, dagu di atas ~1450px (tak tertutup banner).
 - Hook: host dalam kad PiP bucu bulat (~28px), separuh bawah zon kandungan.
@@ -98,7 +106,7 @@ Alat: `broll/templates/photo.html` (gambar) & `tpl: "footage"` (video) dalam `br
 
 **Peralihan:** masuk dengan flash putih / double-exposure; keluar crossfade atau glitch streak.
 
-**Durasi:** ikut panjang cue dalam transkrip, purata ~2.5s (min 1.5s). Animasi dimampatkan ikut durasi.
+**Durasi:** ikut panjang cue dalam transkrip, 2-3s (min 1.5s). Animasi dimampatkan ikut durasi.
 
 **Peraturan sumber:**
 - Fakta, tajuk & URL mesti dari sumber sebenar — tak boleh direka.
@@ -120,30 +128,46 @@ Create a 9:16 vertical short (1080x1920, 30fps, H.264, 60–70s) in a reflective
 podcast-clip style about [TOPIC], from [RAW PODCAST FOOTAGE].
 
 TRANSCRIPT: Transcribe the video (Malay), proofread names/terms, keep
-word-level timestamps. Use it for captions and B-roll cues.
+word-level timestamps. Use it for captions, B-roll cues and cut points.
 
-HOOK (0–3s): Full-frame textured archival/B-roll image with the host in a rounded
-(28px) picture-in-picture card; big two-line yellow (#FFD400) bold caption
-in the upper content area stating the theme.
+HOOK (0–3s): Full-frame textured archival/B-roll image with the host in a
+rounded (28px) picture-in-picture card; big two-line yellow (#FFD400) bold
+caption in the upper content area stating the theme.
 
-HOST: Tight medium close-up, alternating left/right third on each cut,
-podcast mic visible at frame edge. Studio: dark purple acoustic panels,
-green neon splatter backdrop. Jump cuts with punch-in. Face 25–65% of frame
+HOST: Tight medium close-up, podcast mic visible at frame edge. Studio: dark
+purple acoustic panels, green neon splatter backdrop. Face 25–65% of frame
 height, chin above 1450px.
+ - Subtle motion (MANDATORY): every host shot moves gently for its whole
+   duration — slow push-in (~100%→105%) or soft drift, alternating
+   direction between shots. Never static, never jarring.
+ - Alternate left/right third between shots to hide jump cuts, instead of
+   big punch-in jumps.
 
-B-ROLL: Full-frame (no cards), high contrast, vignette. Color treatment is
-free to suit each video's theme, but EVERY B-roll MUST carry texture: film
-grain, halftone, aged paper, or film dust & scratches — never clean/flat.
-Cut to B-roll on every key noun/image in the speech. Optional faint white
-Arabic calligraphy overlay on religious imagery. Article/search cards only
-when a fact needs proof. Every B-roll MUST move subtly for its whole
-duration: slow zoom-in (~100%→108%) or slow Ken Burns/pan — never static —
-and enter with a subtle, soft SFX (gentle whoosh/swell) sitting under the VO. Source only real material; never invent facts, headlines or URLs.
+EDITING: Calm, steady pace — not jumpy or rushed. Let thoughts land.
+ - Average ~3–4s per shot (host 4–6s, B-roll 2–3s), timed to the transcript.
+ - Remove: silences/dead air (>0.4s), filler (emm, aaa), false starts and
+   repeated words, and awkward poses (looking away, adjusting the mic,
+   frozen mouth/odd expressions, long blinks mid-word).
+ - Cut only at natural phrase ends; never mid-word. Keep a short breath
+   (~0.15–0.25s) so speech doesn't sound clipped.
+ - When a cut lands mid-sentence, hide it with a framing change or B-roll.
+ - Transitions: mostly clean cuts or soft crossfades. Save white flash /
+   double-exposure / white-streak glitch for major beats only.
+ - At most one short 3-shot montage at the emotional peak.
+ - Close on a bright, soft, hopeful image.
 
-EDITING: Average ~2.5s per shot (host 3–5s, B-roll 1.5–3s), timed to the
-transcript. Transitions: white flash, double-exposure crossfade, vertical
-white-streak glitch, motion blur. Rapid 3–4 shot montage on emphasis
-beats. Close on a bright, soft, hopeful image.
+B-ROLL: Full-frame (no cards), high contrast, vignette. Cut to B-roll on key
+nouns/images in the speech (not every sentence).
+ - Color: free to suit each video's theme.
+ - Texture (MANDATORY): film grain, halftone, aged paper, or film dust &
+   scratches — never clean/flat.
+ - Motion (MANDATORY): subtle movement for the whole clip — slow zoom-in
+   (~100%→108%) or slow Ken Burns/pan. Never static.
+ - SFX: each B-roll enters with a subtle, soft SFX (gentle whoosh/swell)
+   sitting under the VO.
+ - Optional faint white Arabic calligraphy overlay on religious imagery.
+ - Article/search cards only when a fact needs proof.
+ - Source only real material; never invent facts, headlines or URLs.
 
 COLOR: Host shots — deep purple #150F20/#251634, neon green #A5E09F, warm
 skin. B-roll — color free per video, always textured. Yellow only for the
@@ -156,8 +180,8 @@ or term is uncertain (names, organisations, places, jargon, slang,
 spelling), ASK the user before using it — never guess.
 
 AUDIO: Continuous emotive/reflective music bed (no dead air), subtle soft
-SFX on every B-roll, stronger whoosh/impact only on major transitions, riser before the closing, clear VO on top, master
-~-8 LUFS.
+SFX on every B-roll, stronger whoosh/impact only on major transitions,
+riser before the closing, clear VO on top, master ~-8 LUFS.
 
 TEMPLATE OVERLAY (mandatory, top layer): template/overlay_1080x1920.png —
 partner logos (y 220–275) and donation banner (y 1471–1920). Nothing
