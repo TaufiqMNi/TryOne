@@ -1,0 +1,76 @@
+@import url('fonts.css');
+
+/* ---------- font roles (see docs/03-typography.md) ---------- */
+:root {
+  --f-head: 'DM Serif Display', 'Playfair Display', Georgia, serif;   /* v1 headline */
+  --f-body: 'Libre Caslon Text', 'Source Serif 4', Georgia, serif;    /* standfirst / body */
+  --f-italic: 'Playfair Display', Georgia, serif;                     /* spoken line (italic) */
+  --f-cond: 'Anton', 'Bebas Neue', Impact, sans-serif;                /* hero numbers & words */
+  --f-type: 'Special Elite', 'Courier Prime', monospace;              /* kicker, labels, sources */
+  --f-mono: 'Courier Prime', 'Special Elite', monospace;              /* data labels (bold) */
+  --f-heavy: 'Montserrat', 'Archivo Black', sans-serif;               /* v3 labels (800-900) */
+  --f-script: 'Kaushan Script', cursive;                              /* v3 brush years */
+  --f-sans: 'Outfit', 'Jost', sans-serif;                             /* v5 box labels */
+  --f-tag: 'Source Serif 4', Georgia, serif;                          /* date tag */
+  --f-black: 'UnifrakturMaguntia', serif;                             /* generic masthead credit */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #000; overflow: hidden; }
+body { -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; font-kerning: normal; }
+
+/* stage = the video frame; .cam = the filmed desk (paper + world), moved by the camera clock */
+.vox-stage { position: relative; overflow: hidden; background: var(--paper); color: var(--ink); }
+.vox-stage .rig { position: absolute; inset: 0; }
+.vox-stage .cam { position: absolute; inset: 0; transform-origin: 50% 50%; will-change: transform; }
+.vox-stage .layer { position: absolute; inset: 0; }
+.vox-overlay { position: absolute; inset: 0; pointer-events: none; }
+.vox-hud { z-index: 50; }                     /* persistent widgets, above wipes, never blurred */
+.vox-vignette { z-index: 40; }
+.vox-fx { z-index: 45; overflow: hidden; }
+
+.scene, .sheet { position: absolute; inset: 0; visibility: hidden; }
+.sheet-rim, .sheet-shadow { position: absolute; inset: 0; visibility: hidden; pointer-events: none; }
+.sheet-shadow-up::before { content: ''; position: absolute; left: 0; right: 0; top: -34px; height: 40px; background: linear-gradient(to top, rgba(40,30,20,.28), rgba(40,30,20,0)); }
+.sheet-shadow-left::before { content: ''; position: absolute; top: 0; bottom: 0; left: -34px; width: 40px; background: linear-gradient(to left, rgba(40,30,20,.28), rgba(40,30,20,0)); }
+.abs { position: absolute; }
+.center-x { left: 0; right: 0; text-align: center; }
+
+/* ---------- text atoms ---------- */
+.w { display: inline-block; white-space: nowrap; }          /* word wrapper from splitter */
+.ch { display: inline-block; white-space: pre; }
+.hl-text { position: relative; z-index: 1; }
+.hl-mark { position: absolute; pointer-events: none; background-repeat: no-repeat; background-size: 100% 100%; transform-origin: 0 50%; }
+/* glyphs rise from a mask ~15 px below the baseline; padding-top leaves room for overshoot */
+.rise-mask .w { overflow: hidden; padding-top: .22em; margin-top: -.22em; padding-bottom: .08em; margin-bottom: -.08em; vertical-align: bottom; }
+
+/* typographic roles */
+.kicker { font: 400 40px/1 var(--f-type); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); }
+.label { font: 400 28px/1.1 var(--f-type); letter-spacing: .12em; text-transform: uppercase; }
+.source { position: absolute; left: 120px; bottom: 52px; font: 400 22px/1 var(--f-type); color: var(--mute); }
+.spoken { font: italic 400 96px/1.08 var(--f-italic); }
+.spoken b, .spoken strong { font-weight: 900; }
+.hero { font: 400 196px/.92 var(--f-cond); text-transform: uppercase; letter-spacing: -.01em; }
+.headline { font: 400 68px/1.16 var(--f-head); color: var(--ink); }
+.standfirst { font: 400 31px/1.34 var(--f-body); color: var(--ink); }
+.tag { display: inline-flex; align-items: center; height: 52px; padding: 0 30px 0 24px; background: var(--red); color: #fff; font: 700 26px/1 var(--f-tag); }
+.heavy { font-family: var(--f-heavy); font-weight: 900; text-transform: uppercase; letter-spacing: .01em; }
+.script { font-family: var(--f-script); }
+.mono { font-family: var(--f-mono); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.red { color: var(--red); } .ink { color: var(--ink); } .white { color: #fff; }
+
+/* ---------- paper pieces ---------- */
+.card { background: var(--card); color: var(--ink); }
+.shadow { filter: drop-shadow(0 6px 7px rgba(40, 30, 20, .26)); }    /* put on a wrapper of a torn (clipped) element */
+.scrap-red { background: var(--red); color: #fff; }
+.scrap-black { background: var(--ink); color: var(--paper); }
+.pill-year { background: #120e0c; color: #fff; font: 400 30px/1 var(--f-cond); padding: 6px 12px; border-radius: 6px; }
+.cutout { display: block; will-change: transform; }
+
+/* ---------- svg strokes ---------- */
+svg.draw { position: absolute; overflow: visible; pointer-events: none; z-index: 6; }
+
+/* ---------- fx overlays ---------- */
+.fx-flash { position: absolute; inset: 0; opacity: 0; }
+.fx-leak { position: absolute; width: 70%; height: 60%; opacity: 0; border-radius: 50%; mix-blend-mode: screen; filter: blur(40px);
+  background: radial-gradient(closest-side, rgba(255,255,255,.95), rgba(255,246,240,.5) 55%, transparent); transform: translate(-50%, -50%); }

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 640" width="600" height="640">
+  <!-- Generic placeholder "photo cut-out": a stylised B&W bust. Replace with a real PNG cut-out (tools/cutout.py). -->
+  <defs>
+    <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6b6b6b"/><stop offset=".55" stop-color="#3a3a3a"/><stop offset="1" stop-color="#1c1c1c"/></linearGradient>
+    <radialGradient id="skin" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#d9d9d9"/><stop offset=".6" stop-color="#9a9a9a"/><stop offset="1" stop-color="#555"/></radialGradient>
+    <linearGradient id="shirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f2f2f2"/><stop offset="1" stop-color="#bdbdbd"/></linearGradient>
+    <filter id="tex"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .35 0"/><feComposite in2="SourceGraphic" operator="in"/><feBlend in2="SourceGraphic" mode="multiply"/></filter>
+  </defs>
+  <g filter="url(#tex)">
+    <path d="M40 640 C40 520 110 455 215 430 L300 470 L385 430 C490 455 560 520 560 640 Z" fill="url(#suit)"/>
+    <path d="M250 430 L300 520 L350 430 L330 410 L270 410 Z" fill="url(#shirt)"/>
+    <path d="M285 470 L300 520 L315 470 L300 455 Z" fill="#2a2a2a"/>
+    <path d="M255 330 L255 425 Q300 455 345 425 L345 330 Z" fill="#8a8a8a"/>
+    <ellipse cx="300" cy="245" rx="102" ry="128" fill="url(#skin)"/>
+    <path d="M196 230 C190 140 245 98 305 100 C370 102 412 150 402 232 C392 190 360 168 330 170 C290 172 250 160 230 150 C214 175 206 200 196 230 Z" fill="#232323"/>
+    <ellipse cx="262" cy="250" rx="13" ry="7" fill="#2b2b2b"/><ellipse cx="338" cy="250" rx="13" ry="7" fill="#2b2b2b"/>
+    <path d="M300 255 L292 300 L306 302" fill="none" stroke="#5a5a5a" stroke-width="5" stroke-linecap="round"/>
+    <path d="M272 330 Q300 342 328 330" fill="none" stroke="#4a4a4a" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>
