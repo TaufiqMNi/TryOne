@@ -22,6 +22,10 @@ for wrong, right in fixes.items():
             tail = words[i + len(pat) - 1]["word"]
             punct = tail[len(tail.rstrip(".,?!")):]
             new = right.split()
+            if not new:                                  # "" -> buang span (cth. halusinasi Whisper)
+                del words[i:i + len(pat)]
+                hits += 1
+                continue
             span_s, span_e = words[i]["start"], words[i + len(pat) - 1]["end"]
             step = (span_e - span_s) / len(new)
             words[i:i + len(pat)] = [{"start": round(span_s + k * step, 2), "end": round(span_s + (k + 1) * step, 2),

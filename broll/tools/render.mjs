@@ -7,8 +7,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const [tpl, dataFile, out] = process.argv.slice(2);
-const FPS = 30;
 const data = JSON.parse(fs.readFileSync(dataFile, 'utf8'));
+const FPS = data.fps || 30;
+const alpha = !!data.alpha;   // latar lutsinar -> .mov qtrle (ARGB) untuk ditindih atas footage
 data.baseDir = 'file://' + path.resolve(path.dirname(dataFile)) + '/';
 
 const browser = await chromium.launch();
@@ -19,12 +20,13 @@ await page.evaluate(() => document.fonts.ready);
 await page.waitForFunction(() => window.READY === true, null, { timeout: 15000 });
 const dur = await page.evaluate(() => window.DURATION);
 
+const enc = alpha ? ['-c:v', 'qtrle', '-pix_fmt', 'argb'] : ['-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p'];
 const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(FPS), '-i', '-',
-  '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-r', String(FPS), out], { stdio: ['pipe', 'inherit', 'inherit'] });
+  ...enc, '-r', String(FPS), out], { stdio: ['pipe', 'inherit', 'inherit'] });
 const frames = Math.round(dur * FPS);
 for (let f = 0; f < frames; f++) {
   await page.evaluate(t => window.seek(t), f / FPS);
-  const buf = await page.screenshot({ type: 'jpeg', quality: 92 });
+  const buf = await page.screenshot(alpha ? { type: 'png', omitBackground: true } : { type: 'jpeg', quality: 92 });
   if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
 }
 ff.stdin.end();

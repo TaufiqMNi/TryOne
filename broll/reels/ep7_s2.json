@@ -1,0 +1,175 @@
+{
+ "precut": true,
+ "fps": 25,
+ "start": 0.0,
+ "grade": "eq=contrast=1.07:saturation=1.06,scale=in_range=tv:out_range=pc,format=gbrp,curves=master='0/0 0.08/0.05 0.25/0.23 0.5/0.53 0.8/0.85 1/0.98',colorbalance=rs=-0.025:bs=0.035:rm=0.012:bm=-0.012,vignette=angle=PI/6:x0=w/2:y0=h*0.3,unsharp=5:5:0.5",
+ "proper": [
+  "Kristian",
+  "Zionis",
+  "Zionist",
+  "Arab",
+  "Barat",
+  "Palestin",
+  "Islam",
+  "Yahudi",
+  "Israel",
+  "Israelite",
+  "Muslim",
+  "Temple",
+  "Solomon",
+  "Nabi",
+  "Sulaiman",
+  "Yaakob",
+  "Bani",
+  "Roman",
+  "Masihi",
+  "Andalusia",
+  "Jew",
+  "Christian",
+  "Evangelist",
+  "Genesis",
+  "Bible",
+  "Tuhan",
+  "Ibrahim",
+  "Ismail",
+  "Ishak",
+  "Amerika",
+  "I",
+  "The"
+ ],
+ "groups": [],
+ "arabic": [],
+ "speaker_side": "left",
+ "_nota": "Podcast Bumi Merdeka EP7 — short 02: Temple of Solomon & Zionis",
+ "src": "work/footage/ep7_s2.mp4",
+ "end": 59.16,
+ "cuts": [
+  6.56,
+  19.96,
+  25.36,
+  35.12,
+  42.84,
+  47.4,
+  52.28
+ ],
+ "hook": {
+  "dur": 2.9,
+  "text": [
+   "Kenapa Zionis obses",
+   "dengan Temple of Solomon?"
+  ],
+  "image": "ep7/img/walls.jpg",
+  "grade": "sepia",
+  "texture": [
+   "grain",
+   "paper"
+  ],
+  "motion": "zoom-in"
+ },
+ "english": [
+  "Temple of Solomon",
+  "The golden era of the Jew",
+  "golden era"
+ ],
+ "cues": [
+  {
+   "phrase": "adalah keturunan Nabi Yaakob",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Bani Israel",
+     "keturunan",
+     "Nabi Yaakob"
+    ],
+    "highlight": "Nabi Yaakob",
+    "small": [
+     1
+    ]
+   }
+  },
+  {
+   "phrase": "dirobohkan apabila diserang",
+   "pre": 0.1,
+   "dur": 2.5,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/jerusalem.jpg",
+    "grade": "bw",
+    "texture": [
+     "grain",
+     "scratches"
+    ],
+    "motion": "zoom-out"
+   }
+  },
+  {
+   "phrase": "dirobohkan oleh Roman",
+   "pre": 0.1,
+   "until_phrase": "70 Masihi",
+   "post": 0.3,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/titus.jpg",
+    "grade": "sepia",
+    "texture": [
+     "paper",
+     "scratches"
+    ],
+    "motion": "pan-left"
+   },
+   "sfx": "hit"
+  },
+  {
+   "phrase": "mereka bina semula",
+   "pre": 0.1,
+   "dur": 2.8,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/dome.jpg",
+    "grade": "color",
+    "texture": [
+     "grain"
+    ],
+    "motion": "zoom-in",
+    "focus": {
+     "x": 0.5,
+     "y": 0.45
+    }
+   }
+  },
+  {
+   "phrase": "yang kedua zaman Andalusia",
+   "pre": 0.1,
+   "dur": 2.8,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/alhambra.jpg",
+    "grade": "color",
+    "texture": [
+     "grain",
+     "halftone"
+    ],
+    "motion": "pan-up"
+   }
+  },
+  {
+   "phrase": "sangat berkait dengan",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/jerusalem.jpg",
+    "grade": "bright",
+    "texture": [
+     "grain"
+    ],
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "topfade": false
+}

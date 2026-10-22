@@ -26,8 +26,10 @@ FPS = 30
 
 
 def cfg(cid):
+    global FPS
     C = json.load(open(f"{BROLL}/reels/{cid}.json"))
     C["src"] = os.path.join(BROLL, C["src"])
+    FPS = C.get("fps", 30)                       # footage precut 25fps -> kekal 25 (elak frame berganda)
     C.setdefault("cta", None)                    # v2: tiada kad CTA lalai; penutup = B-roll terang (until_end)
     C.setdefault("hook", None)
     C.setdefault("english", []); C.setdefault("proper", []); C.setdefault("arabic", []); C.setdefault("groups", [])
@@ -50,9 +52,8 @@ def find(words, phrase, after=0):
     raise SystemExit(f"frasa tak jumpa: {phrase}")
 
 
-def plan(cid):
-    C = cfg(cid); CTA = C["cta"]
-    words = [w for w in load_words(cid) if C["start"] <= w["start"] < C["end"]]
+def edl_shots(cid, C, words):
+    """Klip podcast mentah: jump cut pada senyap, shot ~3s, crop 9:16 ikut muka dari footage 16:9."""
     # 1. EDL: buang senyap > 0.45s (silencedetect, tinggal ~0.34s) -> jump cut
     r = subprocess.run(["ffmpeg", "-v", "info", "-i", C["src"], "-af", "silencedetect=n=-36dB:d=0.45", "-f", "null", "-"],
                        capture_output=True, text=True).stderr
@@ -107,6 +108,47 @@ def plan(cid):
         x0 = int(min(max(cx - fx * w, 0), 1920 - w))
         out_shots.append(dict(src=[round(a, 3), round(b, 3)], crop=[w, h, x0, y0], z=z))
         face_y.append((cy - y0) * 1920 / h)      # pusat muka dalam frame output (untuk PiP hook)
+    return segs, out_shots, face_y, out_t, total
+
+
+def precut_shots(cid, C, words):
+    """Footage 9:16 yang sudah dipotong pengguna (config "precut": true): tiada buang senyap.
+    Shot = potongan asal pengguna (config "cuts", saat sumber); shot > 7s dipecah pada hujung frasa.
+    Komposisi asal pengguna dikekalkan (ruang banner di bawah sudah disediakan): tiada zum/anjakan, hanya
+    gerakan halus push-in / push-out 3% bersilih supaya tiada shot statik."""
+    a0, b0 = C["start"], C["end"]
+    segs = [[a0, b0]]
+    edges = [a0] + [t for t in C.get("cuts", []) if a0 + 0.5 < t < b0 - 0.5] + [b0]
+    ends = [w["end"] for w in words]
+    shots = []
+    for a, b in zip(edges, edges[1:]):
+        cur = a
+        while b - cur > 7.0:
+            cands = [e for e in ends if 3.5 <= e - cur <= 6.0 and b - e > 2.0]
+            if not cands:
+                break
+            pref = [e for e in cands if any(abs(w["end"] - e) < 1e-6 and w["word"][-1:] in ",.?" for w in words)]
+            cut = (pref or cands)[len(pref or cands) // 2] + 0.04
+            shots.append([cur, cut]); cur = cut
+        shots.append([cur, b])
+    faces = [f for f in json.load(open(f"{WORK}/{cid}_faces.json")) if f["box"]]
+    out_shots, face_y = [], []
+    for k, (a, b) in enumerate(shots):
+        fs = [f["box"] for f in faces if a <= f["t"] <= b] or [f["box"] for f in faces]
+        cy = st.median(y + h / 2 for x, y, w, h in fs)
+        z = 1.0                                     # komposisi asal pengguna dikekalkan (tiada zum / anjakan)
+        w, h, x0, y0 = 1080, 1920, 0, 0
+        move = "push" if k % 2 == 0 else "pull"
+        out_shots.append(dict(src=[round(a, 3), round(b, 3)], crop=[w, h, x0, y0], z=z, move=move))
+        face_y.append((cy - y0) * 1920 / h)
+    total = round(b0 - a0, 3)
+    return segs, out_shots, face_y, (lambda t: max(0.0, t - a0)), total
+
+
+def plan(cid):
+    C = cfg(cid); CTA = C["cta"]
+    words = [w for w in load_words(cid) if C["start"] <= w["start"] < C["end"]]
+    segs, out_shots, face_y, out_t, total = (precut_shots if C.get("precut") else edl_shots)(cid, C, words)
 
     # 4. Cue B-roll -> masa output
     src_mapped = [dict(w, start=round(out_t(w["start"]), 3), end=round(out_t(w["end"]), 3)) for w in words]
@@ -188,7 +230,7 @@ def vo(cid):
 
 
 def render(cid):
-    P = json.load(open(f"{WORK}/{cid}.plan.json"))
+    cfg(cid); P = json.load(open(f"{WORK}/{cid}.plan.json"))
     for c in P["cues"]:
         out = f"{WORK}/{c['name']}.mp4"
         if c["tpl"] == "footage":
@@ -200,6 +242,10 @@ def render(cid):
                             f"--props={WORK}/{c['name']}.json", "--log=error"], cwd=REMOTION, check=True)
             continue
         tpl = f"{BROLL}/templates/{c['tpl']}.html"
+        if c["tpl"] == "kinetic":                  # tipografi kinetik lutsinar (ditindih atas host)
+            d = json.load(open(f"{WORK}/{c['name']}.json")); d.update(alpha=True, fps=FPS)
+            json.dump(d, open(f"{WORK}/{c['name']}.json", "w"), ensure_ascii=False)
+            out = out[:-4] + ".mov"
         subprocess.run(["node", f"{BROLL}/tools/render.mjs", tpl, f"{WORK}/{c['name']}.json", out], check=True)
 
 
@@ -215,6 +261,13 @@ FOOT_MOVE = {"zoom-in": ("1+0.08*on/{n}", "{fx}*(iw-iw/zoom)", "{fy}*(ih-ih/zoom
              "pan-right": ("1.1", "(iw-iw/zoom)*(1-on/{n})", "{fy}*(ih-ih/zoom)"),
              "pan-up": ("1.1", "{fx}*(iw-iw/zoom)", "(ih-ih/zoom)*on/{n}"),
              "pan-down": ("1.1", "{fx}*(iw-iw/zoom)", "(ih-ih/zoom)*(1-on/{n})")}
+
+
+# Gerakan halus shot host (mod precut), d = tempoh shot: push-in 0->3% atau push-out 3%->0, komposisi asal kekal
+MOVES = {"push": "scale=w='trunc(1080*(1+0.03*t/{d})/2)*2':h='trunc(1920*(1+0.03*t/{d})/2)*2':eval=frame:flags=bicubic,"
+                 "crop=1080:1920:(iw-1080)/2:(ih-1920)*0.3,setsar=1",
+         "pull": "scale=w='trunc(1080*(1.03-0.03*t/{d})/2)*2':h='trunc(1920*(1.03-0.03*t/{d})/2)*2':eval=frame:flags=bicubic,"
+                 "crop=1080:1920:(iw-1080)/2:(ih-1920)*0.3,setsar=1"}
 
 
 def footage(data_file, out):
@@ -424,12 +477,20 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 
     # kapsyen terkumpul: perkataan muncul satu demi satu dalam kumpulan 1-4, kemudian reset
     lines = []
+    H = C["hook"] or {}
+    if H.get("text"):
+        # hook bertulis (config hook.text = [baris 1, baris 2]): kuning besar di atas sepanjang hook,
+        # kapsyen ucapan bermula selepas hook
+        l1, l2 = H["text"]
+        lines.append(f"Dialogue: 1,{ass_time(0)},{ass_time(P['hook_end'])},Hook,,0,0,0,,"
+                     + r"{\an8\pos(540,430)\fad(120,150)\fs90}" + l1 + r"\N{\fs66}" + l2)
+        caps = [c for c in caps if c[0]["start"] >= P["hook_end"] - 0.05]
     for k, c in enumerate(caps):
         a = c[0]["start"]
         nxt = caps[k + 1][0]["start"] if k + 1 < len(caps) else P["total"] + 0.3
         b = nxt if nxt - c[-1]["end"] < 0.45 else c[-1]["end"] + 0.2
         b = min(max(b, a + 0.25), nxt) if nxt > a else b
-        hook = a < P.get("hook_end", 0)
+        hook = a < P.get("hook_end", 0) and not H.get("text")
         style, pos = ("Hook", r"{\an8\pos(540,460)}") if hook else ("Cap", r"{\pos(540,1356)}")
         for j in range(len(c)):
             s = a if j == 0 else max(a, c[j]["start"])
@@ -469,7 +530,7 @@ def assemble(cid):
            "-i", f"{WORK}/streak0.png", "-i", f"{WORK}/streak1.png", "-i", f"{WORK}/pipmask.png"]
     B0 = 7                                         # indeks input B-roll pertama
     for c in P["cues"]:
-        inp += ["-i", f"{WORK}/{c['name']}.mp4"]
+        inp += ["-i", f"{WORK}/{c['name']}.{'mov' if c['tpl'] == 'kinetic' else 'mp4'}"]
     fc = []
     vs, as_ = [], []
     acc = 0.0
@@ -478,25 +539,27 @@ def assemble(cid):
         # bilangan frame ikut masa audio kumulatif tepat -> tiada drift A/V terkumpul (maks 1/2 frame)
         nfr = round((acc + b - a) * FPS) - round(acc * FPS); acc += b - a
         fc.append(f"[0:v]trim=start={a}:end={b + 0.1},setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
+                  f"{MOVES[s['move']].format(d=b - a) + ',' if s.get('move') else ''}"
                   f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS[v{k}]")
         fc.append(f"[0:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={b - a - (0.08 if k == len(P["shots"]) - 1 else 0.012):.3f}:d={0.08 if k == len(P["shots"]) - 1 else 0.012}[a{k}]")
         vs.append(f"[v{k}]"); as_.append(f"[a{k}]")
     n = len(P["shots"])
     fc.append("".join(v + a for v, a in zip(vs, as_)) + f"concat=n={n}:v=1:a=1[vc][ac]")
     # gred host v2: warna asal studio (ungu/hijau), kulit hangat, kontras sederhana, vignette ringan
+    # config "grade": rantai penapis ffmpeg ganti gred lalai (cth. Ep7: hitam dalam, kulit hangat, vignette pada muka)
+    grade = C.get("grade") or "eq=contrast=1.05:saturation=1.04,colorbalance=rm=0.025:gm=0.005:bm=-0.02,vignette=angle=PI/5"
     fc.append(f"[vc]tpad=stop_mode=clone:stop_duration={total - P['total'] + 0.5},"
-              "eq=contrast=1.05:saturation=1.04,"
-              "colorbalance=rm=0.025:gm=0.005:bm=-0.02,"
-              "vignette=angle=PI/5,noise=alls=4:allf=t,format=yuv420p[vg]")
+              f"{grade},noise=alls=4:allf=t,format=yuv420p[vg]")
     pip = [c for c in P["cues"] if c.get("pip") is not None]
     if pip:
         hd = pip[0]["dur"]
         fc.append("[vg]split=2[vgm][vgp]")
         fc.append(f"[vgp]trim=end={hd},setpts=PTS-STARTPTS,crop=1080:540:0:{pip[0]['pip']},scale=900:450,format=yuva420p[pp0]")
         fc.append("[6:v]format=gray[pm];[pp0][pm]alphamerge[pp]")
-        fc.append("[vgm][1:v]overlay=0:0[vt]")
+        fc.append("[vgm][1:v]overlay=0:0[vt]" if C.get("topfade", True) else "[vgm]null[vt]")
     else:
-        fc.append("[vg][1:v]overlay=0:0[vt]")
+        # gradien gelap atas hanya untuk footage yang ada logo asal (config "topfade": false -> komposisi asal)
+        fc.append("[vg][1:v]overlay=0:0[vt]" if C.get("topfade", True) else "[vg]null[vt]")
     last = "[vt]"
     for i, c in enumerate(P["cues"]):
         t, d = c["t"], c["dur"]
@@ -505,6 +568,14 @@ def assemble(cid):
             fin = f"fade=t=in:st=0:d=0.3:alpha=1," if c.get("trans") == "dissolve" else ""
             fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"
                       f"setpts=PTS-STARTPTS+{t}/TB[b{i}]")
+        elif c["tpl"] == "kinetic":
+            # host di bawah teks: blur + gelap, masuk/keluar beransur 0.35s
+            fc.append(f"{last}split[k{i}a][k{i}b];[k{i}b]trim=start={t}:end={t + d},setpts=PTS-STARTPTS,gblur=sigma=16,"
+                      f"eq=brightness=-0.16:saturation=0.75,format=yuva420p,fade=t=in:d=0.35:alpha=1,"
+                      f"fade=t=out:st={max(0, d - 0.35):.3f}:d=0.35:alpha=1,setpts=PTS-STARTPTS+{t}/TB[k{i}c];"
+                      f"[k{i}a][k{i}c]overlay=0:0:eof_action=pass[k{i}d]")
+            last = f"[k{i}d]"
+            fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         else:
             fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         fc.append(f"{last}[b{i}]overlay=0:0:eof_action=pass:enable='between(t,{t},{t + d - 0.02})'[o{i}]")
@@ -527,6 +598,18 @@ def assemble(cid):
     fc.append(f"[2:a]volume=0.075,aformat=channel_layouts=stereo[mu]")
     fc.append(f"[3:a]volume=0.55,aformat=channel_layouts=stereo[fx]")
     fc.append(f"[vo][mu][fx]amix=inputs=3:normalize=0:duration=first,atrim=duration={total}[mix]")
+    stills = os.environ.get("STILLS")              # STILLS="3.2,12,40": screencap satu frame (overlay penuh), tiada render video
+    if stills:
+        ts = [float(x) for x in stills.split(",")]
+        sel = "+".join(f"eq(n,{round(t * FPS)})" for t in ts)
+        fc.append(f"movie={REPO}/template/overlay_1080x1920.png[ov];[vout][ov]overlay=0:0,select='{sel}'[vs];[ac]anullsink")
+        open(f"{WORK}/{cid}.fc.txt", "w").write(";\n".join(x for x in fc if not x.startswith(("[ac]", "[2:a]", "[3:a]", "[vo]"))))
+        subprocess.run(["ffmpeg", "-v", "error", "-y", *inp, "-filter_complex_script", f"{WORK}/{cid}.fc.txt",
+                        "-map", "[vs]", "-fps_mode", "passthrough", "-frames:v", str(len(ts)), f"{WORK}/{cid}_still_%02d.png"], check=True)
+        for k, t in enumerate(ts, 1):
+            os.replace(f"{WORK}/{cid}_still_{k:02d}.png", f"{WORK}/{cid}_t{t:05.1f}.png")
+            print(f"{WORK}/{cid}_t{t:05.1f}.png")
+        return
     open(f"{WORK}/{cid}.fc.txt", "w").write(";\n".join(fc))
     pre = f"{WORK}/{cid}_pre.mp4"
     if not os.environ.get("MASTER_ONLY"):          # MASTER_ONLY=1: ulang master audio sahaja
@@ -593,7 +676,8 @@ def capture(cid):
 
 
 def final(cid):
-    subprocess.run([f"{REPO}/template/apply_overlay.sh", f"{WORK}/{cid}_pre.mp4", f"{WORK}/{cid}_final.mp4"],
+    cfg(cid)
+    subprocess.run([f"{REPO}/template/apply_overlay.sh", f"{WORK}/{cid}_pre.mp4", f"{WORK}/{cid}_final.mp4", str(FPS)],
                    check=True, capture_output=True)
     print("ok", f"{WORK}/{cid}_final.mp4")
 
