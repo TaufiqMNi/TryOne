@@ -61,7 +61,8 @@
   "dur": 3.0,
   "text": [
    "Satu ayat Bible",
-   "di-spin untuk sokong Israel"
+   "di-spin untuk",
+   "sokong Israel"
   ],
   "image": "ep7/img/bible.jpg",
   "grade": "sepia",
@@ -201,5 +202,11 @@
    "trans": "dissolve"
   }
  ],
- "topfade": false
+ "topfade": false,
+ "soft_caps": true,
+ "music": {
+  "file": "work/music/crime_investigation_1646362.mp3",
+  "volume": 0.1,
+  "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
+ }
 }

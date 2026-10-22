@@ -54,7 +54,8 @@
   "dur": 3.4,
   "text": [
    "Kristian Palestin",
-   "dimusuhi Kristian Zionis?"
+   "dimusuhi",
+   "Kristian Zionis?"
   ],
   "image": "ep7/img/nativity.jpg",
   "grade": "color",
@@ -160,5 +161,11 @@
    "trans": "dissolve"
   }
  ],
- "topfade": false
+ "topfade": false,
+ "soft_caps": true,
+ "music": {
+  "file": "work/music/crime_investigation_1646362.mp3",
+  "volume": 0.1,
+  "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
+ }
 }

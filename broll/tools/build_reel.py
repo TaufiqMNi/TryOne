@@ -181,7 +181,8 @@ def plan(cid):
         # sfx: "soft" (lalai, SFX halus setiap B-roll) | "hit" (peralihan besar) | "none"
         # trans: "flash" (lalai) | "dissolve" (crossfade double-exposure) | "streak" (glitch streak putih) | "cut"
         cues.append(dict(name=f"{cid}_b{n}", t=round(max(0.0, t0), 3), dur=round(dur, 2), tpl=q["tpl"], data=q["data"],
-                         source=q.get("source"), sfx=q.get("sfx", "soft"), riser=q.get("riser", False), trans=q.get("trans", "flash")))
+                         source=q.get("source"), sfx=q.get("sfx", "soft"), riser=q.get("riser", False), trans=q.get("trans", "flash"),
+                         hold=bool(q.get("until_end"))))
     H = C["hook"]
     if H:   # hook 0-dur: B-roll bertekstur penuh skrin + host dalam kad PiP + kapsyen kuning besar di atas
         pip_y = int(min(max(face_y[0] - 270, 0), 1920 - 540))
@@ -362,7 +363,13 @@ def audio(cid):
     rng = np.random.default_rng(1)
     n = int(total * SR) + SR
     music = np.zeros(n); sfx = np.zeros(n)
-    b = bed(total); music[:len(b)] += b
+    M = cfg(cid).get("music")
+    if M:   # fail muzik pengguna: ulang/potong ikut tempoh, fade out 2s di hujung
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-stream_loop", "-1", "-i", os.path.join(BROLL, M["file"]), "-t", f"{total:.3f}",
+                        "-af", f"afade=t=in:d=0.3,afade=t=out:st={max(0, total - 2):.3f}:d=2", "-ar", str(SR), "-ac", "2",
+                        f"{WORK}/{cid}_music.wav"], check=True)
+    else:
+        b = bed(total); music[:len(b)] += b
 
     def put(sig, t):
         i = int(t * SR)
@@ -378,7 +385,7 @@ def audio(cid):
             put(swell(rng), c["t"] - .3)
         if c["riser"]:
             put(riser(rng), c["t"] - 1.6)
-    for name, sig in (("music", music), ("sfx", sfx)):
+    for name, sig in ((("sfx", sfx),) if M else (("music", music), ("sfx", sfx))):
         x = np.clip(sig, -1, 1)
         with wave.open(f"{WORK}/{cid}_{name}.wav", "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR)
@@ -458,15 +465,17 @@ WrapStyle: 2
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Cap,Inter ExtraBold,66,&H00FFFFFF,&H00FFFFFF,&H64000000,&H8C000000,1,0,0,0,100,100,-2,0,1,2,4,5,60,60,0,1
-Style: Hook,Inter ExtraBold,104,&H0000D4FF,&H0000D4FF,&H64000000,&H8C000000,1,0,0,0,100,100,-3,0,1,2,5,8,60,60,0,1
+{{STYLES}}
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 """
-    def fmt(ws, hook):
+    def fmt(ws, hook, pop=None):
         # Inggeris & Arab: italic (putih); hook: baris 1 besar, selebihnya baris 2 lebih kecil
         parts = [(r"{\i1}" + w["txt"] + r"{\i0}") if w["eng"] or w["arab"] else w["txt"] for w in ws]
+        if pop:   # perkataan baru "pop" masuk: pudar + skala 75% -> 106% -> 100% (pop = alfa sasaran lapisan)
+            parts[-1] = (r"{\1a&HFF&\fscx75\fscy75\t(0,80,\1a&H" + pop + r"&\fscx106\fscy106)\t(80,160,\fscx100\fscy100)}"
+                         + parts[-1])
         if not hook:
             return " ".join(parts)
         n1, width = 0, 0
@@ -475,15 +484,50 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         line2 = " ".join(parts[n1:])
         return " ".join(parts[:n1]) + (r"\N{\fs72}" + line2 if line2 else "")
 
+    # config "soft_caps" (Ep7): Inter Bold, jarak huruf -1, tiada stroke, bayang lembut kabur (lapisan bayang
+    # berasingan dengan \blur), setiap perkataan baru animasi pop. Lalai: gaya v2 (Inter ExtraBold + outline).
+    soft = C.get("soft_caps")
+    if soft:
+        STYLES = ("Style: Cap,Inter,66,&H00FFFFFF,&H00FFFFFF,&H00000000,&H00000000,1,0,0,0,100,100,-1,0,1,0,0,5,60,60,0,1\n"
+                  "Style: Hook,Inter,104,&H0000D4FF,&H0000D4FF,&H00000000,&H00000000,1,0,0,0,100,100,-1,0,1,0,0,8,60,60,0,1\n"
+                  "Style: CapSh,Inter,66,&H6E000000,&H6E000000,&H00000000,&H00000000,1,0,0,0,100,100,-1,0,1,0,0,5,60,60,0,1\n"
+                  "Style: HookSh,Inter,104,&H5A000000,&H5A000000,&H00000000,&H00000000,1,0,0,0,100,100,-1,0,1,0,0,8,60,60,0,1")
+    else:
+        STYLES = ("Style: Cap,Inter ExtraBold,66,&H00FFFFFF,&H00FFFFFF,&H64000000,&H8C000000,1,0,0,0,100,100,-2,0,1,2,4,5,60,60,0,1\n"
+                  "Style: Hook,Inter ExtraBold,104,&H0000D4FF,&H0000D4FF,&H64000000,&H8C000000,1,0,0,0,100,100,-3,0,1,2,5,8,60,60,0,1")
+    head = head.replace("{STYLES}", STYLES)
+
+    def emit(s_, e_, style, x, y, tags, text_fn):
+        """Satu kapsyen; soft: lapisan bayang kabur (offset 5px) di bawah teks tanpa stroke."""
+        if soft:
+            lines.append(f"Dialogue: 0,{ass_time(s_)},{ass_time(e_)},{style}Sh,,0,0,0,,"
+                         + "{" + f"\\pos({x},{y + 5})\\blur9" + tags + "}" + text_fn("6E" if style == "Cap" else "5A"))
+            lines.append(f"Dialogue: 1,{ass_time(s_)},{ass_time(e_)},{style},,0,0,0,,"
+                         + "{" + f"\\pos({x},{y})" + tags + "}" + text_fn("00"))
+        else:
+            lines.append(f"Dialogue: 0,{ass_time(s_)},{ass_time(e_)},{style},,0,0,0,,"
+                         + "{" + f"\\pos({x},{y})" + tags + "}" + text_fn(None))
+
     # kapsyen terkumpul: perkataan muncul satu demi satu dalam kumpulan 1-4, kemudian reset
     lines = []
     H = C["hook"] or {}
     if H.get("text"):
         # hook bertulis (config hook.text = [baris 1, baris 2]): kuning besar di atas sepanjang hook,
         # kapsyen ucapan bermula selepas hook
-        l1, l2 = H["text"]
-        lines.append(f"Dialogue: 1,{ass_time(0)},{ass_time(P['hook_end'])},Hook,,0,0,0,,"
-                     + r"{\an8\pos(540,430)\fad(120,150)\fs90}" + l1 + r"\N{\fs66}" + l2)
+        if soft:
+            # Ep7: Inter Black, saiz seragam terbesar yang muat lebar 960px (maks 150px), satu baris setiap item
+            from PIL import ImageFont
+            def width(sz):
+                f = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-Black.otf", sz)
+                return max(f.getlength(t) - sz * 0.01 * (len(t) - 1) for t in H["text"])
+            fs = 150
+            while fs > 60 and width(fs) > 960:
+                fs -= 2
+            emit(0, P["hook_end"], "Hook", 540, 400, r"\an8\fad(120,150)\fnInter Black\b0\fs" + str(fs),
+                 lambda _a: r"\N".join(H["text"]))
+        else:
+            l1, l2 = H["text"]
+            emit(0, P["hook_end"], "Hook", 540, 430, r"\an8\fad(120,150)\fs90", lambda _a: l1 + r"\N{\fs66}" + l2)
         caps = [c for c in caps if c[0]["start"] >= P["hook_end"] - 0.05]
     for k, c in enumerate(caps):
         a = c[0]["start"]
@@ -491,13 +535,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
         b = nxt if nxt - c[-1]["end"] < 0.45 else c[-1]["end"] + 0.2
         b = min(max(b, a + 0.25), nxt) if nxt > a else b
         hook = a < P.get("hook_end", 0) and not H.get("text")
-        style, pos = ("Hook", r"{\an8\pos(540,460)}") if hook else ("Cap", r"{\pos(540,1356)}")
+        style, x, y, tags = ("Hook", 540, 460, r"\an8") if hook else ("Cap", 540, 1356, "")
         for j in range(len(c)):
             s = a if j == 0 else max(a, c[j]["start"])
             e = b if j == len(c) - 1 else min(b, c[j + 1]["start"])
             if e - s < 0.02:
                 continue
-            lines.append(f"Dialogue: 0,{ass_time(s)},{ass_time(e)},{style},,0,0,0,,{pos}{fmt(c[:j + 1], hook)}")
+            emit(s, e, style, x, y, tags, lambda al, ws=c[:j + 1], hk=hook: fmt(ws, hk, al if soft else None))
     open(f"{WORK}/{cid}.ass", "w").write(head + "\n".join(lines) + "\n")
     return len(caps)
 
@@ -566,7 +610,8 @@ def assemble(cid):
         if c["tpl"] in ("photo", "footage"):
             # B-roll penuh skrin: fade alpha (dissolve = crossfade double-exposure 0.3s), keluar crossfade 0.2s
             fin = f"fade=t=in:st=0:d=0.3:alpha=1," if c.get("trans") == "dissolve" else ""
-            fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"
+            fout = "" if c.get("hold") else f"fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"   # penutup: kekal hingga akhir
+            fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}{fout}"
                       f"setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         elif c["tpl"] == "kinetic":
             # host di bawah teks: blur + gelap, masuk/keluar beransur 0.35s
@@ -595,7 +640,7 @@ def assemble(cid):
     # audio: VO bersih + bed + SFX, kemudian master
     fc.append("[ac]highpass=f=70,acompressor=threshold=-20dB:ratio=3:attack=5:release=120:makeup=2,"
               f"apad=whole_dur={total},aresample=48000,aformat=channel_layouts=stereo[vo]")
-    fc.append(f"[2:a]volume=0.075,aformat=channel_layouts=stereo[mu]")
+    fc.append(f"[2:a]volume={(C.get('music') or {}).get('volume', 0.075)},aformat=channel_layouts=stereo[mu]")
     fc.append(f"[3:a]volume=0.55,aformat=channel_layouts=stereo[fx]")
     fc.append(f"[vo][mu][fx]amix=inputs=3:normalize=0:duration=first,atrim=duration={total}[mix]")
     stills = os.environ.get("STILLS")              # STILLS="3.2,12,40": screencap satu frame (overlay penuh), tiada render video
