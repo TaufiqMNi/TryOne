@@ -1,0 +1,158 @@
+{
+ "_nota": "Podcast Bumi Merdeka EP6 (https://youtu.be/YDWJADGp3OU) — klip 00:52:14-00:53:45, perjanjian damai Gaza",
+ "src": "work/footage/ep6_c2.mp4",
+ "speaker_side": "left",
+ "start": 0.0,
+ "end": 91.04,
+ "articles": {
+  "art_gn": [
+   "https://gulfnews.com/world/mena/seven-nations-unite-to-join-trump-led-board-of-peace-in-push-to-end-humanitarian-crisis-1.500416367",
+   "Saudi Arabia, Turkey, Egypt, Jordan, Indonesia, Pakistan and Qatar have accepted an invitation"
+  ]
+ },
+ "src_windows": [
+  [
+   "lā yaḍurruhum",
+   "khālafahum."
+  ]
+ ],
+ "tail_words": [
+  [
+   "menunggang",
+   -0.54,
+   -0.1
+  ]
+ ],
+ "cues": [
+  {
+   "phrase": "Board of Peace ni,",
+   "dur": 2.6,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Board of Peace",
+     "Jan 2026"
+    ],
+    "highlight": "Jan 2026",
+    "full": true
+   },
+   "sfx": "hit"
+  },
+  {
+   "phrase": "lā yaḍurruhum",
+   "pre": 0.3,
+   "until_phrase": "khālafahum.",
+   "post": 0.5,
+   "tpl": "card",
+   "data": {
+    "kind": "hadith",
+    "arabic": [
+     "لَا يَضُرُّهُمْ مَنْ خَذَلَهُمْ،",
+     "وَلَا مَنْ خَالَفَهُمْ"
+    ],
+    "lines": [],
+    "source": "HR al-Bukhari, no. 3641",
+    "full": true
+   },
+   "sfx": "hit",
+   "riser": true
+  },
+  {
+   "phrase": "sebuah keluarga besar",
+   "dur": 3.0,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Bapa saudara",
+     "vs",
+     "anak yatim"
+    ],
+    "highlight": "anak yatim",
+    "full": true
+   }
+  },
+  {
+   "phrase": "mereka buat keputusan",
+   "dur": 3.0,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Gaza buat",
+     "keputusan",
+     "sendiri"
+    ],
+    "highlight": "sendiri",
+    "full": true
+   }
+  },
+  {
+   "phrase": "negara-negara Islam yang masuk",
+   "dur": 4.5,
+   "tpl": "highlight",
+   "data": "art_gn",
+   "source": "Gulf News, 21 Jan 2026"
+  },
+  {
+   "phrase": "siapa jadi kuda",
+   "until_end": true,
+   "tpl": "card",
+   "data": {
+    "kind": "title",
+    "lines": [
+     "Siapa jadi kuda,",
+     "siapa",
+     "menunggang?"
+    ],
+    "highlight": "menunggang?",
+    "full": true
+   },
+   "sfx": "hit",
+   "riser": true
+  }
+ ],
+ "english": [
+  "stand",
+  "solid",
+  "Board of Peace"
+ ],
+ "proper": [
+  "Gaza",
+  "Israel",
+  "Islam",
+  "Allah",
+  "SWT",
+  "Nabi",
+  "SAW",
+  "Board",
+  "Peace"
+ ],
+ "groups": [
+  "Allah SWT",
+  "Nabi SAW"
+ ],
+ "arabic": [
+  "lā",
+  "yaḍurruhum",
+  "man",
+  "khadhalahum",
+  "wa",
+  "khālafahum"
+ ],
+ "cta": {
+  "dur": 2.4,
+  "tpl": "card",
+  "data": {
+   "kind": "cta",
+   "lines": [
+    "cuba korang",
+    "share"
+   ],
+   "highlight": "share",
+   "full": true
+  },
+  "sfx": "hit"
+ }
+}
