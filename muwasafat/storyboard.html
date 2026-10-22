@@ -1,0 +1,258 @@
+<title>Storyboard Muwasafat Muslim</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@0,700;1,600;1,800&family=Special+Elite&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Amiri:wght@700&display=swap">
+<style>
+/* Layout: one long sheet of teal graph paper; each scene is a 9:16 sketch frame pinned beside its production notes. */
+:root{
+  --paper:#efeee6; --grid:rgba(52,128,122,.16); --ink:#15120f; --ink-soft:#4a4540;
+  --yellow:#e9c510; --red:#e5383b; --card:#fbfaf4; --rule:rgba(21,18,15,.14);
+  --f-display:"Anton","Impact","Arial Narrow",sans-serif;
+  --f-serif:"Playfair Display","Georgia",serif;
+  --f-body:"Libre Caslon Text","Georgia",serif;
+  --f-type:"Special Elite","Courier New",monospace;
+  --f-arab:"Amiri","Scheherazade New","Traditional Arabic",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:31px 31px;
+  color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+}
+.wrap{max-width:1040px;margin:0 auto;padding-block:40px 80px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.kicker{font-family:var(--f-type);text-transform:uppercase;letter-spacing:.14em;font-size:12.5px;color:var(--ink-soft)}
+header{display:grid;gap:14px;margin-bottom:36px}
+h1{font-family:var(--f-serif);font-style:italic;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1.02;margin:0;text-wrap:balance}
+h1 .hl{background:linear-gradient(transparent 52%,var(--yellow) 52%,var(--yellow) 92%,transparent 92%);padding:0 .08em}
+.lede{max-width:62ch;margin:0;color:var(--ink-soft)}
+.specs{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.chip{font-family:var(--f-type);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--card);border:1px solid var(--rule);padding:5px 10px;box-shadow:1px 2px 0 rgba(21,18,15,.08)}
+h2{font-family:var(--f-serif);font-style:italic;font-weight:800;font-size:28px;margin:56px 0 14px;text-wrap:balance}
+.scenes{display:grid;gap:26px}
+.scene{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:24px;align-items:start;
+  background:var(--card);padding:18px;border:1px solid var(--rule);box-shadow:2px 4px 0 rgba(21,18,15,.07)}
+.scene:nth-child(odd){transform:rotate(-.25deg)} .scene:nth-child(even){transform:rotate(.25deg)}
+@media (prefers-reduced-motion:reduce){.scene{transform:none!important}}
+.frame{width:100%;max-width:230px;aspect-ratio:9/16;display:block;border:1.5px solid var(--ink);background:var(--paper)}
+.meta{display:grid;gap:10px;min-width:0}
+.meta-top{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+.num{font-family:var(--f-display);font-size:34px;line-height:1}
+.time{font-family:var(--f-type);font-size:13px;background:var(--ink);color:var(--paper);padding:2px 8px;letter-spacing:.06em}
+.name{font-family:var(--f-type);text-transform:uppercase;letter-spacing:.12em;font-size:12.5px;color:var(--ink-soft)}
+.vo{font-family:var(--f-serif);font-style:italic;font-weight:600;font-size:19px;line-height:1.35;margin:0;border-left:3px solid var(--yellow);padding-left:12px}
+dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 14px;margin:0;font-size:15px}
+dt{font-family:var(--f-type);text-transform:uppercase;letter-spacing:.1em;font-size:11.5px;color:var(--ink-soft);padding-top:3px}
+dd{margin:0}
+.new{font-family:var(--f-type);font-size:11px;letter-spacing:.1em;color:var(--red);border:1px solid var(--red);padding:1px 6px;text-transform:uppercase}
+.script{background:var(--card);border:1px solid var(--rule);padding:22px 24px;display:grid;gap:12px;max-width:760px}
+.script p{margin:0;font-family:var(--f-serif);font-style:italic;font-weight:600;font-size:18px;line-height:1.45}
+.script p.cta{border-top:1px dashed var(--rule);padding-top:12px}
+.tbl{overflow-x:auto;background:var(--card);border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font-family:var(--f-type);text-transform:uppercase;letter-spacing:.1em;font-size:11.5px;color:var(--ink-soft);font-weight:400}
+tr.pick td:first-child{box-shadow:inset 4px 0 0 var(--yellow)}
+td b{font-weight:700}
+.checks{display:grid;gap:10px;max-width:760px;padding:0;margin:0;list-style:none}
+.checks li{background:var(--card);border:1px solid var(--rule);padding:12px 16px 12px 44px;position:relative}
+.checks li::before{content:"";position:absolute;left:16px;top:16px;width:14px;height:14px;border:1.5px solid var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--ink-soft);margin-bottom:16px}
+.sw{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;border:1px solid var(--rule)}
+@media (max-width:640px){
+  .scene{grid-template-columns:minmax(0,1fr)}
+  .frame{max-width:250px;margin:0 auto}
+}
+</style>
+
+<!-- shared SVG defs -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="g" width="25" height="25" patternUnits="userSpaceOnUse">
+      <path d="M25 0H0V25" fill="none" stroke="#34807a" stroke-opacity=".22" stroke-width=".7"/>
+    </pattern>
+    <radialGradient id="vig" cx="50%" cy="50%" r="72%">
+      <stop offset="62%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity=".28"/>
+    </radialGradient>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="1.5" dy="3" stdDeviation="2" flood-color="#15120f" flood-opacity=".28"/></filter>
+    <marker id="ah" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#e5383b" stroke-width="2"/></marker>
+    <marker id="am" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10" fill="none" stroke="#4a4540" stroke-width="1.6"/></marker>
+    <clipPath id="photoClip"><path d="M10 12 Q60 2 118 8 L126 150 Q70 158 6 152 Z"/></clipPath>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <span class="kicker">Storyboard · Video faceless · Draf 1</span>
+    <h1>Muwasafat Muslim: <span class="hl">intro siri</span></h1>
+    <p class="lede">Sepuluh scene, lebih kurang 50 saat, gaya Vox kertas-kolaj vertical (Look D · Kinetic). Setiap kad tunjuk lakaran frame, ayat VO, apa muncul di skrin, gerakan dan bunyi. Masa ialah anggaran. Aku akan kunci setiap gerakan pada masa perkataan sebenar selepas VO dijana.</p>
+    <div class="specs">
+      <span class="chip">9:16 · 1080×1920</span><span class="chip">~50 s · 30 fps</span>
+      <span class="chip">Look D · Kinetic vertical</span><span class="chip">VO ElevenLabs · lelaki santai</span>
+      <span class="chip">SFX kertas / pop / pen</span><span class="chip">Tanpa muzik</span>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span><i class="sw" style="background:#efeee6"></i>Kertas grid teal</span>
+    <span><i class="sw" style="background:#e9c510"></i>Kotak / highlighter kuning</span>
+    <span><i class="sw" style="background:#e5383b"></i>Pen merah (bulatan, anak panah, coretan)</span>
+    <span><span style="font-family:var(--f-type);color:#4a4540">→ kelabu</span> = nota gerakan, tak muncul dalam video</span>
+  </div>
+
+  <section class="scenes" id="scenes"></section>
+
+  <h2>Skrip VO akhir</h2>
+  <div class="script">
+    <p>Korang pernah tak dengar orang cakap... "Dia ni baik, tapi macam ada benda kuranglah." Haa, tahu tak sebenarnya untuk jadi seorang Muslim yang solid dan seimbang, kita ada 10 tanda penanda aras yang digelar Muwasafat Muslim?</p>
+    <p>Muwasafat Muslim ni diasaskan oleh Imam Hassan Al-Banna untuk petunjuk diri kita. Dia bukan sekadar pasal solat cukup 5 waktu je tau, tapi merangkumi bab stamina fizikal, emosi, pengurusan masa, sampai lah bab perniagaan! Dalam siri ni, kita nak check satu per satu: korang dah unlocked berapa daripada 10 ciri ni?</p>
+    <p>Sebab kadang-kadang kita ingat kita dah okey, tapi bila bab jaga masa atau jaga emosi, berterabur. Jadi siri video ni bukannya nak judge sesiapa, tapi sama-sama nak upgrade diri kita jadi "Muslim 2.0" yang lebih mantap!</p>
+    <p class="cta"><span class="new">Baru · CTA</span> Follow untuk episod pertama: Salimul Aqidah!</p>
+  </div>
+
+  <h2>Penjana suara Bahasa Melayu percuma</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Tool</th><th>Kos</th><th>Kualiti BM</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr class="pick"><td><b>ElevenLabs</b> (pilihan korang, dah connect)</td><td>Free ~10k aksara/bulan</td><td>Paling natural, boleh nada santai</td><td>Skrip ni ~700 aksara, jadi muat banyak kali cuba. Pelan free tiada lesen komersial; kalau channel dimonetize, naik ke pelan Starter.</td></tr>
+        <tr><td><b>Edge TTS</b> (ms-MY-OsmanNeural)</td><td>Percuma sepenuhnya</td><td>Jelas tapi formal</td><td>Suara Microsoft. Boleh dijana terus dengan timing perkataan. Sesuai sebagai backup.</td></tr>
+        <tr><td><b>TTSMaker</b></td><td>Percuma, ada had harian</td><td>Sederhana</td><td>Web sahaja. Guna suara Melayu yang sama dengan Edge, dibungkus dalam laman web.</td></tr>
+        <tr><td><b>Rakam sendiri</b></td><td>Percuma</td><td>Paling autentik</td><td>Loghat "korang", "okey" paling hidup. Aku boleh sync animasi pada rakaman korang.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Tolong semak sebelum aku jana</h2>
+  <ul class="checks">
+    <li><b>Turutan scene &amp; visual.</b> Ada scene nak tukar, buang atau tambah?</li>
+    <li><b>Ayat CTA.</b> "Follow untuk episod pertama: Salimul Aqidah!" Okey, atau nak ayat lain?</li>
+    <li><b>Sebutan "Muslim 2.0".</b> AI mungkin baca "dua titik kosong" atau "two point oh". Korang nak sebutan mana? Teks di skrin kekal "2.0".</li>
+    <li><b>Scene 5.</b> "Solat" diberi tanda ✓ dan kurungan, bukan dicoret, supaya mesejnya "solat asas, tapi ada lagi". Setuju?</li>
+    <li><b>Scene 4.</b> Foto Imam Hassan Al-Banna diambil dari link Drive korang dan dijadikan cut-out hitam-putih dengan rim kertas.</li>
+  </ul>
+</div>
+
+<script>
+const IMG = "data:image/jpeg;base64,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";
+const P = '#efeee6', INK = '#15120f', Y = '#e9c510', R = '#e5383b', S = '#4a4540';
+const base = (inner, roll=0) => `<rect width="270" height="480" fill="${P}"/><rect width="270" height="480" fill="url(#g)"/>
+  <g transform="rotate(${roll} 135 240)">${inner}</g><rect width="270" height="480" fill="url(#vig)"/>`;
+const kick = (x,y,t,a='middle') => `<text x="${x}" y="${y}" text-anchor="${a}" font-family="Special Elite,Courier New,monospace" font-size="11" letter-spacing="2" fill="${INK}">${t}</text>`;
+const note = (x,y,t,a='start') => `<text x="${x}" y="${y}" text-anchor="${a}" font-family="Special Elite,Courier New,monospace" font-size="8.5" fill="${S}">${t}</text>`;
+const anton = (x,y,t,s,fill=INK,a='middle') => `<text x="${x}" y="${y}" text-anchor="${a}" font-family="Anton,Impact,sans-serif" font-size="${s}" fill="${fill}">${t}</text>`;
+const serif = (x,y,t,s,a='middle') => `<text x="${x}" y="${y}" text-anchor="${a}" font-family="Playfair Display,Georgia,serif" font-style="italic" font-weight="800" font-size="${s}" fill="${INK}">${t}</text>`;
+const torn = (x,y,w,h,fill='#fbfaf4') => { let d=`M${x} ${y+3}`; for(let i=1;i<=10;i++) d+=` L${x+w*i/10} ${y+(i%2?0:4)}`;
+  d+=` L${x+w} ${y+h-3}`; for(let i=9;i>=0;i--) d+=` L${x+w*i/10} ${y+h-(i%2?0:4)}`; return `<path d="${d}Z" fill="${fill}" filter="url(#sh)"/>`; };
+const lock = (x,y,open=false) => `<g transform="translate(${x} ${y})"><rect x="-17" y="-20" width="34" height="40" fill="#fbfaf4" filter="url(#sh)"/>
+  <path d="M-6 -2 V${open?-14:-8} a6 6 0 0 1 12 0 ${open?'':'V-2'}" fill="none" stroke="${INK}" stroke-width="2.2" ${open?'transform="translate(5 -3)"':''}/>
+  <rect x="-9" y="-2" width="18" height="14" rx="2" fill="${open?Y:INK}"/></g>`;
+const meter = (y,open) => { let s=''; for(let i=0;i<10;i++){ const cx=40+(i%5)*47.5, cy=y+(i<5?0:54)+(i%2?10:0); s+=lock(cx,cy,open&&i===0); } return s; };
+const icon = {
+  dumbbell:`<g stroke="${INK}" stroke-width="3" fill="${INK}"><rect x="-22" y="-10" width="7" height="20"/><rect x="15" y="-10" width="7" height="20"/><line x1="-15" y1="0" x2="15" y2="0"/></g>`,
+  heart:`<path d="M0 12 C-22 -2 -14 -16 0 -6 C14 -16 22 -2 0 12Z" fill="${R}"/>`,
+  clock:`<circle r="14" fill="none" stroke="${INK}" stroke-width="2.6"/><path d="M0 -8V0L6 4" stroke="${INK}" stroke-width="2.4" fill="none"/>`,
+  coins:`<g fill="${Y}" stroke="${INK}" stroke-width="1.6"><ellipse cx="-5" cy="6" rx="12" ry="5"/><ellipse cx="-5" cy="1" rx="12" ry="5"/><ellipse cx="6" cy="-4" rx="12" ry="5"/></g>`
+};
+const scrap = (x,y,ic,label,rot) => `<g transform="translate(${x} ${y}) rotate(${rot})">${torn(-38,-32,76,64)}<g transform="translate(0 -6)">${icon[ic]}</g>${kick(0,22,label).replace('font-size="11"','font-size="9"')}</g>`;
+
+const scenes = [
+ { t:'0:00–0:04', n:'Hook · soalan', vo:'Korang pernah tak dengar orang cakap...',
+   screen:'Kicker taip "KORANG PERNAH DENGAR?" + cebisan kertas belon cakap kosong.',
+   motion:'Teks pop-typing, satu huruf ikut suara. Belon kertas slide masuk dari kanan (expo.out 1 s). Kamera push perlahan.',
+   sfx:'Kertas slide, taip', svg: base(`${kick(135,96,'KORANG PERNAH')}${serif(135,150,'dengar',46)}${serif(135,196,'orang cakap...',28)}
+     ${torn(42,250,190,110)}<path d="M80 356 L66 388 L108 358" fill="#fbfaf4"/>${anton(137,322,'· · ·',40,S)}
+     <path d="M252 300 H236" stroke="${S}" marker-end="url(#am)"/>${note(16,450,'→ belon slide masuk, kamera push')}`, -1.2) },
+ { t:'0:04–0:08', n:'Petikan', vo:'"Dia ni baik, tapi macam ada benda kuranglah."',
+   screen:'Petikan serif italik dalam belon kertas. Bulatan pen merah pada "kurang". Kepingan puzzle dengan satu lubang.',
+   motion:'Perkataan muncul satu-satu. Bulatan pen dilukis (stroke) tepat pada "kurang". Kepingan hilang bergegar sikit.',
+   sfx:'Pen scribble', svg: base(`${torn(26,90,218,160)}
+     ${serif(135,140,'"Dia ni baik,',24)}${serif(135,172,'tapi macam ada',22)}${serif(135,210,'benda kurang lah."',22)}
+     <ellipse cx="138" cy="203" rx="40" ry="19" fill="none" stroke="${R}" stroke-width="2.6" transform="rotate(-6 138 203)"/>
+     <g transform="translate(135 330)"><rect x="-60" y="-40" width="56" height="56" fill="${INK}"/><rect x="2" y="-40" width="56" height="56" fill="${INK}"/><rect x="-60" y="22" width="56" height="56" fill="${INK}"/>
+     <rect x="2" y="22" width="56" height="56" fill="none" stroke="${R}" stroke-width="2" stroke-dasharray="5 4"/>${anton(30,60,'?',26,R)}</g>
+     ${note(16,450,'→ pen merah lukis bulatan pada "kurang"')}`, 1) },
+ { t:'0:08–0:14', n:'Tajuk siri', vo:'Haa, tahu tak... untuk jadi Muslim yang solid dan seimbang, kita ada 10 tanda penanda aras yang digelar Muwasafat Muslim?',
+   screen:'Hero "10" besar. Kotak kuning wipe pada MUWASAFAT MUSLIM. Khat مواصفات المسلم di bawah.',
+   motion:'"10" slam dengan squash (back.out). "PENANDA ARAS" taip. Kotak kuning wipe 0.4 s tepat pada "Muwasafat". Khat naik dari mask.',
+   sfx:'Thump, pop', svg: base(`${kick(135,52,'10 TANDA PENANDA ARAS')}${anton(135,228,'10',160)}
+     <rect x="24" y="248" width="222" height="58" fill="${Y}"/>${anton(135,292,'MUWASAFAT',44)}${anton(135,350,'MUSLIM',44)}
+     <text x="135" y="410" text-anchor="middle" font-family="Amiri,serif" font-weight="700" font-size="34" fill="${INK}">مواصفات المسلم</text>
+     ${note(16,450,'→ "10" slam, kotak kuning wipe kiri→kanan')}`, -1.6) },
+ { t:'0:14–0:19', n:'Pengasas', vo:'Muwasafat Muslim ni diasaskan oleh Imam Hassan Al-Banna untuk petunjuk diri kita.',
+   screen:'Foto cut-out hitam-putih Imam Hassan Al-Banna dengan rim kertas putih dan garis kuning tebal. Tag taip "IMAM HASSAN AL-BANNA". Anak panah merah ke "PETUNJUK DIRI".',
+   motion:'Foto naik dari bawah (expo.out 1.6 s) dengan roll kecil. Tag stamp pada nama disebut. Anak panah dilukis pada "petunjuk".',
+   sfx:'Foto rise, tag stamp', photo:true, svg: base(`
+     <g transform="translate(70 60) rotate(-3)">
+       <path d="M10 12 Q60 2 118 8 L126 150 Q70 158 6 152 Z" fill="none" stroke="${Y}" stroke-width="16" stroke-linejoin="round" filter="url(#sh)"/>
+       <path d="M10 12 Q60 2 118 8 L126 150 Q70 158 6 152 Z" fill="#fff" stroke="#fff" stroke-width="7" stroke-linejoin="round"/>
+       <image href="${IMG}" x="4" y="2" width="124" height="162" preserveAspectRatio="xMidYMin slice" clip-path="url(#photoClip)"/>
+     </g>
+     <g transform="translate(135 262) rotate(2)"><rect x="-104" y="-17" width="208" height="30" fill="${INK}" filter="url(#sh)"/>
+       <text x="0" y="4" text-anchor="middle" font-family="Special Elite,monospace" font-size="12.5" letter-spacing="1.6" fill="${P}">IMAM HASSAN AL-BANNA</text></g>
+     <path d="M70 300 C60 340 90 360 120 366" fill="none" stroke="${R}" stroke-width="2.6" marker-end="url(#ah)"/>
+     ${serif(190,376,'petunjuk diri',24)}
+     ${note(16,450,'→ foto naik dari bawah, tag stamp')}`, 1.4) },
+ { t:'0:19–0:28', n:'Skop luas', vo:'Dia bukan sekadar pasal solat cukup 5 waktu je tau, tapi merangkumi bab stamina fizikal, emosi, pengurusan masa, sampai lah bab perniagaan!',
+   screen:'"BUKAN SEKADAR" + "SOLAT 5 WAKTU ✓" dalam kurungan merah. Empat cebisan kertas: dumbel, hati, jam, syiling.',
+   motion:'Kurungan merah dilukis. Setiap cebisan pop (back.out) tepat pada perkataannya: fizikal → emosi → masa → perniagaan. Kamera pan turun.',
+   sfx:'4× pop', svg: base(`${kick(135,62,'BUKAN SEKADAR')}${anton(135,112,'SOLAT 5 WAKTU ✓',34)}
+     <path d="M22 76 Q14 98 22 122" fill="none" stroke="${R}" stroke-width="2.6"/><path d="M248 76 Q256 98 248 122" fill="none" stroke="${R}" stroke-width="2.6"/>
+     ${serif(135,160,'tapi juga...',20)}
+     ${scrap(78,220,'dumbbell','FIZIKAL',-4)}${scrap(192,226,'heart','EMOSI',3)}${scrap(80,318,'clock','MASA',2)}${scrap(190,322,'coins','BISNES',-3)}
+     ${note(16,450,'→ 4 cebisan pop ikut perkataan')}`, -1) },
+ { t:'0:28–0:34', n:'Meter checklist', vo:'Dalam siri ni, kita nak check satu per satu: korang dah unlocked berapa daripada 10 ciri ni?',
+   screen:'Meter "?/10 UNLOCKED". 10 slot berkunci zig-zag. Bulatan pen merah pada "?".',
+   motion:'Slot masuk satu-satu (stagger 0.15 s) ikut "satu per satu". "?/10" taip. Bulatan pen pada "unlocked". Roll ±2°.',
+   sfx:'Klik mangga ×10', svg: base(`${kick(135,70,'MUWASAFAT MUSLIM')}${anton(135,160,'?/10',90)}
+     <ellipse cx="86" cy="128" rx="30" ry="42" fill="none" stroke="${R}" stroke-width="2.6" transform="rotate(8 86 128)"/>
+     <rect x="70" y="182" width="130" height="24" fill="${Y}"/>${kick(135,199,'UNLOCKED')}
+     ${meter(270,false)}${note(16,450,'→ 10 mangga masuk satu-satu')}`, 2) },
+ { t:'0:34–0:39', n:'Realiti', vo:'Sebab kadang-kadang kita ingat kita dah okey, tapi bila bab jaga masa atau jaga emosi, berterabur.',
+   screen:'"DAH OKEY ✓" tegak. Kemudian jam dan hati jatuh, huruf "BERTERABUR" bersepah.',
+   motion:'"Dah okey" mendarat kemas. Pada "berterabur" huruf berpecah ke arah rawak (seeded), clock 10 fps beri rasa stop-motion.',
+   sfx:'Kertas renyuk', svg: base(`${kick(135,70,'KITA INGAT KITA...')}${anton(135,136,'DAH OKEY ✓',52)}
+     <g transform="translate(64 210) rotate(-24)">${icon.clock}</g><g transform="translate(210 200) rotate(30)">${icon.heart}</g>
+     ${[['B',40,300,-14],['E',66,322,10],['R',92,296,-6],['T',116,330,18],['E',140,300,-20],['R',164,326,8],['A',186,296,-10],['B',208,334,22],['U',230,302,-16],['R',246,340,12]]
+       .map(([c,x,y,r])=>`<text x="${x}" y="${y}" transform="rotate(${r} ${x} ${y})" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="32" fill="${INK}">${c}</text>`).join('')}
+     <path d="M30 360 Q135 384 248 362" fill="none" stroke="${R}" stroke-width="2" stroke-dasharray="4 5"/>
+     ${note(16,450,'→ huruf bersepah, ikon jatuh')}`, -2) },
+ { t:'0:39–0:45', n:'Niat siri', vo:'Jadi siri video ni bukannya nak judge sesiapa, tapi sama-sama nak upgrade diri kita...',
+   screen:'"JUDGE" dicoret pen merah. "UPGRADE" dengan kotak kuning.',
+   motion:'Coretan merah dilukis pada "judge". Rack-focus blur tukar ke "UPGRADE". Kotak kuning wipe, anak panah naik.',
+   sfx:'Pen strike, whoosh', svg: base(`${kick(135,80,'BUKAN NAK')}${anton(135,150,'JUDGE',62,S)}
+     <path d="M48 128 L224 118" stroke="${R}" stroke-width="5" stroke-linecap="round"/>
+     ${kick(135,226,'TAPI SAMA-SAMA NAK')}<rect x="30" y="246" width="210" height="76" fill="${Y}"/>${anton(135,308,'UPGRADE',62)}
+     <path d="M232 386 V346" stroke="${R}" stroke-width="2.6" marker-end="url(#ah)"/>
+     ${note(16,450,'→ coret "judge", wipe kuning "upgrade"')}`, 1.2) },
+ { t:'0:45–0:48', n:'Klimaks', vo:'...jadi "Muslim 2.0" yang lebih mantap!',
+   screen:'Hero "MUSLIM 2.0". Progress bar penuh di bawah.',
+   motion:'Huruf naik dari mask (char-rise, 28 ms stagger). Bar wipe 0 → 100 %. Kamera push 1.0 → 1.15.',
+   sfx:'Rise + pop', svg: base(`${kick(135,120,'VERSI BARU')}${anton(135,210,'MUSLIM',74)}${anton(135,300,'2.0',96)}
+     <rect x="35" y="338" width="200" height="18" fill="none" stroke="${INK}" stroke-width="2"/><rect x="38" y="341" width="194" height="12" fill="${Y}"/>
+     ${kick(135,378,'LEBIH MANTAP')}${note(16,450,'→ bar penuh, kamera push masuk')}`, 0) },
+ { t:'0:48–0:52', n:'CTA', vo:'Follow untuk episod pertama: Salimul Aqidah!', isNew:true,
+   screen:'Meter kembali. Slot 1 terbuka (kuning), 9 lagi berkunci. Tag "EP 1 · SALIMUL AQIDAH" + "FOLLOW".',
+   motion:'Mangga slot 1 terbuka dengan bounce. Tag stamp. "FOLLOW" taip, kotak kuning. Hold 1 s sebelum loop.',
+   sfx:'Unlock chime', svg: base(`${anton(135,96,'1/10',70)}${kick(135,126,'UNLOCKED')}
+     ${meter(180,true)}
+     <g transform="translate(135 312) rotate(-2)"><rect x="-110" y="-20" width="220" height="34" fill="${INK}" filter="url(#sh)"/>
+       <text x="0" y="3" text-anchor="middle" font-family="Special Elite,monospace" font-size="12.5" letter-spacing="1.4" fill="${P}">EP 1 · SALIMUL AQIDAH</text></g>
+     <rect x="72" y="352" width="126" height="40" fill="${Y}"/>${anton(135,384,'FOLLOW',30)}
+     ${note(16,450,'→ slot 1 terbuka, tag stamp')}`, 1.5) }
+];
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+document.getElementById('scenes').innerHTML = scenes.map((s,i)=>`
+  <article class="scene">
+    <svg class="frame" viewBox="0 0 270 480" role="img" aria-label="Lakaran scene ${i+1}: ${esc(s.n)}">${s.svg}</svg>
+    <div class="meta">
+      <div class="meta-top"><span class="num">${String(i+1).padStart(2,'0')}</span><span class="time">${s.t}</span><span class="name">${esc(s.n)}</span>${s.isNew?'<span class="new">Baru</span>':''}</div>
+      <p class="vo">${esc(s.vo)}</p>
+      <dl><dt>Skrin</dt><dd>${esc(s.screen)}</dd><dt>Gerakan</dt><dd>${esc(s.motion)}</dd><dt>SFX</dt><dd>${esc(s.sfx)}</dd></dl>
+    </div>
+  </article>`).join('');
+</script>
