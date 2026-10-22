@@ -28,6 +28,10 @@ FPS = 30
 def cfg(cid):
     global FPS
     C = json.load(open(f"{BROLL}/reels/{cid}.json"))
+    if C.get("preset"):                          # template gaya (template/presets/<nama>.json); config reel mengatasi
+        pre = json.load(open(f"{REPO}/template/presets/{C['preset']}.json"))
+        C = {**{k: v for k, v in pre.items() if not k.startswith("_")}, **C}
+        C["proper"] = sorted(set(pre.get("proper", [])) | set(C.get("proper", [])))   # nama khas: gabung, bukan ganti
     C["src"] = os.path.join(BROLL, C["src"])
     FPS = C.get("fps", 30)                       # footage precut 25fps -> kekal 25 (elak frame berganda)
     C.setdefault("cta", None)                    # v2: tiada kad CTA lalai; penutup = B-roll terang (until_end)

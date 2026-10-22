@@ -1,0 +1,43 @@
+{
+ "_nama": "PODCAST BUMI MERDEKA",
+ "_versi": "1.0 (22 Okt 2026, diluluskan pada EP7 Short 01)",
+ "_nota": "Preset gaya edit. Config reel: \"preset\": \"PODCAST_BUMI_MERDEKA\" — medan dalam config reel mengatasi preset.",
+ "precut": true,
+ "fps": 25,
+ "topfade": false,
+ "soft_caps": true,
+ "grade": "eq=contrast=1.07:saturation=1.06,scale=in_range=tv:out_range=pc,format=gbrp,curves=master='0/0 0.08/0.05 0.25/0.23 0.5/0.53 0.8/0.85 1/0.98',colorbalance=rs=-0.025:bs=0.035:rm=0.012:bm=-0.012,vignette=angle=PI/6:x0=w/2:y0=h*0.3,unsharp=5:5:0.5",
+ "speaker_side": "left",
+ "music": {
+  "file": "work/music/crime_investigation_1646362.mp3",
+  "volume": 0.1,
+  "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — muat turun dari Drive pengguna"
+ },
+ "proper": [
+  "Kristian",
+  "Zionis",
+  "Zionist",
+  "Arab",
+  "Barat",
+  "Palestin",
+  "Islam",
+  "Yahudi",
+  "Israel",
+  "Muslim",
+  "Nabi",
+  "Allah",
+  "SWT",
+  "SAW",
+  "Gaza",
+  "Al-Aqsa",
+  "Baitul",
+  "Maqdis",
+  "Tuhan",
+  "Amerika",
+  "Bani",
+  "I",
+  "The"
+ ],
+ "groups": [],
+ "arabic": []
+}

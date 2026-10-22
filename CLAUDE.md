@@ -1,8 +1,13 @@
 # Projek video pendek 9:16
 
+## Template tersimpan
+- **PODCAST BUMI MERDEKA** — lalai untuk klip Podcast Bumi Merdeka yang pengguna sudah potong sendiri:
+  `template/PODCAST_BUMI_MERDEKA.md` + preset `template/presets/PODCAST_BUMI_MERDEKA.json`
+  (config reel: `"preset": "PODCAST_BUMI_MERDEKA"`; skill `/podcast-bumi-merdeka`). Mengatasi STYLE_GUIDE v2.0 di mana berbeza.
+
 ## Peraturan tetap untuk SETIAP video
-1. Edit ikut gaya dalam `template/STYLE_GUIDE.md` (v2.0, dari video rujukan kedua).
-2. Output akhir: 1080x1920, 30fps, H.264, audio ~-8 LUFS.
+1. Edit ikut gaya dalam `template/STYLE_GUIDE.md` (v2.0, dari video rujukan kedua), atau template tersimpan di atas.
+2. Output akhir: 1080x1920, 30fps (template PODCAST BUMI MERDEKA: ikut fps footage), H.264, audio ~-8 LUFS.
 3. **Wajib** tampal overlay logo + banner sebagai layer paling atas:
    `template/apply_overlay.sh input.mp4 output.mp4`
    (overlay: `template/overlay_1080x1920.png`, kedudukan dalam `template/README.md`).
