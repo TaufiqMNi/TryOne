@@ -13,12 +13,11 @@ import mediapipe as mp
 import numpy as np
 
 NO_HAIR = "--no-hair" in sys.argv
-args = [a for a in sys.argv[1:] if a != "--no-hair"]
+BIREFNET = "--birefnet" in sys.argv     # BiRefNet-portrait (ONNX, ~20s/frame CPU): tepi kepala/bahu tepat, tiada tompok
+args = [a for a in sys.argv[1:] if a not in ("--no-hair", "--birefnet")]
 video, dur, out = args[0], float(args[1]), args[2]
 model = args[3] if len(args) > 3 else __file__.rsplit("/tools/", 1)[0] + "/work/models/selfie_multiclass_256x256.tflite"
 
-BIREFNET = "--birefnet" in sys.argv     # BiRefNet-portrait (ONNX, ~20s/frame CPU): tepi kepala/bahu tepat, tiada tompok
-args = [a for a in args if a != "--birefnet"]
 if BIREFNET:
     import onnxruntime as ort
     so = ort.SessionOptions(); so.enable_cpu_mem_arena = False; so.enable_mem_pattern = False   # elak memori membengkak
