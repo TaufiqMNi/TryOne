@@ -5,6 +5,7 @@ Hasil: video kelabu 1080x1920 (putih = orang), fps sama dengan sumber.
 Model: MediaPipe selfie_multiclass_256x256 (kelas 0 = latar) — muat turun ke work/models/ (lihat README).
 Tepi diperhalus guided filter (opencv-contrib) pada resolusi penuh + purata masa (EMA) supaya tiada kelip.
 """
+import os
 import subprocess
 import sys
 
@@ -46,7 +47,13 @@ for i in range(round(dur * fps) + 2):
     if not ok:
         break
     if BIREFNET:
-        m = cv2.GaussianBlur(birefnet(f).astype(np.float32), (0, 0), 0.8)
+        # cache setiap frame ke cakera: boleh sambung semula jika proses terhenti (container restart)
+        cp = f"{out}.frames/{i:04d}.png"
+        raw = cv2.imread(cp, cv2.IMREAD_GRAYSCALE)
+        if raw is None:
+            raw = (birefnet(f) * 255).astype(np.uint8)
+            os.makedirs(os.path.dirname(cp), exist_ok=True); cv2.imwrite(cp, raw)
+        m = cv2.GaussianBlur(raw.astype(np.float32) / 255, (0, 0), 0.8)
         prev = m if prev is None else 0.85 * m + 0.15 * prev
         ff.stdin.write((prev * 255).astype(np.uint8).tobytes())
         print(i, flush=True)
