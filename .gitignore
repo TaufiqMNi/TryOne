@@ -1,3 +1,4 @@
 projects/*/raw/
 projects/*/out/
 projects/*/fonts/
+__pycache__/
