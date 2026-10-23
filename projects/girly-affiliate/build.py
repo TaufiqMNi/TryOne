@@ -2,7 +2,7 @@
 
 Usage: python3 build.py            -> out/final.mp4
 Steps: cut + grade segments (ffmpeg) -> composite graphics per frame (Pillow)
-       -> synth SFX + music-box bed (numpy) -> mux.
+       -> synth SFX (numpy) -> mux.
 """
 import math
 import os
@@ -31,29 +31,29 @@ WHITE = (255, 255, 255)
 # src, start (s), output duration (s), speed, caption, emojis [(char, dx, dy, size, angle)], extra fx
 SEGMENTS = [
     dict(src="IMG_6889.MOV", ss=0.0, dur=2.6, speed=1.0,
-         text="kasut paling comel\nyang aku pernah beli",
+         text="obsessed gila\ndgn kasut ni",
          emojis=[("🥹", 380, -95, 120, 12), ("🎀", -400, -110, 110, -18)], fx=["hearts_burst"]),
     dict(src="IMG_6868.MOV", ss=0.6, dur=2.0, speed=1.0,
-         text="before: plain je...", emojis=[("😐", 330, -60, 100, 10)], fx=[]),
+         text="before: plain & boring...", emojis=[("😐", 330, -60, 100, 10)], fx=[]),
     dict(src="IMG_6875.MOV", ss=26.0, dur=2.6, speed=1.0,
-         text="after letak charms!!",
+         text="after letak charms,\nso cute!!",
          emojis=[("✨", -360, -80, 110, -10), ("💖", 360, -70, 110, 12)], fx=["sparkles", "chime"]),
     dict(src="IMG_6877.MOV", ss=0.0, dur=3.0, speed=1.0,
-         text="charms pink + ribbon\ncomel gila", emojis=[("🎀", 380, -100, 120, 15)], fx=[]),
+         text="charms pink + ribbon\nsuper comel", emojis=[("🎀", 380, -100, 120, 15)], fx=[]),
     dict(src="IMG_6890.MOV", ss=4.0, dur=3.0, speed=1.0,
-         text="ada bunga, hati &\nribbon gingham",
+         text="ada flower, heart &\nribbon gingham",
          emojis=[("🌸", -390, -100, 105, -12), ("💗", 390, -90, 100, 14)], fx=["sparkles"]),
     dict(src="IMG_6890.MOV", ss=0.0, dur=2.2, speed=1.0,
-         text="gummy bear berkilat", emojis=[("🧸", 380, -70, 110, 10)], fx=["sparkles"]),
-    dict(src="IMG_6889.MOV", ss=1.6, dur=2.6, speed=1.35,
-         text="strap boleh adjust\njadi mary jane",
+         text="gummy bear berkilat\ncute gila", emojis=[("🧸", 380, -70, 110, 10)], fx=["sparkles"]),
+    dict(src="IMG_6889.MOV", ss=10.0, dur=2.6, speed=1.0,
+         text="strap boleh adjust\njadi mary jane look",
          emojis=[("🥿", 390, -100, 115, 12), ("✨", -390, -95, 95, -10)], fx=["boing"]),
     dict(src="IMG_6876.MOV", ss=0.2, dur=2.6, speed=1.0,
-         text="pakai dgn stokin\npun cute!!", emojis=[("🧦", 370, -100, 115, 12)], fx=[]),
-    dict(src="IMG_6889.MOV", ss=21.6, dur=3.6, speed=1.0,
+         text="super ringan & selesa\npakai all day pun ok", emojis=[("☁️", 370, -100, 115, 12)], fx=[]),
+    dict(src="IMG_6889.MOV", ss=31.0, dur=3.6, speed=1.0,
          text="nak jugak?\ntekan beg kuning!",
          emojis=[("🛒", 390, -110, 120, 12), ("💕", -390, -100, 105, -12)],
-         fx=["cta", "sparkles", "hearts_burst", "chime"]),
+         fx=["cta", "sparkles", "hearts_burst"]),
 ]
 
 
@@ -158,24 +158,6 @@ def caption_card(text, size=88):
     return card
 
 
-def frame_border():
-    im = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    d.rounded_rectangle((10, 10, W - 10, H - 10), 60, outline=PINK_LIGHT + (255,), width=16)
-    d.rounded_rectangle((26, 26, W - 26, H - 26), 48, outline=WHITE + (230,), width=5)
-    # scalloped dots along the border
-    for x in range(80, W - 60, 46):
-        for y in (10, H - 10):
-            d.ellipse((x - 9, y - 9, x + 9, y + 9), fill=WHITE + (255,))
-    for y in range(80, H - 60, 46):
-        for x in (10, W - 10):
-            d.ellipse((x - 9, y - 9, x + 9, y + 9), fill=WHITE + (255,))
-    for (cx, cy, ang) in [(70, 70, -20), (W - 70, 70, 20), (70, H - 70, 20), (W - 70, H - 70, -20)]:
-        h = heart_sprite(64, PINK + (255,)).rotate(ang, expand=True, resample=Image.BICUBIC)
-        im.alpha_composite(h, (cx - h.width // 2, cy - h.height // 2))
-    return im
-
-
 def paste_center(base, sprite, cx, cy, scale=1.0, angle=0.0, alpha=1.0):
     if scale <= 0.01 or alpha <= 0.01:
         return
@@ -227,7 +209,6 @@ def read_frames(path, n):
 
 def render_video(segs):
     rng = random.Random(7)
-    border = frame_border()
     sparkle = sparkle_sprite(90)
     hearts = [heart_sprite(sz, c + (230,)) for sz in (40, 56, 72) for c in (PINK, PINK_LIGHT, WHITE)]
     arrow = Image.new("RGBA", (200, 230), (0, 0, 0, 0))
@@ -238,7 +219,7 @@ def render_video(segs):
     # ambient floating hearts across the whole video
     total = sum(n for _, n in segs)
     floaters = [dict(x=rng.uniform(60, W - 60), t0=rng.uniform(-120, total), spd=rng.uniform(2.2, 4.0),
-                     sp=rng.choice(hearts), ph=rng.uniform(0, 6.28)) for _ in range(14)]
+                     sp=rng.choice(hearts), ph=rng.uniform(0, 6.28)) for _ in range(8)]
 
     enc = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}",
                             "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-crf", "17", "-preset", "medium",
@@ -247,7 +228,7 @@ def render_video(segs):
     for si, (path, n) in enumerate(segs):
         s = SEGMENTS[si]
         card = caption_card(s["text"], 96 if "cta" in s["fx"] else 88)
-        cap_y = 1180 if "cta" in s["fx"] else 360
+        cap_y = 640 if "cta" in s["fx"] else 360
         emo = [(emoji_sprite(c, sz), dx, dy, ang) for (c, dx, dy, sz, ang) in s["emojis"]]
         sparks = [(rng.uniform(140, W - 140), rng.uniform(700, 1500), rng.uniform(0.6, 1.2), rng.uniform(0, 6.28))
                   for _ in range(7)]
@@ -311,7 +292,6 @@ def render_video(segs):
                 b = 26 * abs(math.sin((f - 12) / 6))
                 paste_center(im, arrow, 230, 1480 + b, scale=ease_out_back((f - 12) / 8), angle=-28)
 
-            im.alpha_composite(border)
             enc.stdin.write(im.convert("RGB").tobytes())
             g += 1
     enc.stdin.close()
@@ -381,41 +361,9 @@ def sfx_ding():
     return out
 
 
-def music_box(total_s):
-    bpm = 112
-    beat = 60 / bpm
-    # cute C-major loop (MIDI notes, None = rest), eighth notes
-    mel = [72, 76, 79, 76, 81, 79, 76, None, 74, 77, 81, 77, 79, None, 76, None,
-           72, 76, 79, 84, 83, 79, 76, 74, 72, None, 79, None, 76, 74, 72, None]
-    bass = [48, 45, 41, 43]
-    out = np.zeros(int((total_s + 2) * SR))
-    t = 0.0
-    i = 0
-    while t < total_s:
-        m = mel[i % len(mel)]
-        if m is not None:
-            fr = 440 * 2 ** ((m - 69) / 12)
-            tn = tone(fr, 0.9, 0.22, (1, 0.0, 0.18, 0.0)) * 0.2
-            o = int(t * SR)
-            out[o:o + len(tn)] += tn[:len(out) - o]
-        if i % 8 == 0:
-            b = bass[(i // 8) % len(bass)]
-            fr = 440 * 2 ** ((b - 69) / 12)
-            tn = tone(fr, 1.6, 0.5, (1, 0.3)) * 0.14
-            o = int(t * SR)
-            out[o:o + len(tn)] += tn[:len(out) - o]
-        t += beat / 2
-        i += 1
-    fade = int(1.2 * SR)
-    end = int(total_s * SR)
-    out[end - fade:end] *= np.linspace(1, 0, fade)
-    out[end:] = 0
-    return out
-
-
 def render_audio(total_frames):
     total_s = total_frames / FPS
-    mix = music_box(total_s) * 0.8
+    mix = np.zeros(int((total_s + 2) * SR))  # SFX only; trending sound gets added in-app
 
     def add(sig, at, gain=1.0):
         o = int(at * SR)
