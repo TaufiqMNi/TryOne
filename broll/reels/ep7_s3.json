@@ -64,14 +64,7 @@
    "di-spin untuk",
    "sokong Israel"
   ],
-  "image": "ep7/img/bible.jpg",
-  "grade": "sepia",
-  "texture": [
-   "grain",
-   "paper"
-  ],
-  "motion": "zoom-in",
-  "filter": "sepia(0.55) brightness(0.42) contrast(1.15)"
+  "style": "host"
  },
  "english": [
   "support",

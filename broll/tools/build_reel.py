@@ -188,16 +188,25 @@ def plan(cid):
                          source=q.get("source"), sfx=q.get("sfx", "soft"), riser=q.get("riser", False), trans=q.get("trans", "flash"),
                          hold=bool(q.get("until_end"))))
     H = C["hook"]
-    if H:   # hook 0-dur: B-roll bertekstur penuh skrin + host dalam kad PiP + kapsyen kuning besar di atas
+    # hook.style: "pip" (lalai: B-roll penuh + host dalam kad PiP) | "bgswap" (host penuh, latar studio diganti B-roll)
+    #             | "type" (tipografi kinetik atas B-roll gelap, tiada host) | "host" (wajah host terus, teks hook slam)
+    hs = (H or {}).get("style", "pip")
+    if H and hs != "host":
         pip_y = int(min(max(face_y[0] - 270, 0), 1920 - 540))
         cues.insert(0, dict(name=f"{cid}_hook", t=0.0, dur=H["dur"], tpl=H.get("tpl", "photo"),
-                            data={k: v for k, v in H.items() if k not in ("dur", "tpl")}, source=None, sfx="hit",
-                            riser=False, trans="cut", pip=pip_y))
+                            data={k: v for k, v in H.items() if k not in ("dur", "tpl", "style", "text", "kicker", "highlight", "size", "small")},
+                            source=None, sfx="hit", riser=False, trans="cut",
+                            pip=pip_y if hs == "pip" else None, bgswap=hs == "bgswap"))
+        if hs == "type":
+            cues.insert(1, dict(name=f"{cid}_hooktype", t=0.0, dur=H["dur"], tpl="kinetic", source=None, sfx="none",
+                                riser=False, trans="cut", data=dict(lines=H["text"], kicker=H.get("kicker"),
+                                                                    highlight=H.get("highlight"), size=H.get("size", 150),
+                                                                    small=H.get("small", []))))
     if CTA:
         cues.append(dict(name=f"{cid}_cta", t=round(total, 3), dur=CTA["dur"], tpl=CTA["tpl"], data=CTA["data"], sfx="hit",
                          riser=False, source=None, trans="flash"))
-    for a, b in zip(cues, cues[1:]):          # elak bertindih
-        if a["t"] + a["dur"] > b["t"] - 0.3 and b["name"] != f"{cid}_cta":
+    for a, b in zip(cues, cues[1:]):          # elak bertindih (lapisan hook boleh bertindih sesama sendiri)
+        if a["t"] + a["dur"] > b["t"] - 0.3 and b["name"] != f"{cid}_cta" and not b["name"].startswith(f"{cid}_hook"):
             a["dur"] = round(b["t"] - 0.3 - a["t"], 2)
 
     # 5. JSON data B-roll
@@ -235,7 +244,11 @@ def vo(cid):
 
 
 def render(cid):
-    cfg(cid); P = json.load(open(f"{WORK}/{cid}.plan.json"))
+    C = cfg(cid); P = json.load(open(f"{WORK}/{cid}.plan.json"))
+    for c in P["cues"]:
+        if c.get("bgswap"):                        # topeng orang untuk hook bgswap
+            subprocess.run(["python3", f"{BROLL}/tools/person_mask.py", C["src"], str(c["dur"] + 0.2),
+                            f"{WORK}/{cid}_hookmask.mp4"] + (["--no-hair"] if C["hook"].get("no_hair") else []), check=True)
     for c in P["cues"]:
         out = f"{WORK}/{c['name']}.mp4"
         if c["tpl"] == "footage":
@@ -527,8 +540,25 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             fs = 150
             while fs > 60 and width(fs) > 960:
                 fs -= 2
-            emit(0, P["hook_end"], "Hook", 540, 400, r"\an8\fad(120,150)\fnInter Black\b0\fs" + str(fs),
-                 lambda _a: r"\N".join(H["text"]))
+            hs = H.get("style", "pip")
+            base = r"\an8\fnInter Black\b0\fs" + str(fs)
+            y = 400 if hs == "pip" else 990            # host penuh skrin: teks di bawah muka (atas baju)
+            if hs == "host":
+                # slam perkataan demi perkataan: 140% -> 100%, pudar masuk 0.12s
+                ws = [(w, li) for li, t in enumerate(H["text"]) for w in t.split()]
+                step = min(0.22, 0.55 * P["hook_end"] / len(ws))
+                for k in range(len(ws)):
+                    def txt(al, k=k):
+                        out, prev_li = "", 0
+                        for j, (w, li) in enumerate(ws[:k + 1]):
+                            out += (r"\N" if li != prev_li else (" " if j else "")); prev_li = li
+                            out += (r"{\1a&HFF&\fscx140\fscy140\t(0,120,\1a&H" + al + r"&\fscx100\fscy100)}" + w
+                                    + r"{\fscx100\fscy100}") if j == k else w
+                        return out
+                    end = P["hook_end"] if k == len(ws) - 1 else 0.12 + (k + 1) * step
+                    emit(0.12 + k * step, end, "Hook", 540, y, base, txt)
+            elif hs != "type":                          # "type": teks hook dalam lapisan kinetik
+                emit(0, P["hook_end"], "Hook", 540, y, r"\fad(120,150)" + base, lambda _a: r"\N".join(H["text"]))
         else:
             l1, l2 = H["text"]
             emit(0, P["hook_end"], "Hook", 540, 430, r"\an8\fad(120,150)\fs90", lambda _a: l1 + r"\N{\fs66}" + l2)
@@ -579,6 +609,9 @@ def assemble(cid):
     B0 = 7                                         # indeks input B-roll pertama
     for c in P["cues"]:
         inp += ["-i", f"{WORK}/{c['name']}.{'mov' if c['tpl'] == 'kinetic' else 'mp4'}"]
+    swap = [c for c in P["cues"] if c.get("bgswap")]
+    if swap:
+        inp += ["-i", f"{WORK}/{cid}_hookmask.mp4"]
     fc = []
     vs, as_ = [], []
     acc = 0.0
@@ -599,7 +632,15 @@ def assemble(cid):
     fc.append(f"[vc]tpad=stop_mode=clone:stop_duration={total - P['total'] + 0.5},"
               f"{grade},noise=alls=4:allf=t,format=yuv420p[vg]")
     pip = [c for c in P["cues"] if c.get("pip") is not None]
-    if pip:
+    if swap:
+        # host penuh (gerakan sama dengan shot pertama) dipotong keluar guna topeng -> atas B-roll hook
+        hd, s0 = swap[0]["dur"], P["shots"][0]
+        mv = MOVES[s0["move"]].format(d=s0["src"][1] - s0["src"][0]) + "," if s0.get("move") else ""
+        fc.append("[vg]split=2[vgm][vgp]")
+        fc.append(f"[vgp]trim=end={hd},setpts=PTS-STARTPTS,format=yuva420p[pp0]")
+        fc.append(f"[{B0 + len(P['cues'])}:v]trim=end={hd},setpts=PTS-STARTPTS,fps={FPS},{mv}format=gray[pm];[pp0][pm]alphamerge[pp]")
+        fc.append("[vgm]null[vt]")
+    elif pip:
         hd = pip[0]["dur"]
         fc.append("[vg]split=2[vgm][vgp]")
         fc.append(f"[vgp]trim=end={hd},setpts=PTS-STARTPTS,crop=1080:540:0:{pip[0]['pip']},scale=900:450,format=yuva420p[pp0]")
@@ -617,6 +658,8 @@ def assemble(cid):
             fout = "" if c.get("hold") else f"fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"   # penutup: kekal hingga akhir
             fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}{fout}"
                       f"setpts=PTS-STARTPTS+{t}/TB[b{i}]")
+        elif c["tpl"] == "kinetic" and c["name"].endswith("_hooktype"):
+            fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")   # intro tipografi: B-roll di bawah kekal tajam
         elif c["tpl"] == "kinetic":
             # host di bawah teks: blur + gelap, masuk/keluar beransur 0.35s
             fc.append(f"{last}split[k{i}a][k{i}b];[k{i}b]trim=start={t}:end={t + d},setpts=PTS-STARTPTS,gblur=sigma=16,"
@@ -629,8 +672,9 @@ def assemble(cid):
             fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         fc.append(f"{last}[b{i}]overlay=0:0:eof_action=pass:enable='between(t,{t},{t + d - 0.02})'[o{i}]")
         last = f"[o{i}]"
-        if c.get("pip") is not None:
-            fc.append(f"{last}[pp]overlay=90:1000:eof_action=pass:enable='between(t,0,{d - 0.02})'[o{i}p]")
+        if c.get("pip") is not None or c.get("bgswap"):
+            xy = "0:0" if c.get("bgswap") else "90:1000"
+            fc.append(f"{last}[pp]overlay={xy}:eof_action=pass:enable='between(t,0,{d - 0.02})'[o{i}p]")
             last = f"[o{i}p]"
     for i, c in enumerate(c for c in P["cues"] if c.get("trans") == "streak"):
         for k in range(2):

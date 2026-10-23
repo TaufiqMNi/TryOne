@@ -67,7 +67,9 @@
   "focus": {
    "x": 0.5,
    "y": 0.5
-  }
+  },
+  "style": "bgswap",
+  "no_hair": true
  },
  "english": [
   "mindset",

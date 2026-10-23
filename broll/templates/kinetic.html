@@ -25,7 +25,7 @@
 // Tipografi kinetik sinematik (Ep7, ganti kad ungu): latar lutsinar, ditindih atas footage host yang digelap + blur
 // (tools/build_reel.py, tpl "kinetic"). Huruf masuk satu demi satu: jarak huruf lebar + blur -> tajam;
 // kata kunci emas dengan kilauan cahaya; garis emas dilukis dari tengah; zum perlahan; keluar blur + pudar.
-// DATA: { lines: [..], highlight?, kicker?, source?, duration, small?: [indeks baris lebih kecil] }
+// DATA: { lines: [..], highlight?, kicker?, source?, duration, small?: [indeks baris lebih kecil], size?: px }
 const D = window.DATA || {};
 window.DURATION = Math.max(1.5, D.duration || 2.6);
 const T = window.DURATION;
@@ -35,6 +35,7 @@ const chars = [];
 (D.lines || []).forEach((txt, li) => {
   const el = document.createElement('div');
   el.className = 'line' + ((D.small || []).includes(li) ? ' small' : '');
+  if (D.size) el.style.fontSize = `${(D.small || []).includes(li) ? D.size * 0.75 : D.size}px`;   // tajuk intro besar
   const lo = txt.toLowerCase(), h0 = hl ? lo.indexOf(hl) : -1;
   [...txt].forEach((c, i) => {
     const s = document.createElement('span');

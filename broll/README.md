@@ -86,3 +86,8 @@ Screencap satu frame sahaja — guna untuk semakan sebelum pengguna benarkan ren
 - Sesetengah laman sekat bot (cth. Reuters, Pexels) — guna sumber lain.
 - Footage berita berhak cipta: beri link + timestamp sahaja, muat turun manual.
 - `work/` tak masuk git.
+
+## Topeng orang (hook `bgswap`)
+`tools/person_mask.py` guna MediaPipe (`pip install mediapipe`, perlu `libegl1`) + model
+`selfie_multiclass_256x256.tflite` di `work/models/`:
+`curl -O https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite`

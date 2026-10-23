@@ -55,10 +55,8 @@
  "hook": {
   "dur": 2.9,
   "text": [
-   "Kenapa Zionis",
-   "obses dengan",
-   "Temple of",
-   "Solomon?"
+   "Temple",
+   "of Solomon"
   ],
   "image": "ep7/img/walls.jpg",
   "grade": "sepia",
@@ -66,7 +64,15 @@
    "grain",
    "paper"
   ],
-  "motion": "zoom-in"
+  "motion": "zoom-in",
+  "style": "type",
+  "kicker": "kenapa Zionis obses dengan",
+  "highlight": "Solomon",
+  "size": 150,
+  "filter": "sepia(0.55) brightness(0.62) contrast(1.25)",
+  "small": [
+   1
+  ]
  },
  "english": [
   "Temple of Solomon",
