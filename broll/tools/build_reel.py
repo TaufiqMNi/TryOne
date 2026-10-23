@@ -248,7 +248,8 @@ def render(cid):
     for c in P["cues"]:
         if c.get("bgswap"):                        # topeng orang untuk hook bgswap
             subprocess.run(["python3", f"{BROLL}/tools/person_mask.py", C["src"], str(c["dur"] + 0.2),
-                            f"{WORK}/{cid}_hookmask.mp4"] + (["--no-hair"] if C["hook"].get("no_hair") else []), check=True)
+                            f"{WORK}/{cid}_hookmask.mp4"] + (["--no-hair"] if C["hook"].get("no_hair") else [])
+                           + (["--birefnet"] if C["hook"].get("matting") == "birefnet" else []), check=True)
     for c in P["cues"]:
         out = f"{WORK}/{c['name']}.mp4"
         if c["tpl"] == "footage":

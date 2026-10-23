@@ -69,7 +69,7 @@
    "y": 0.5
   },
   "style": "bgswap",
-  "no_hair": true
+  "matting": "birefnet"
  },
  "english": [
   "mindset",
