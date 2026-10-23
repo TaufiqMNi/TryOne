@@ -132,18 +132,48 @@
   {
    "phrase": "mereka bina semula",
    "pre": 0.1,
-   "dur": 2.8,
-   "tpl": "photo",
+   "dur": 3.6,
+   "tpl": "map",
    "data": {
-    "image": "ep7/img/dome.jpg",
-    "grade": "color",
-    "texture": [
-     "grain"
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       35.2,
+       31.75
+      ],
+      "span": 6
+     },
+     {
+      "c": [
+       35.23,
+       31.775
+      ],
+      "span": 0.8
+     },
+     {
+      "c": [
+       35.2355,
+       31.7768
+      ],
+      "span": 0.16
+     }
     ],
-    "motion": "zoom-in",
-    "focus": {
-     "x": 0.5,
-     "y": 0.45
+    "markers": [
+     {
+      "ll": [
+       35.2355,
+       31.778
+      ],
+      "type": "ring",
+      "at": 2.4,
+      "label": "MASJID AL-AQSA"
+     }
+    ],
+    "big": {
+     "text": "BAITUL MAQDIS",
+     "sub": "tapak yang mereka mahu bina semula Temple",
+     "at": 2.2
     }
    }
   },

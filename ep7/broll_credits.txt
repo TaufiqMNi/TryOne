@@ -8,3 +8,13 @@ dome.jpg       Dome of the Rock — Mor Shani  https://unsplash.com/photos/O_ekv
 bible.jpg      Antique open book — Jametlene Reskp  https://unsplash.com/photos/KUg98UCg84s
 walls.jpg      Old City walls, Jerusalem — Levi Meir Clancy  https://unsplash.com/photos/7hy1bhuNEMc
 nativity.jpg   Church of the Nativity, Bethlehem — Jorge Fernández Salas  https://unsplash.com/photos/E_WkQKrU6dM
+
+Peta & imej satelit (Short 02, 03)
+- Sempadan negara: Natural Earth (domain awam) — https://www.naturalearthdata.com
+- Imej satelit: EOxCloudless 2016 by EOX IT Services GmbH (Contains modified Copernicus Sentinel data 2016), CC BY 4.0 — https://cloudless.eox.at
+
+Keratan berita / buku (Short 03)
+- The Hill, 12 Aug 2014, Edwin Black, "Christians United For Israel jumps to the forefront of pro-Israel groups"
+  https://digital-release.thehill.com/blogs/pundits-blog/international/214902-christians-united-for-israel-jumps-to-the-forefront-of-pro/
+- Stephen Spector, Evangelicals and Israel: The Story of American Christian Zionism (Oxford University Press, 2009)
+  https://academic.oup.com/book/7112/chapter/151627503

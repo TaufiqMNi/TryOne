@@ -36,7 +36,8 @@
 // Chromatic aberration ditambah semasa assemble (build_reel.py, config "chroma").
 // DATA: { duration, camera: [{c:[lon,lat], span:darjah_menegak}, ...] (keyframe, zum log-linear),
 //         theme?: "navy"|"light", highlight?: [{country, fill?|flag?, at}], markers?: [{ll, type:"dot"|"ring", color?, at, label?}],
-//         routes?: [{from, to, at, dur?, label?}], labels?: [{ll, text, at}], big?: {text, sub?, at, y?}, source? }
+//         routes?: [{from, to, at, dur?, label?}], labels?: [{ll, text, at}], big?: {text, sub?, at, y?}, source?,
+//         satellite?: [{img, bbox:[lon0,lat0,lon1,lat1]}] (dijana tools/sat_tiles.py) }
 const D = window.DATA || {};
 window.DURATION = Math.max(1.5, D.duration || 3);
 const T = window.DURATION;
@@ -61,10 +62,16 @@ function camAt(t) {
   return { c: [a.c[0] + (b.c[0] - a.c[0]) * u, a.c[1] + (b.c[1] - a.c[1]) * u],
            span: Math.exp(Math.log(a.span) + (Math.log(b.span) - Math.log(a.span)) * u) };
 }
-let landPaths = [], hlEls = [], mkEls = [], rtEls = [], lbEls = [];
+let satImgs = [], landPaths = [], hlEls = [], mkEls = [], rtEls = [], lbEls = [];
 function build() {
   const g = document.getElementById('g');
-  for (const f of world.features) landPaths.push([f, el('path', { class: 'land', fill: TH.land, stroke: TH.border, 'stroke-width': 1.2 })]);
+  // satelit (tools/sat_tiles.py): mozek kasar -> halus, sempadan negara nipis putih di atas
+  for (const L of (D.satellite || [])) satImgs.push([L, el('image', { href: (D.baseDir || '') + L.img, preserveAspectRatio: 'none',
+                                                                      style: 'filter: contrast(1.22) brightness(.8) saturate(1.15)' })]);
+  if ((D.satellite || []).length) document.getElementById('paper').style.opacity = .1;   // satelit: tekstur kertas ringan
+  const sat = (D.satellite || []).length > 0;
+  for (const f of world.features) landPaths.push([f, el('path', { class: 'land', fill: sat ? 'none' : TH.land,
+                                                                  stroke: sat ? 'rgba(255,255,255,.45)' : TH.border, 'stroke-width': sat ? 1.5 : 1.2 })]);
   (D.highlight || []).forEach((h, i) => {
     const f = world.features.find(f => [f.properties.ADMIN, f.properties.NAME, f.properties.NAME_LONG].includes(h.country));
     if (!f) throw new Error('negara tak jumpa: ' + h.country);
@@ -94,6 +101,10 @@ window.seek = t => {
   proj.rotate([0, 0]).center([0, 0]).translate([0, 0]).scale(1);
   const s = H / Math.abs(merY(c.c[1] + c.span / 2) - merY(c.c[1] - c.span / 2));
   proj.scale(s).center(c.c).translate([540, CY]);
+  for (const [L, im] of satImgs) {
+    const [x0, y0] = proj([L.bbox[0], L.bbox[3]]), [x1, y1] = proj([L.bbox[2], L.bbox[1]]);
+    Object.entries({ x: x0, y: y0, width: x1 - x0, height: y1 - y0 }).forEach(([k, v]) => im.setAttribute(k, v));
+  }
   for (const [f, p] of landPaths) p.setAttribute('d', path(f) || '');
   for (const [h, f, p] of hlEls) {
     const a = clamp((t - (h.at || 0)) / 0.5);
