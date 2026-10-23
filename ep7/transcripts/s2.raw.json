@@ -1,0 +1,966 @@
+[
+ {
+  "start": 0.0,
+  "end": 0.82,
+  "text": "Kepada Zionis pula.",
+  "words": [
+   {
+    "w": " Kepada",
+    "s": 0.0,
+    "e": 0.14
+   },
+   {
+    "w": " Zionis",
+    "s": 0.14,
+    "e": 0.62
+   },
+   {
+    "w": " pula.",
+    "s": 0.62,
+    "e": 0.82
+   }
+  ]
+ },
+ {
+  "start": 0.92,
+  "end": 2.04,
+  "text": "Temple of Solomon ni",
+  "words": [
+   {
+    "w": " Temple",
+    "s": 0.92,
+    "e": 1.28
+   },
+   {
+    "w": " of",
+    "s": 1.28,
+    "e": 1.5
+   },
+   {
+    "w": " Solomon",
+    "s": 1.5,
+    "e": 1.76
+   },
+   {
+    "w": " ni",
+    "s": 1.76,
+    "e": 2.04
+   }
+  ]
+ },
+ {
+  "start": 2.7999999999999967,
+  "end": 3.84,
+  "text": "melambangkan keagungan",
+  "words": [
+   {
+    "w": " melambangkan",
+    "s": 2.7999999999999967,
+    "e": 3.32
+   },
+   {
+    "w": " keagungan",
+    "s": 3.32,
+    "e": 3.84
+   }
+  ]
+ },
+ {
+  "start": 3.84,
+  "end": 4.8,
+  "text": "mereka lah.",
+  "words": [
+   {
+    "w": " mereka",
+    "s": 3.84,
+    "e": 4.54
+   },
+   {
+    "w": " lah.",
+    "s": 4.54,
+    "e": 4.8
+   }
+  ]
+ },
+ {
+  "start": 4.9,
+  "end": 5.84,
+  "text": "Pasal Nabi Sulaiman.",
+  "words": [
+   {
+    "w": " Pasal",
+    "s": 4.9,
+    "e": 5.34
+   },
+   {
+    "w": " Nabi",
+    "s": 5.34,
+    "e": 5.58
+   },
+   {
+    "w": " Sulaiman.",
+    "s": 5.58,
+    "e": 5.84
+   }
+  ]
+ },
+ {
+  "start": 6.08,
+  "end": 7.86,
+  "text": "The golden era of the Jew",
+  "words": [
+   {
+    "w": " The",
+    "s": 6.08,
+    "e": 6.6
+   },
+   {
+    "w": " golden",
+    "s": 6.6,
+    "e": 6.86
+   },
+   {
+    "w": " era",
+    "s": 6.86,
+    "e": 7.16
+   },
+   {
+    "w": " of",
+    "s": 7.16,
+    "e": 7.48
+   },
+   {
+    "w": " the",
+    "s": 7.48,
+    "e": 7.62
+   },
+   {
+    "w": " Jew",
+    "s": 7.62,
+    "e": 7.86
+   }
+  ]
+ },
+ {
+  "start": 7.86,
+  "end": 10.02,
+  "text": "adalah ketika zaman Nabi Sulaiman.",
+  "words": [
+   {
+    "w": " adalah",
+    "s": 7.86,
+    "e": 8.54
+   },
+   {
+    "w": " ketika",
+    "s": 8.54,
+    "e": 8.9
+   },
+   {
+    "w": " zaman",
+    "s": 8.9,
+    "e": 9.12
+   },
+   {
+    "w": " Nabi",
+    "s": 9.12,
+    "e": 9.72
+   },
+   {
+    "w": " Sulaiman.",
+    "s": 9.72,
+    "e": 10.02
+   }
+  ]
+ },
+ {
+  "start": 10.16,
+  "end": 10.82,
+  "text": "Siapa Israel ni?",
+  "words": [
+   {
+    "w": " Siapa",
+    "s": 10.16,
+    "e": 10.34
+   },
+   {
+    "w": " Israel",
+    "s": 10.34,
+    "e": 10.6
+   },
+   {
+    "w": " ni?",
+    "s": 10.6,
+    "e": 10.82
+   }
+  ]
+ },
+ {
+  "start": 10.86,
+  "end": 11.86,
+  "text": "Israel ni adalah keturunan",
+  "words": [
+   {
+    "w": " Israel",
+    "s": 10.86,
+    "e": 10.98
+   },
+   {
+    "w": " ni",
+    "s": 10.98,
+    "e": 11.22
+   },
+   {
+    "w": " adalah",
+    "s": 11.22,
+    "e": 11.36
+   },
+   {
+    "w": " keturunan",
+    "s": 11.36,
+    "e": 11.86
+   }
+  ]
+ },
+ {
+  "start": 11.86,
+  "end": 13.14,
+  "text": "Nabi Yaakob.",
+  "words": [
+   {
+    "w": " Nabi",
+    "s": 11.86,
+    "e": 12.3
+   },
+   {
+    "w": " Yaakob.",
+    "s": 12.3,
+    "e": 13.14
+   }
+  ]
+ },
+ {
+  "start": 13.24,
+  "end": 15.4,
+  "text": "Yang juga bernama Israel.",
+  "words": [
+   {
+    "w": " Yang",
+    "s": 13.24,
+    "e": 13.76
+   },
+   {
+    "w": " juga",
+    "s": 13.76,
+    "e": 14.08
+   },
+   {
+    "w": " bernama",
+    "s": 14.08,
+    "e": 15.14
+   },
+   {
+    "w": " Israel.",
+    "s": 15.14,
+    "e": 15.4
+   }
+  ]
+ },
+ {
+  "start": 15.78,
+  "end": 17.14,
+  "text": "Dua belah badan Israel tu.",
+  "words": [
+   {
+    "w": " Dua",
+    "s": 15.78,
+    "e": 16.3
+   },
+   {
+    "w": " belah",
+    "s": 16.3,
+    "e": 16.44
+   },
+   {
+    "w": " badan",
+    "s": 16.44,
+    "e": 16.64
+   },
+   {
+    "w": " Israel",
+    "s": 16.64,
+    "e": 16.88
+   },
+   {
+    "w": " tu.",
+    "s": 16.88,
+    "e": 17.14
+   }
+  ]
+ },
+ {
+  "start": 17.46,
+  "end": 18.16,
+  "text": "Nabi Yaakob.",
+  "words": [
+   {
+    "w": " Nabi",
+    "s": 17.46,
+    "e": 17.98
+   },
+   {
+    "w": " Yaakob.",
+    "s": 17.98,
+    "e": 18.16
+   }
+  ]
+ },
+ {
+  "start": 18.3,
+  "end": 19.58,
+  "text": "So, Nabi Sulaiman",
+  "words": [
+   {
+    "w": " So,",
+    "s": 18.3,
+    "e": 18.58
+   },
+   {
+    "w": " Nabi",
+    "s": 18.62,
+    "e": 19.26
+   },
+   {
+    "w": " Sulaiman",
+    "s": 19.26,
+    "e": 19.58
+   }
+  ]
+ },
+ {
+  "start": 19.58,
+  "end": 21.28,
+  "text": "yang bina temple tu.",
+  "words": [
+   {
+    "w": " yang",
+    "s": 19.58,
+    "e": 20.06
+   },
+   {
+    "w": " bina",
+    "s": 20.06,
+    "e": 20.3
+   },
+   {
+    "w": " temple",
+    "s": 20.3,
+    "e": 21.02
+   },
+   {
+    "w": " tu.",
+    "s": 21.02,
+    "e": 21.28
+   }
+  ]
+ },
+ {
+  "start": 21.84,
+  "end": 22.74,
+  "text": "Temple of Solomon.",
+  "words": [
+   {
+    "w": " Temple",
+    "s": 21.84,
+    "e": 22.36
+   },
+   {
+    "w": " of",
+    "s": 22.36,
+    "e": 22.58
+   },
+   {
+    "w": " Solomon.",
+    "s": 22.58,
+    "e": 22.74
+   }
+  ]
+ },
+ {
+  "start": 23.24,
+  "end": 24.9,
+  "text": "Dirobohkan apabila diserang",
+  "words": [
+   {
+    "w": " Dirobohkan",
+    "s": 23.24,
+    "e": 23.76
+   },
+   {
+    "w": " apabila",
+    "s": 23.76,
+    "e": 24.36
+   },
+   {
+    "w": " diserang",
+    "s": 24.36,
+    "e": 24.9
+   }
+  ]
+ },
+ {
+  "start": 24.9,
+  "end": 25.7,
+  "text": "oleh musuh.",
+  "words": [
+   {
+    "w": " oleh",
+    "s": 24.9,
+    "e": 25.14
+   },
+   {
+    "w": " musuh.",
+    "s": 25.14,
+    "e": 25.7
+   }
+  ]
+ },
+ {
+  "start": 26.5,
+  "end": 27.8,
+  "text": "Kemudian dibina semula.",
+  "words": [
+   {
+    "w": " Kemudian",
+    "s": 26.5,
+    "e": 27.02
+   },
+   {
+    "w": " dibina",
+    "s": 27.02,
+    "e": 27.38
+   },
+   {
+    "w": " semula.",
+    "s": 27.38,
+    "e": 27.8
+   }
+  ]
+ },
+ {
+  "start": 27.8,
+  "end": 30.76,
+  "text": "Dan dirobohkan oleh Roman pula.",
+  "words": [
+   {
+    "w": " Dan",
+    "s": 27.8,
+    "e": 28.38
+   },
+   {
+    "w": " dirobohkan",
+    "s": 28.38,
+    "e": 29.74
+   },
+   {
+    "w": " oleh",
+    "s": 29.74,
+    "e": 29.98
+   },
+   {
+    "w": " Roman",
+    "s": 29.98,
+    "e": 30.42
+   },
+   {
+    "w": " pula.",
+    "s": 30.42,
+    "e": 30.76
+   }
+  ]
+ },
+ {
+  "start": 30.78,
+  "end": 31.72,
+  "text": "Pada tahun 70.",
+  "words": [
+   {
+    "w": " Pada",
+    "s": 30.78,
+    "e": 31.38
+   },
+   {
+    "w": " tahun",
+    "s": 31.38,
+    "e": 31.5
+   },
+   {
+    "w": " 70.",
+    "s": 31.5,
+    "e": 31.72
+   }
+  ]
+ },
+ {
+  "start": 33.14,
+  "end": 34.74,
+  "text": "So, dah dua kali roboh.",
+  "words": [
+   {
+    "w": " So,",
+    "s": 32.91,
+    "e": 33.22
+   },
+   {
+    "w": " dah",
+    "s": 33.84,
+    "e": 34.12
+   },
+   {
+    "w": " dua",
+    "s": 34.12,
+    "e": 34.24
+   },
+   {
+    "w": " kali",
+    "s": 34.24,
+    "e": 34.42
+   },
+   {
+    "w": " roboh.",
+    "s": 34.42,
+    "e": 34.74
+   }
+  ]
+ },
+ {
+  "start": 34.88,
+  "end": 35.7,
+  "text": "Dan dikatakan",
+  "words": [
+   {
+    "w": " Dan",
+    "s": 34.88,
+    "e": 35.18
+   },
+   {
+    "w": " dikatakan",
+    "s": 35.18,
+    "e": 35.7
+   }
+  ]
+ },
+ {
+  "start": 35.7,
+  "end": 37.72,
+  "text": "bila mereka berkuasa",
+  "words": [
+   {
+    "w": " bila",
+    "s": 35.7,
+    "e": 36.44
+   },
+   {
+    "w": " mereka",
+    "s": 36.44,
+    "e": 36.7
+   },
+   {
+    "w": " berkuasa",
+    "s": 36.7,
+    "e": 37.72
+   }
+  ]
+ },
+ {
+  "start": 37.72,
+  "end": 38.72,
+  "text": "bertapak ke Bali situ",
+  "words": [
+   {
+    "w": " bertapak",
+    "s": 37.72,
+    "e": 38.28
+   },
+   {
+    "w": " ke",
+    "s": 38.28,
+    "e": 38.36
+   },
+   {
+    "w": " Bali",
+    "s": 38.36,
+    "e": 38.52
+   },
+   {
+    "w": " situ",
+    "s": 38.52,
+    "e": 38.72
+   }
+  ]
+ },
+ {
+  "start": 38.72,
+  "end": 40.14,
+  "text": "mereka bina semula",
+  "words": [
+   {
+    "w": " mereka",
+    "s": 38.72,
+    "e": 39.04
+   },
+   {
+    "w": " bina",
+    "s": 39.04,
+    "e": 39.86
+   },
+   {
+    "w": " semula",
+    "s": 39.86,
+    "e": 40.14
+   }
+  ]
+ },
+ {
+  "start": 40.14,
+  "end": 41.86,
+  "text": "sebagai lambang keagungan",
+  "words": [
+   {
+    "w": " sebagai",
+    "s": 40.14,
+    "e": 40.28
+   },
+   {
+    "w": " lambang",
+    "s": 40.28,
+    "e": 41.38
+   },
+   {
+    "w": " keagungan",
+    "s": 41.38,
+    "e": 41.86
+   }
+  ]
+ },
+ {
+  "start": 41.86,
+  "end": 42.52,
+  "text": "Zionis.",
+  "words": [
+   {
+    "w": " Zionis.",
+    "s": 41.86,
+    "e": 42.52
+   }
+  ]
+ },
+ {
+  "start": 42.52,
+  "end": 43.3,
+  "text": "Temple tu.",
+  "words": [
+   {
+    "w": " Temple",
+    "s": 42.52,
+    "e": 43.0
+   },
+   {
+    "w": " tu.",
+    "s": 43.0,
+    "e": 43.3
+   }
+  ]
+ },
+ {
+  "start": 43.34,
+  "end": 44.06,
+  "text": "Nabi Sulaiman.",
+  "words": [
+   {
+    "w": " Nabi",
+    "s": 43.34,
+    "e": 43.84
+   },
+   {
+    "w": " Sulaiman.",
+    "s": 43.84,
+    "e": 44.06
+   }
+  ]
+ },
+ {
+  "start": 44.34,
+  "end": 45.82,
+  "text": "Bani Israel ni ada dua",
+  "words": [
+   {
+    "w": " Bani",
+    "s": 44.34,
+    "e": 44.8
+   },
+   {
+    "w": " Israel",
+    "s": 44.8,
+    "e": 44.96
+   },
+   {
+    "w": " ni",
+    "s": 44.96,
+    "e": 45.28
+   },
+   {
+    "w": " ada",
+    "s": 45.28,
+    "e": 45.48
+   },
+   {
+    "w": " dua",
+    "s": 45.48,
+    "e": 45.82
+   }
+  ]
+ },
+ {
+  "start": 45.82,
+  "end": 46.92,
+  "text": "golden era.",
+  "words": [
+   {
+    "w": " golden",
+    "s": 45.82,
+    "e": 46.26
+   },
+   {
+    "w": " era.",
+    "s": 46.26,
+    "e": 46.92
+   }
+  ]
+ },
+ {
+  "start": 47.22,
+  "end": 48.8,
+  "text": "Satu zaman Nabi Sulaiman",
+  "words": [
+   {
+    "w": " Satu",
+    "s": 47.22,
+    "e": 47.66
+   },
+   {
+    "w": " zaman",
+    "s": 47.66,
+    "e": 47.86
+   },
+   {
+    "w": " Nabi",
+    "s": 47.86,
+    "e": 48.5
+   },
+   {
+    "w": " Sulaiman",
+    "s": 48.5,
+    "e": 48.8
+   }
+  ]
+ },
+ {
+  "start": 48.8,
+  "end": 50.26,
+  "text": "yang kedua zaman Andalusia.",
+  "words": [
+   {
+    "w": " yang",
+    "s": 48.8,
+    "e": 49.1
+   },
+   {
+    "w": " kedua",
+    "s": 49.1,
+    "e": 49.28
+   },
+   {
+    "w": " zaman",
+    "s": 49.28,
+    "e": 49.52
+   },
+   {
+    "w": " Andalusia.",
+    "s": 49.52,
+    "e": 50.26
+   }
+  ]
+ },
+ {
+  "start": 50.52,
+  "end": 51.28,
+  "text": "Zaman Andalusia.",
+  "words": [
+   {
+    "w": " Zaman",
+    "s": 50.52,
+    "e": 50.84
+   },
+   {
+    "w": " Andalusia.",
+    "s": 50.84,
+    "e": 51.28
+   }
+  ]
+ },
+ {
+  "start": 52.28,
+  "end": 52.92,
+  "text": "So, apa ni",
+  "words": [
+   {
+    "w": " So,",
+    "s": 52.05,
+    "e": 52.36
+   },
+   {
+    "w": " apa",
+    "s": 52.52,
+    "e": 52.74
+   },
+   {
+    "w": " ni",
+    "s": 52.74,
+    "e": 52.92
+   }
+  ]
+ },
+ {
+  "start": 52.92,
+  "end": 54.26,
+  "text": "the temple tu",
+  "words": [
+   {
+    "w": " the",
+    "s": 52.92,
+    "e": 53.62
+   },
+   {
+    "w": " temple",
+    "s": 53.62,
+    "e": 54.0
+   },
+   {
+    "w": " tu",
+    "s": 54.0,
+    "e": 54.26
+   }
+  ]
+ },
+ {
+  "start": 54.26,
+  "end": 55.66,
+  "text": "sangat berkait dengan",
+  "words": [
+   {
+    "w": " sangat",
+    "s": 54.26,
+    "e": 54.68
+   },
+   {
+    "w": " berkait",
+    "s": 54.68,
+    "e": 55.4
+   },
+   {
+    "w": " dengan",
+    "s": 55.4,
+    "e": 55.66
+   }
+  ]
+ },
+ {
+  "start": 55.66,
+  "end": 57.26,
+  "text": "Bani Israel dan",
+  "words": [
+   {
+    "w": " Bani",
+    "s": 55.66,
+    "e": 56.44
+   },
+   {
+    "w": " Israel",
+    "s": 56.44,
+    "e": 57.0
+   },
+   {
+    "w": " dan",
+    "s": 57.0,
+    "e": 57.26
+   }
+  ]
+ },
+ {
+  "start": 57.26,
+  "end": 58.0,
+  "text": "dan apa ni",
+  "words": [
+   {
+    "w": " dan",
+    "s": 57.26,
+    "e": 57.48
+   },
+   {
+    "w": " apa",
+    "s": 57.48,
+    "e": 57.8
+   },
+   {
+    "w": " ni",
+    "s": 57.8,
+    "e": 58.0
+   }
+  ]
+ },
+ {
+  "start": 58.0,
+  "end": 58.76,
+  "text": "dengan Kristian.",
+  "words": [
+   {
+    "w": " dengan",
+    "s": 58.0,
+    "e": 58.2
+   },
+   {
+    "w": " Kristian.",
+    "s": 58.2,
+    "e": 58.76
+   }
+  ]
+ },
+ {
+  "start": 58.76,
+  "end": 58.88,
+  "text": "Terima kasih kerana menonton.",
+  "words": [
+   {
+    "w": " Terima",
+    "s": 58.76,
+    "e": 58.84
+   },
+   {
+    "w": " kasih",
+    "s": 58.84,
+    "e": 58.84
+   },
+   {
+    "w": " kerana",
+    "s": 58.84,
+    "e": 58.84
+   },
+   {
+    "w": " menonton.",
+    "s": 58.84,
+    "e": 58.88
+   }
+  ]
+ }
+]

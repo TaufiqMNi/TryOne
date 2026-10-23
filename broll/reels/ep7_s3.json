@@ -1,0 +1,246 @@
+{
+ "precut": true,
+ "fps": 25,
+ "start": 0.0,
+ "grade": "eq=contrast=1.07:saturation=1.06,scale=in_range=tv:out_range=pc,format=gbrp,curves=master='0/0 0.08/0.05 0.25/0.23 0.5/0.53 0.8/0.85 1/0.98',colorbalance=rs=-0.025:bs=0.035:rm=0.012:bm=-0.012,vignette=angle=PI/6:x0=w/2:y0=h*0.3,unsharp=5:5:0.5",
+ "proper": [
+  "Kristian",
+  "Zionis",
+  "Zionist",
+  "Arab",
+  "Barat",
+  "Palestin",
+  "Islam",
+  "Yahudi",
+  "Israel",
+  "Israelite",
+  "Muslim",
+  "Temple",
+  "Solomon",
+  "Nabi",
+  "Sulaiman",
+  "Yaakob",
+  "Bani",
+  "Roman",
+  "Masihi",
+  "Andalusia",
+  "Jew",
+  "Christian",
+  "Evangelist",
+  "Genesis",
+  "Bible",
+  "Tuhan",
+  "Ibrahim",
+  "Ismail",
+  "Ishak",
+  "Amerika",
+  "I",
+  "The"
+ ],
+ "groups": [],
+ "arabic": [],
+ "speaker_side": "left",
+ "_nota": "Podcast Bumi Merdeka EP7 — short 03: Genesis 12:3 di-spin Christian Zionist",
+ "src": "work/footage/ep7_s3.mp4",
+ "end": 86.96,
+ "cuts": [
+  16.36,
+  19.48,
+  25.08,
+  32.96,
+  37.0,
+  40.08,
+  44.88,
+  49.88,
+  60.6,
+  69.96,
+  73.04,
+  82.04
+ ],
+ "hook": {
+  "dur": 3.0,
+  "text": [
+   "Satu ayat Bible",
+   "di-spin untuk",
+   "sokong Israel"
+  ],
+  "style": "host"
+ },
+ "english": [
+  "support",
+  "lobby",
+  "quote",
+  "spin",
+  "especially",
+  "therefore",
+  "administration",
+  "compromise",
+  "blessing",
+  "genocide"
+ ],
+ "cues": [
+  {
+   "phrase": "melalui lobby dia",
+   "pre": 0.1,
+   "dur": 3.6,
+   "tpl": "news",
+   "data": {
+    "outlet": "The Hill",
+    "date": "12 Aug 2014",
+    "kicker": "Pundits Blog",
+    "headline": "Christians United For Israel jumps to the forefront of pro-Israel groups",
+    "byline": "By Edwin Black",
+    "quote": "CUFI’s membership swarmed the halls of Congress to lobby their representatives from the heartland",
+    "highlight": "swarmed the halls of Congress",
+    "source": "The Hill, 12 Ogos 2014",
+    "marquee": [
+     "CHRISTIANS UNITED FOR ISRAEL",
+     "LOBBY CONGRESS"
+    ]
+   }
+  },
+  {
+   "phrase": "Genesis 12 ayat 3",
+   "pre": 0.1,
+   "dur": 3.6,
+   "tpl": "news",
+   "data": {
+    "outlet": "Oxford",
+    "date": "2009",
+    "kicker": "Evangelicals and Israel",
+    "headline": "Promise and Prophecy, Love and Remorse: The Bases of Evangelical Support for Israel",
+    "byline": "Stephen Spector",
+    "quote": "…God’s promise in Genesis 12:3 that he will bless those who bless the Jews and curse those who curse them.",
+    "highlight": "Genesis 12:3",
+    "source": "Stephen Spector, Evangelicals and Israel (Oxford University Press, 2009)",
+    "marquee": [
+     "GENESIS 12:3",
+     "CHRISTIAN ZIONISM"
+    ]
+   }
+  },
+  {
+   "phrase": "I will bless those who bless you",
+   "pre": 0.05,
+   "dur": 3.0,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "I will bless",
+     "them that",
+     "bless thee"
+    ],
+    "highlight": "bless thee",
+    "kicker": "Genesis 12:3",
+    "source": "King James Version"
+   },
+   "sfx": "hit",
+   "trans": "streak"
+  },
+  {
+   "phrase": "Ibrahim belum ada anak lagi",
+   "pre": 0.1,
+   "dur": 2.8,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Ibrahim",
+     "belum ada anak"
+    ],
+    "highlight": "belum ada anak",
+    "kicker": "masa itu",
+    "small": [
+     1
+    ]
+   }
+  },
+  {
+   "phrase": "di Amerika especially",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       -45,
+       35
+      ],
+      "span": 85
+     },
+     {
+      "c": [
+       -96,
+       38
+      ],
+      "span": 52
+     }
+    ],
+    "highlight": [
+     {
+      "country": "United States of America",
+      "at": 1.1
+     }
+    ],
+    "markers": [
+     {
+      "ll": [
+       -77.04,
+       38.9
+      ],
+      "type": "ring",
+      "at": 1.6,
+      "label": "WASHINGTON D.C."
+     }
+    ],
+    "big": {
+     "text": "AMERIKA",
+     "sub": "Christian Evangelist",
+     "at": 1.4,
+     "y": 250
+    },
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "presiden atau administration",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/capitol.jpg",
+    "grade": "bw",
+    "texture": [
+     "grain",
+     "halftone"
+    ],
+    "motion": "pan-up"
+   }
+  },
+  {
+   "phrase": "sebenarnya orang spin",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/dome.jpg",
+    "grade": "bright",
+    "texture": [
+     "grain"
+    ],
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "topfade": false,
+ "soft_caps": true,
+ "music": {
+  "file": "work/music/crime_investigation_1646362.mp3",
+  "volume": 0.1,
+  "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
+ },
+ "chroma": 4
+}

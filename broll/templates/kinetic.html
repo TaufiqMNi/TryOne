@@ -1,0 +1,81 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Cinzel'; src: url('../fonts/cine/Cinzel.ttf'); font-weight: 400 900; }
+  @font-face { font-family: 'Cormorant'; src: url('../fonts/cine/CormorantGaramond-Italic.ttf'); font-style: italic; font-weight: 300 700; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: transparent; }
+  #wrap { position: absolute; left: 70px; right: 70px; top: 0; height: 1300px; display: flex; flex-direction: column;
+          align-items: center; justify-content: center; text-align: center; will-change: transform, filter, opacity; }
+  #kicker { font-family: 'Cormorant', serif; font-style: italic; font-weight: 500; font-size: 52px; color: #f4e6c4;
+            letter-spacing: .02em; margin-bottom: 26px; text-shadow: 0 2px 18px rgba(0,0,0,.9); }
+  .line { font-family: 'Cinzel', serif; font-weight: 700; font-size: 104px; line-height: 1.08; color: #fff; white-space: nowrap;
+          text-shadow: 0 4px 30px rgba(0,0,0,.85), 0 0 2px rgba(0,0,0,.6); }
+  .line.small { font-size: 78px; }
+  .ch { display: inline-block; will-change: transform, filter, opacity; }
+  .hl { background: linear-gradient(100deg, #c9971c 0%, #ffd400 35%, #fff6c8 50%, #ffd400 65%, #c9971c 100%);
+        background-size: 300% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+        text-shadow: none; filter: drop-shadow(0 4px 22px rgba(0,0,0,.9)); }
+  #rule { height: 3px; width: 0; margin-top: 34px; background: linear-gradient(90deg, transparent, #ffd400, transparent); }
+  #source { margin-top: 22px; font-family: 'Cormorant', serif; font-style: italic; font-size: 34px; color: rgba(255,255,255,.8);
+            text-shadow: 0 2px 12px rgba(0,0,0,.9); opacity: 0; }
+</style></head>
+<body>
+<div id="wrap"><div id="kicker"></div><div id="lines"></div><div id="rule"></div><div id="source"></div></div>
+<script>
+// Tipografi kinetik sinematik (Ep7, ganti kad ungu): latar lutsinar, ditindih atas footage host yang digelap + blur
+// (tools/build_reel.py, tpl "kinetic"). Huruf masuk satu demi satu: jarak huruf lebar + blur -> tajam;
+// kata kunci emas dengan kilauan cahaya; garis emas dilukis dari tengah; zum perlahan; keluar blur + pudar.
+// DATA: { lines: [..], highlight?, kicker?, source?, duration, small?: [indeks baris lebih kecil], size?: px }
+const D = window.DATA || {};
+window.DURATION = Math.max(1.5, D.duration || 2.6);
+const T = window.DURATION;
+const hl = (D.highlight || '').toLowerCase();
+const linesEl = document.getElementById('lines');
+const chars = [];
+(D.lines || []).forEach((txt, li) => {
+  const el = document.createElement('div');
+  el.className = 'line' + ((D.small || []).includes(li) ? ' small' : '');
+  if (D.size) el.style.fontSize = `${(D.small || []).includes(li) ? D.size * 0.75 : D.size}px`;   // tajuk intro besar
+  const lo = txt.toLowerCase(), h0 = hl ? lo.indexOf(hl) : -1;
+  [...txt].forEach((c, i) => {
+    const s = document.createElement('span');
+    s.className = 'ch' + (h0 >= 0 && i >= h0 && i < h0 + hl.length ? ' hl' : '');
+    s.textContent = c === ' ' ? ' ' : c;
+    el.appendChild(s); chars.push({ el: s, line: li, idx: i });
+  });
+  linesEl.appendChild(el);
+});
+document.getElementById('kicker').textContent = D.kicker || '';
+if (!D.kicker) document.getElementById('kicker').style.display = 'none';
+document.getElementById('source').textContent = D.source || '';
+const wrap = document.getElementById('wrap'), rule = document.getElementById('rule'), src = document.getElementById('source'),
+      kick = document.getElementById('kicker');
+const clamp = x => Math.max(0, Math.min(1, x));
+const out = t => 1 - Math.pow(1 - t, 3);
+const nLines = (D.lines || []).length;
+const reveal = Math.min(0.9, T * 0.4);                 // semua huruf masuk dalam ~40% tempoh (maks 0.9s)
+
+window.seek = t => {
+  // masuk: setiap baris bermula 0.16s selepas baris sebelum; huruf berperingkat dalam baris
+  chars.forEach(c => {
+    const start = 0.1 + c.line * Math.min(0.16, reveal / Math.max(1, nLines)) + c.idx * 0.022;
+    const p = out(clamp((t - start) / 0.45));
+    c.el.style.opacity = p;
+    c.el.style.filter = c.el.classList.contains('hl') ? `blur(${(1 - p) * 10}px) drop-shadow(0 4px 22px rgba(0,0,0,.9))`
+                                                       : `blur(${(1 - p) * 10}px)`;
+    c.el.style.transform = `translateY(${(1 - p) * 26}px) scale(${1 + (1 - p) * .25})`;
+    c.el.style.letterSpacing = `${(1 - p) * 0.35}em`;
+    if (c.el.classList.contains('hl')) c.el.style.backgroundPosition = `${100 - clamp((t - 0.4) / 1.4) * 100}% 0`;
+  });
+  kick.style.opacity = out(clamp(t / 0.4));
+  rule.style.width = `${out(clamp((t - reveal) / 0.5)) * 520}px`;
+  src.style.opacity = out(clamp((t - reveal - 0.2) / 0.4));
+  // zum perlahan sepanjang kad + keluar (blur + pudar) 0.3s terakhir
+  const e = clamp((t - (T - 0.3)) / 0.3);
+  wrap.style.transform = `scale(${1 + 0.035 * t / T + e * 0.04})`;
+  wrap.style.opacity = 1 - e;
+  wrap.style.filter = e > 0 ? `blur(${e * 8}px)` : 'none';
+};
+document.fonts.ready.then(() => { window.seek(0); window.READY = true; });
+</script>
+</body></html>

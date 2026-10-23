@@ -1,0 +1,77 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Bebas'; src: url('../fonts/BebasNeue-Regular.ttf'); }
+  @font-face { font-family: 'Playfair'; src: url('../fonts/cine/PlayfairDisplay.ttf'); font-weight: 400 900; }
+  @font-face { font-family: 'Baskerville'; src: url('../fonts/cine/LibreBaskerville.ttf'); font-weight: 400 700; }
+  @font-face { font-family: 'Baskerville'; src: url('../fonts/cine/LibreBaskerville-Italic.ttf'); font-style: italic; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0a0a0b; }
+  #marquee { position: absolute; left: 0; right: 0; top: 0; height: 1500px; overflow: hidden; }
+  .mq { position: absolute; white-space: nowrap; font-family: 'Bebas', sans-serif; font-size: 150px; color: #fff; opacity: .1;
+        letter-spacing: .02em; }
+  #stage { position: absolute; left: 0; right: 0; top: 0; height: 1440px; perspective: 1600px; }
+  #card { position: absolute; left: 60px; width: 960px; top: 330px; padding: 54px 60px 64px; box-sizing: border-box;
+          background: #efe8d8; color: #1b1914; box-shadow: 0 40px 90px rgba(0,0,0,.65), 0 0 0 1px rgba(0,0,0,.2);
+          transform-origin: 50% 40%; will-change: transform; }
+  #card::after { content: ''; position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply; opacity: .55;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .04' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .93  0 0 0 0 .88  0 0 0 0 .76  0 0 0 -1.5 1.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23f3ead8'/%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"); }
+  #mast { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 3px double #1b1914; padding-bottom: 14px; }
+  #outlet { font-family: 'Playfair', serif; font-weight: 900; font-size: 76px; letter-spacing: -.01em; }
+  #date { font-family: 'Baskerville', serif; font-size: 26px; text-transform: uppercase; letter-spacing: .12em; }
+  #kicker { font-family: 'Bebas', sans-serif; font-size: 36px; letter-spacing: .08em; color: #a3161a; margin-top: 26px; }
+  #headline { font-family: 'Playfair', serif; font-weight: 800; font-size: 70px; line-height: 1.08; margin-top: 6px; }
+  #byline { font-family: 'Baskerville', serif; font-style: italic; font-size: 28px; margin-top: 16px; color: #4a453b; }
+  #body { font-family: 'Baskerville', serif; font-size: 42px; line-height: 1.5; margin-top: 30px; }
+  #body p { margin: 0; }
+  /* marker menyapu setiap baris (box-decoration-break: clone) */
+  mark { color: inherit; padding: 0 4px; background: linear-gradient(#ffd400, #ffd400) no-repeat 0 85% / 0% 78%;
+         -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+  #credit { position: absolute; left: 60px; right: 60px; top: 1290px; text-align: center; color: rgba(255,255,255,.7);
+            font: 22px Inter, sans-serif; letter-spacing: .02em; }
+  .layer { position: absolute; inset: -40px; pointer-events: none; }
+  #grain { opacity: .25; mix-blend-mode: overlay;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #vignette { position: absolute; inset: 0; pointer-events: none;
+              background: radial-gradient(ellipse 75% 60% at 50% 40%, transparent 40%, rgba(0,0,0,.6) 88%, rgba(0,0,0,.85) 100%); }
+</style></head>
+<body>
+<div id="marquee"></div>
+<div id="stage"><div id="card">
+  <div id="mast"><div id="outlet"></div><div id="date"></div></div>
+  <div id="kicker"></div><div id="headline"></div><div id="byline"></div><div id="body"></div>
+</div></div>
+<div id="vignette"></div><div id="grain" class="layer"></div>
+<div id="credit"></div>
+<script>
+// Keratan akhbar / buku (rujukan APHD): tajuk besar Bebas bergerak di latar gelap, kad kertas bertekstur dengan
+// masthead + tajuk + petikan SEBENAR, marker kuning menyapu frasa penting. Chromatic aberration ditambah semasa assemble.
+// DATA: { duration, outlet, date, kicker?, headline, byline?, quote, highlight (frasa tepat dalam quote), source (URL / kredit),
+//         marquee?: [teks latar] }   — teks MESTI dari sumber sebenar, jangan reka.
+const D = window.DATA || {};
+window.DURATION = Math.max(2, D.duration || 4);
+const T = window.DURATION;
+const $ = id => document.getElementById(id);
+$('outlet').textContent = D.outlet || ''; $('date').textContent = D.date || '';
+$('kicker').textContent = D.kicker || ''; $('headline').textContent = D.headline || ''; $('byline').textContent = D.byline || '';
+const q = D.quote || '', h = D.highlight || '', i = h ? q.indexOf(h) : -1;
+if (h && i < 0) throw new Error('highlight tiada dalam quote');
+$('body').innerHTML = '<p>' + (i < 0 ? q : q.slice(0, i) + '<mark>' + h + '</mark>' + q.slice(i + h.length)) + '</p>';
+$('credit').textContent = D.source || '';
+const words = D.marquee || [(D.outlet || '').toUpperCase(), (D.headline || '').toUpperCase()];
+const mqs = [0, 1, 2, 3, 4].map(k => { const e = document.createElement('div'); e.className = 'mq';
+  e.textContent = (words[k % words.length] + '   ').repeat(4); e.style.top = `${120 + k * 260}px`; $('marquee').appendChild(e); return e; });
+const clamp = x => Math.max(0, Math.min(1, x)), out = t => 1 - Math.pow(1 - t, 3);
+const mark = document.querySelector('mark');
+window.seek = t => {
+  mqs.forEach((e, k) => e.style.transform = `translateX(${(k % 2 ? -1 : 1) * (t * 90) - 600}px)`);
+  const a = out(clamp(t / 0.6));
+  // kad masuk dari bawah dengan sedikit putaran 3D, kemudian push-in perlahan + condong
+  $('card').style.transform = `translateY(${(1 - a) * 260}px) rotateX(${(1 - a) * 18}deg) rotateZ(${-2.2 + (1 - a) * 4}deg)` +
+                              ` scale(${0.94 + 0.08 * t / T})`;
+  $('card').style.opacity = a;
+  if (mark) mark.style.backgroundSize = `${out(clamp((t - 0.9) / 0.8)) * 100}% 78%`;
+  $('credit').style.opacity = clamp((t - 0.5) / 0.4);
+};
+document.fonts.ready.then(() => { window.seek(0); window.READY = true; });
+</script>
+</body></html>

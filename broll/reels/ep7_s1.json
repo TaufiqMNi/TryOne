@@ -1,0 +1,173 @@
+{
+ "precut": true,
+ "fps": 25,
+ "start": 0.0,
+ "grade": "eq=contrast=1.07:saturation=1.06,scale=in_range=tv:out_range=pc,format=gbrp,curves=master='0/0 0.08/0.05 0.25/0.23 0.5/0.53 0.8/0.85 1/0.98',colorbalance=rs=-0.025:bs=0.035:rm=0.012:bm=-0.012,vignette=angle=PI/6:x0=w/2:y0=h*0.3,unsharp=5:5:0.5",
+ "proper": [
+  "Kristian",
+  "Zionis",
+  "Zionist",
+  "Arab",
+  "Barat",
+  "Palestin",
+  "Islam",
+  "Yahudi",
+  "Israel",
+  "Israelite",
+  "Muslim",
+  "Temple",
+  "Solomon",
+  "Nabi",
+  "Sulaiman",
+  "Yaakob",
+  "Bani",
+  "Roman",
+  "Masihi",
+  "Andalusia",
+  "Jew",
+  "Christian",
+  "Evangelist",
+  "Genesis",
+  "Bible",
+  "Tuhan",
+  "Ibrahim",
+  "Ismail",
+  "Ishak",
+  "Amerika",
+  "I",
+  "The"
+ ],
+ "groups": [],
+ "arabic": [],
+ "speaker_side": "left",
+ "_nota": "Podcast Bumi Merdeka EP7 (https://youtu.be/09qTpgcGI-o) — short 01: Kristian Palestin dimusuhi Kristian Zionis",
+ "src": "work/footage/ep7_s1.mp4",
+ "end": 51.08,
+ "cuts": [
+  14.72,
+  22.08,
+  25.8,
+  35.12,
+  40.16
+ ],
+ "hook": {
+  "dur": 3.4,
+  "text": [
+   "Kristian Palestin",
+   "dimusuhi",
+   "Kristian Zionis?"
+  ],
+  "image": "ep7/img/nativity.jpg",
+  "grade": "color",
+  "texture": [
+   "grain",
+   "paper"
+  ],
+  "motion": "pan-right",
+  "focus": {
+   "x": 0.5,
+   "y": 0.5
+  },
+  "style": "bgswap",
+  "matting": "birefnet"
+ },
+ "english": [
+  "mindset",
+  "propaganda",
+  "automatic",
+  "The return of the Israelite",
+  "equal to"
+ ],
+ "cues": [
+  {
+   "phrase": "mereka tak tahu sejarah",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/walls.jpg",
+    "grade": "sepia",
+    "texture": [
+     "paper",
+     "scratches"
+    ],
+    "motion": "pan-up"
+   }
+  },
+  {
+   "phrase": "Palestin tu Arab",
+   "until_phrase": "Arab tu Islam",
+   "post": 0.2,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Palestin",
+     "= Arab",
+     "= Islam"
+    ],
+    "highlight": "Islam",
+    "kicker": "naratif mereka"
+   },
+   "sfx": "hit",
+   "trans": "streak"
+  },
+  {
+   "phrase": "ada Arab ada Kristian",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/jerusalem.jpg",
+    "grade": "color",
+    "texture": [
+     "grain"
+    ],
+    "motion": "zoom-in",
+    "focus": {
+     "x": 0.5,
+     "y": 0.4
+    }
+   }
+  },
+  {
+   "phrase": "The return of the Israelite",
+   "pre": 0.05,
+   "dur": 2.3,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "The Return",
+     "of the Israelite"
+    ],
+    "highlight": "Israelite",
+    "kicker": "agenda mereka",
+    "small": [
+     1
+    ]
+   }
+  },
+  {
+   "phrase": "walaupun mereka seakidah",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/bethlehem.jpg",
+    "grade": "bright",
+    "texture": [
+     "grain"
+    ],
+    "motion": "pan-up"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "topfade": false,
+ "soft_caps": true,
+ "music": {
+  "file": "work/music/crime_investigation_1646362.mp3",
+  "volume": 0.1,
+  "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
+ }
+}

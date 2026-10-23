@@ -1,0 +1,96 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Amiri'; src: url('../fonts/Amiri-Bold.ttf'); font-weight: 700; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #000; font-family: Inter, sans-serif; }
+  html.tex, html.tex body { background: transparent; }
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  #img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; will-change: transform; }
+  #callig { position: absolute; left: 0; right: 0; top: 980px; text-align: center; font-family: 'Amiri', serif; font-weight: 700;
+            font-size: 300px; line-height: 1; color: #fff; opacity: .16; filter: blur(1.5px); direction: rtl; white-space: nowrap; }
+  .layer { position: absolute; inset: -40px; pointer-events: none; }
+  #grain { opacity: .2; mix-blend-mode: overlay;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #halftone { opacity: .32; mix-blend-mode: multiply;
+              background-image: radial-gradient(circle, #000 1.3px, transparent 1.9px); background-size: 7px 7px; }
+  #paper { opacity: .4; mix-blend-mode: multiply;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .04' numOctaves='4' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .93  0 0 0 0 .88  0 0 0 0 .78  0 0 0 -1.4 1.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23f3ead8'/%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"); }
+  #scratch { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: .8; }
+  #vignette { position: absolute; inset: 0; pointer-events: none;
+              background: radial-gradient(ellipse 75% 60% at 50% 45%, transparent 40%, rgba(0,0,0,.55) 85%, rgba(0,0,0,.8) 100%); }
+  #credit { position: absolute; left: 60px; right: 60px; top: 1282px; text-align: center; color: rgba(255,255,255,.72);
+            font-size: 22px; letter-spacing: .02em; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+</style></head>
+<body>
+<div id="stage"><img id="img"></div>
+<div id="callig"></div>
+<div id="vignette"></div>
+<div id="paper" class="layer"></div>
+<div id="halftone" class="layer"></div>
+<div id="grain" class="layer"></div>
+<canvas id="scratch" width="1080" height="1920"></canvas>
+<div id="credit"></div>
+<script>
+// B-roll penuh skrin ikut STYLE_GUIDE v2.0 (seksyen 11): warna bebas, tekstur WAJIB, gerakan halus WAJIB.
+// DATA: { image, duration?, grade?, texture?, motion?, focus?, calligraphy?, source?, textureOnly? }
+//  grade   — 'color' (lalai) | 'bw' | 'sepia' | 'bright' (penutup terang/lembut) | 'none', atau `filter` (CSS) sendiri
+//  texture — senarai: 'grain' | 'halftone' | 'paper' | 'scratches' (lalai ['grain']; senarai kosong tetap dapat grain)
+//  motion  — 'zoom-in' (lalai, 100%->108%) | 'zoom-out' | 'pan-left' | 'pan-right' | 'pan-up' | 'pan-down'
+//  focus   — {x, y} 0..1, titik tumpuan zoom/crop (lalai tengah)
+//  calligraphy — teks Arab samar (putih, legap rendah); source — kredit kecil di atas kapsyen
+//  textureOnly — latar lutsinar, tiada gambar: lapisan tekstur untuk ditindih atas footage (tools/build_reel.py)
+const D = window.DATA;
+window.DURATION = Math.max(1.5, D.duration || 2.5);
+const GRADES = { none: 'none', color: 'contrast(1.08) saturate(.95)', bw: 'grayscale(1) contrast(1.35) brightness(1.04)',
+                 sepia: 'grayscale(1) sepia(.9) contrast(1.15) brightness(.98)', bright: 'brightness(1.22) contrast(.82) saturate(.85)' };
+const tex = new Set((D.texture && D.texture.length) ? D.texture : ['grain']);
+['grain', 'halftone', 'paper'].forEach(k => { if (!tex.has(k)) document.getElementById(k).style.display = 'none'; });
+const img = document.getElementById('img'), fx = (D.focus || {}).x ?? .5, fy = (D.focus || {}).y ?? .5;
+img.style.objectPosition = `${fx * 100}% ${fy * 100}%`;
+img.style.transformOrigin = `${fx * 100}% ${fy * 100}%`;
+img.style.filter = D.filter || GRADES[D.grade || 'color'];
+if (D.calligraphy) document.getElementById('callig').textContent = D.calligraphy;
+document.getElementById('credit').textContent = D.source ? 'Sumber: ' + D.source : '';
+
+const ease = t => -(Math.cos(Math.PI * t) - 1) / 2;   // easeInOutSine — gerakan halus
+const MOTION = {
+  'zoom-in':  k => [1 + .08 * k, 0, 0],
+  'zoom-out': k => [1.08 - .08 * k, 0, 0],
+  'pan-left':  k => [1.1, 40 - 80 * k, 0],
+  'pan-right': k => [1.1, -40 + 80 * k, 0],
+  'pan-up':    k => [1.1, 0, 60 - 120 * k],
+  'pan-down':  k => [1.1, 0, -60 + 120 * k],
+};
+const move = MOTION[D.motion || 'zoom-in'];
+
+// rawak berbenih ikut nombor frame -> grain/calar sama setiap kali render (deterministik)
+const rnd = seed => () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+const ctx = document.getElementById('scratch').getContext('2d');
+const layers = ['grain', 'halftone', 'paper'].map(k => document.getElementById(k));
+
+window.seek = t => {
+  const f = Math.round(t * 30), r = rnd(f * 7919 + 17);
+  const [s, x, y] = move(ease(Math.min(1, t / window.DURATION)));
+  img.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+  layers[0].style.transform = `translate(${Math.round(r() * 40 - 20)}px, ${Math.round(r() * 40 - 20)}px)`;   // grain bergerak setiap frame
+  ctx.clearRect(0, 0, 1080, 1920);
+  if (tex.has('scratches')) {
+    ctx.strokeStyle = 'rgba(255,255,255,.35)';
+    for (let i = 0, n = 1 + Math.floor(r() * 3); i < n; i++) {           // calar menegak
+      const sx = r() * 1080; ctx.lineWidth = .8 + r() * 1.6;
+      ctx.beginPath(); ctx.moveTo(sx, r() * 600); ctx.lineTo(sx + r() * 6 - 3, 1100 + r() * 820); ctx.stroke();
+    }
+    ctx.fillStyle = 'rgba(255,255,255,.55)';
+    for (let i = 0; i < 14; i++) { ctx.beginPath(); ctx.arc(r() * 1080, r() * 1920, .8 + r() * 2.4, 0, 7); ctx.fill(); }   // habuk
+  }
+};
+if (D.textureOnly) {
+  document.documentElement.classList.add('tex');
+  ['stage', 'vignette', 'callig', 'credit'].forEach(k => document.getElementById(k).style.display = 'none');
+  document.fonts.ready.then(() => { window.seek(0); window.READY = true; });
+} else {
+  img.onload = () => document.fonts.ready.then(() => { window.seek(0); window.READY = true; });
+  img.src = D.baseDir + D.image;
+}
+</script>
+</body></html>

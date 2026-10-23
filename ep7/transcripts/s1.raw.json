@@ -1,0 +1,796 @@
+[
+ {
+  "start": 0.0,
+  "end": 1.16,
+  "text": "Pada Kristian Zionis",
+  "words": [
+   {
+    "w": " Pada",
+    "s": 0.0,
+    "e": 0.16
+   },
+   {
+    "w": " Kristian",
+    "s": 0.16,
+    "e": 0.66
+   },
+   {
+    "w": " Zionis",
+    "s": 0.66,
+    "e": 1.16
+   }
+  ]
+ },
+ {
+  "start": 1.16,
+  "end": 1.84,
+  "text": "Mereka ni",
+  "words": [
+   {
+    "w": " Mereka",
+    "s": 1.16,
+    "e": 1.66
+   },
+   {
+    "w": " ni",
+    "s": 1.66,
+    "e": 1.84
+   }
+  ]
+ },
+ {
+  "start": 1.84,
+  "end": 2.72,
+  "text": "Dianggap sebagai",
+  "words": [
+   {
+    "w": " Dianggap",
+    "s": 1.84,
+    "e": 2.56
+   },
+   {
+    "w": " sebagai",
+    "s": 2.56,
+    "e": 2.72
+   }
+  ]
+ },
+ {
+  "start": 2.72,
+  "end": 3.44,
+  "text": "Arab",
+  "words": [
+   {
+    "w": " Arab",
+    "s": 2.72,
+    "e": 3.44
+   }
+  ]
+ },
+ {
+  "start": 3.44,
+  "end": 4.6,
+  "text": "Masalah besarnya",
+  "words": [
+   {
+    "w": " Masalah",
+    "s": 3.44,
+    "e": 4.22
+   },
+   {
+    "w": " besarnya",
+    "s": 4.22,
+    "e": 4.6
+   }
+  ]
+ },
+ {
+  "start": 4.6,
+  "end": 5.48,
+  "text": "Orang Barat ni",
+  "words": [
+   {
+    "w": " Orang",
+    "s": 4.6,
+    "e": 4.88
+   },
+   {
+    "w": " Barat",
+    "s": 4.88,
+    "e": 5.28
+   },
+   {
+    "w": " ni",
+    "s": 5.28,
+    "e": 5.48
+   }
+  ]
+ },
+ {
+  "start": 5.48,
+  "end": 7.18,
+  "text": "Mereka tak tahu sejarah",
+  "words": [
+   {
+    "w": " Mereka",
+    "s": 5.48,
+    "e": 6.34
+   },
+   {
+    "w": " tak",
+    "s": 6.34,
+    "e": 6.56
+   },
+   {
+    "w": " tahu",
+    "s": 6.56,
+    "e": 6.74
+   },
+   {
+    "w": " sejarah",
+    "s": 6.74,
+    "e": 7.18
+   }
+  ]
+ },
+ {
+  "start": 7.18,
+  "end": 9.26,
+  "text": "Dia menerima",
+  "words": [
+   {
+    "w": " Dia",
+    "s": 7.18,
+    "e": 7.78
+   },
+   {
+    "w": " menerima",
+    "s": 7.78,
+    "e": 9.26
+   }
+  ]
+ },
+ {
+  "start": 9.26,
+  "end": 10.12,
+  "text": "Apa yang",
+  "words": [
+   {
+    "w": " Apa",
+    "s": 9.26,
+    "e": 9.66
+   },
+   {
+    "w": " yang",
+    "s": 9.66,
+    "e": 10.12
+   }
+  ]
+ },
+ {
+  "start": 10.88,
+  "end": 11.8,
+  "text": "Disogokkan",
+  "words": [
+   {
+    "w": " Disogokkan",
+    "s": 10.88,
+    "e": 11.8
+   }
+  ]
+ },
+ {
+  "start": 11.8,
+  "end": 13.44,
+  "text": "Narratif-narratif tu",
+  "words": [
+   {
+    "w": " Narratif",
+    "s": 11.8,
+    "e": 12.98
+   },
+   {
+    "w": "-narratif",
+    "s": 12.98,
+    "e": 13.26
+   },
+   {
+    "w": " tu",
+    "s": 13.26,
+    "e": 13.44
+   }
+  ]
+ },
+ {
+  "start": 13.44,
+  "end": 14.48,
+  "text": "Tanpa",
+  "words": [
+   {
+    "w": " Tanpa",
+    "s": 13.44,
+    "e": 14.48
+   }
+  ]
+ },
+ {
+  "start": 14.48,
+  "end": 15.02,
+  "text": "Tabayun",
+  "words": [
+   {
+    "w": " Tabayun",
+    "s": 14.48,
+    "e": 15.02
+   }
+  ]
+ },
+ {
+  "start": 15.02,
+  "end": 16.08,
+  "text": "Tabayun betul",
+  "words": [
+   {
+    "w": " Tabayun",
+    "s": 15.02,
+    "e": 15.84
+   },
+   {
+    "w": " betul",
+    "s": 15.84,
+    "e": 16.08
+   }
+  ]
+ },
+ {
+  "start": 16.08,
+  "end": 17.92,
+  "text": "So pada mereka",
+  "words": [
+   {
+    "w": " So",
+    "s": 16.08,
+    "e": 16.96
+   },
+   {
+    "w": " pada",
+    "s": 16.96,
+    "e": 17.74
+   },
+   {
+    "w": " mereka",
+    "s": 17.74,
+    "e": 17.92
+   }
+  ]
+ },
+ {
+  "start": 17.92,
+  "end": 19.28,
+  "text": "Palestine tu Arab",
+  "words": [
+   {
+    "w": " Palestine",
+    "s": 17.92,
+    "e": 18.7
+   },
+   {
+    "w": " tu",
+    "s": 18.7,
+    "e": 19.02
+   },
+   {
+    "w": " Arab",
+    "s": 19.02,
+    "e": 19.28
+   }
+  ]
+ },
+ {
+  "start": 19.28,
+  "end": 20.7,
+  "text": "Dan Arab tu Islam",
+  "words": [
+   {
+    "w": " Dan",
+    "s": 19.28,
+    "e": 19.86
+   },
+   {
+    "w": " Arab",
+    "s": 19.86,
+    "e": 20.2
+   },
+   {
+    "w": " tu",
+    "s": 20.2,
+    "e": 20.38
+   },
+   {
+    "w": " Islam",
+    "s": 20.38,
+    "e": 20.7
+   }
+  ]
+ },
+ {
+  "start": 20.7,
+  "end": 21.88,
+  "text": "Itu dia punya",
+  "words": [
+   {
+    "w": " Itu",
+    "s": 20.7,
+    "e": 21.54
+   },
+   {
+    "w": " dia",
+    "s": 21.54,
+    "e": 21.72
+   },
+   {
+    "w": " punya",
+    "s": 21.72,
+    "e": 21.88
+   }
+  ]
+ },
+ {
+  "start": 21.88,
+  "end": 22.54,
+  "text": "Narratifnya",
+  "words": [
+   {
+    "w": " Narratifnya",
+    "s": 21.88,
+    "e": 22.54
+   }
+  ]
+ },
+ {
+  "start": 22.54,
+  "end": 24.08,
+  "text": "Yang sejajar diwarulkan",
+  "words": [
+   {
+    "w": " Yang",
+    "s": 22.54,
+    "e": 23.02
+   },
+   {
+    "w": " sejajar",
+    "s": 23.02,
+    "e": 23.38
+   },
+   {
+    "w": " diwarulkan",
+    "s": 23.38,
+    "e": 24.08
+   }
+  ]
+ },
+ {
+  "start": 24.08,
+  "end": 25.28,
+  "text": "Propaganda",
+  "words": [
+   {
+    "w": " Propaganda",
+    "s": 24.08,
+    "e": 25.28
+   }
+  ]
+ },
+ {
+  "start": 25.28,
+  "end": 27.02,
+  "text": "Jadi di Palestine tu",
+  "words": [
+   {
+    "w": " Jadi",
+    "s": 25.28,
+    "e": 25.84
+   },
+   {
+    "w": " di",
+    "s": 25.84,
+    "e": 26.36
+   },
+   {
+    "w": " Palestine",
+    "s": 26.36,
+    "e": 26.76
+   },
+   {
+    "w": " tu",
+    "s": 26.76,
+    "e": 27.02
+   }
+  ]
+ },
+ {
+  "start": 27.02,
+  "end": 27.62,
+  "text": "Ada Arab",
+  "words": [
+   {
+    "w": " Ada",
+    "s": 27.02,
+    "e": 27.18
+   },
+   {
+    "w": " Arab",
+    "s": 27.18,
+    "e": 27.62
+   }
+  ]
+ },
+ {
+  "start": 27.62,
+  "end": 28.88,
+  "text": "Ada Kristian",
+  "words": [
+   {
+    "w": " Ada",
+    "s": 27.62,
+    "e": 28.1
+   },
+   {
+    "w": " Kristian",
+    "s": 28.1,
+    "e": 28.88
+   }
+  ]
+ },
+ {
+  "start": 28.88,
+  "end": 29.62,
+  "text": "Ada Yahudi sendiri",
+  "words": [
+   {
+    "w": " Ada",
+    "s": 28.88,
+    "e": 29.08
+   },
+   {
+    "w": " Yahudi",
+    "s": 29.08,
+    "e": 29.36
+   },
+   {
+    "w": " sendiri",
+    "s": 29.36,
+    "e": 29.62
+   }
+  ]
+ },
+ {
+  "start": 29.62,
+  "end": 30.38,
+  "text": "Yang asal",
+  "words": [
+   {
+    "w": " Yang",
+    "s": 29.62,
+    "e": 29.92
+   },
+   {
+    "w": " asal",
+    "s": 29.92,
+    "e": 30.38
+   }
+  ]
+ },
+ {
+  "start": 30.38,
+  "end": 31.7,
+  "text": "So yang pertama",
+  "words": [
+   {
+    "w": " So",
+    "s": 30.38,
+    "e": 31.14
+   },
+   {
+    "w": " yang",
+    "s": 31.14,
+    "e": 31.4
+   },
+   {
+    "w": " pertama",
+    "s": 31.4,
+    "e": 31.7
+   }
+  ]
+ },
+ {
+  "start": 31.7,
+  "end": 32.68,
+  "text": "Itulah",
+  "words": [
+   {
+    "w": " Itulah",
+    "s": 31.7,
+    "e": 32.68
+   }
+  ]
+ },
+ {
+  "start": 32.68,
+  "end": 33.66,
+  "text": "Mereka seolahnya",
+  "words": [
+   {
+    "w": " Mereka",
+    "s": 32.68,
+    "e": 33.18
+   },
+   {
+    "w": " seolahnya",
+    "s": 33.18,
+    "e": 33.66
+   }
+  ]
+ },
+ {
+  "start": 33.66,
+  "end": 34.3,
+  "text": "Musuh",
+  "words": [
+   {
+    "w": " Musuh",
+    "s": 33.66,
+    "e": 34.3
+   }
+  ]
+ },
+ {
+  "start": 34.3,
+  "end": 35.32,
+  "text": "Kerana",
+  "words": [
+   {
+    "w": " Kerana",
+    "s": 34.3,
+    "e": 35.32
+   }
+  ]
+ },
+ {
+  "start": 35.32,
+  "end": 37.14,
+  "text": "Mereka utamakan agenda",
+  "words": [
+   {
+    "w": " Mereka",
+    "s": 35.32,
+    "e": 36.14
+   },
+   {
+    "w": " utamakan",
+    "s": 36.14,
+    "e": 36.74
+   },
+   {
+    "w": " agenda",
+    "s": 36.74,
+    "e": 37.14
+   }
+  ]
+ },
+ {
+  "start": 37.14,
+  "end": 39.22,
+  "text": "The return of the Israelite",
+  "words": [
+   {
+    "w": " The",
+    "s": 37.14,
+    "e": 37.98
+   },
+   {
+    "w": " return",
+    "s": 37.98,
+    "e": 38.32
+   },
+   {
+    "w": " of",
+    "s": 38.32,
+    "e": 38.54
+   },
+   {
+    "w": " the",
+    "s": 38.54,
+    "e": 38.68
+   },
+   {
+    "w": " Israelite",
+    "s": 38.68,
+    "e": 39.22
+   }
+  ]
+ },
+ {
+  "start": 39.22,
+  "end": 40.78,
+  "text": "Mindset dia",
+  "words": [
+   {
+    "w": " Mindset",
+    "s": 39.22,
+    "e": 40.56
+   },
+   {
+    "w": " dia",
+    "s": 40.56,
+    "e": 40.78
+   }
+  ]
+ },
+ {
+  "start": 40.78,
+  "end": 41.82,
+  "text": "Kacamata mereka",
+  "words": [
+   {
+    "w": " Kacamata",
+    "s": 40.78,
+    "e": 41.54
+   },
+   {
+    "w": " mereka",
+    "s": 41.54,
+    "e": 41.82
+   }
+  ]
+ },
+ {
+  "start": 41.82,
+  "end": 43.74,
+  "text": "Ini orang Palestine ni",
+  "words": [
+   {
+    "w": " Ini",
+    "s": 41.82,
+    "e": 42.8
+   },
+   {
+    "w": " orang",
+    "s": 42.8,
+    "e": 43.16
+   },
+   {
+    "w": " Palestine",
+    "s": 43.16,
+    "e": 43.48
+   },
+   {
+    "w": " ni",
+    "s": 43.48,
+    "e": 43.74
+   }
+  ]
+ },
+ {
+  "start": 43.74,
+  "end": 44.34,
+  "text": "Sebab Arab",
+  "words": [
+   {
+    "w": " Sebab",
+    "s": 43.74,
+    "e": 44.22
+   },
+   {
+    "w": " Arab",
+    "s": 44.22,
+    "e": 44.34
+   }
+  ]
+ },
+ {
+  "start": 44.34,
+  "end": 45.78,
+  "text": "Dan Arab is good Muslim",
+  "words": [
+   {
+    "w": " Dan",
+    "s": 44.34,
+    "e": 44.8
+   },
+   {
+    "w": " Arab",
+    "s": 44.8,
+    "e": 45.18
+   },
+   {
+    "w": " is",
+    "s": 45.18,
+    "e": 45.32
+   },
+   {
+    "w": " good",
+    "s": 45.32,
+    "e": 45.56
+   },
+   {
+    "w": " Muslim",
+    "s": 45.56,
+    "e": 45.78
+   }
+  ]
+ },
+ {
+  "start": 45.78,
+  "end": 48.3,
+  "text": "So automatic jadi musuh",
+  "words": [
+   {
+    "w": " So",
+    "s": 45.78,
+    "e": 46.76
+   },
+   {
+    "w": " automatic",
+    "s": 46.76,
+    "e": 47.52
+   },
+   {
+    "w": " jadi",
+    "s": 47.52,
+    "e": 47.84
+   },
+   {
+    "w": " musuh",
+    "s": 47.84,
+    "e": 48.3
+   }
+  ]
+ },
+ {
+  "start": 48.3,
+  "end": 49.18,
+  "text": "Automatic musuh",
+  "words": [
+   {
+    "w": " Automatic",
+    "s": 48.3,
+    "e": 48.84
+   },
+   {
+    "w": " musuh",
+    "s": 48.84,
+    "e": 49.18
+   }
+  ]
+ },
+ {
+  "start": 49.18,
+  "end": 49.84,
+  "text": "Walaupun mereka",
+  "words": [
+   {
+    "w": " Walaupun",
+    "s": 49.18,
+    "e": 49.52
+   },
+   {
+    "w": " mereka",
+    "s": 49.52,
+    "e": 49.84
+   }
+  ]
+ },
+ {
+  "start": 49.84,
+  "end": 50.7,
+  "text": "Seakidah",
+  "words": [
+   {
+    "w": " Seakidah",
+    "s": 49.84,
+    "e": 50.7
+   }
+  ]
+ }
+]
