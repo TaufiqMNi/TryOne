@@ -88,6 +88,10 @@ Screencap satu frame sahaja — guna untuk semakan sebelum pengguna benarkan ren
 - `work/` tak masuk git.
 
 ## Topeng orang (hook `bgswap`)
+Disyorkan: `"matting": "birefnet"` dalam hook (BiRefNet-portrait, ~20s/frame CPU, frame dicache dalam `<out>.frames/`,
+boleh sambung semula). Model: `pip install "rembg[cpu]"`, jalankan `rembg` sekali dengan `birefnet-portrait`, pindahkan
+`~/.rembg/models/birefnet-portrait/birefnet-portrait.onnx` ke `work/models/`. Laluan MediaPipe (di bawah) lebih laju tapi kasar.
+
 `tools/person_mask.py` guna MediaPipe (`pip install mediapipe`, perlu `libegl1`) + model
 `selfie_multiclass_256x256.tflite` di `work/models/`:
 `curl -O https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_multiclass_256x256/float32/latest/selfie_multiclass_256x256.tflite`
