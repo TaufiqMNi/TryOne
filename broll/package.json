@@ -1,1 +1,1 @@
-{ "name": "broll-tools", "private": true, "type": "module", "dependencies": { "playwright": "1.56.1" } }
+{"name":"broll-tools","private":true,"type":"module","dependencies":{"d3-array":"^3.2.4","d3-geo":"^3.1.1","playwright":"1.56.1"}}

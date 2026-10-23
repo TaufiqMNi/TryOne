@@ -82,34 +82,41 @@
   {
    "phrase": "melalui lobby dia",
    "pre": 0.1,
-   "dur": 2.5,
-   "tpl": "photo",
+   "dur": 3.6,
+   "tpl": "news",
    "data": {
-    "image": "ep7/img/capitol.jpg",
-    "grade": "color",
-    "texture": [
-     "grain"
-    ],
-    "motion": "zoom-in",
-    "focus": {
-     "x": 0.5,
-     "y": 0.4
-    }
+    "outlet": "The Hill",
+    "date": "12 Aug 2014",
+    "kicker": "Pundits Blog",
+    "headline": "Christians United For Israel jumps to the forefront of pro-Israel groups",
+    "byline": "By Edwin Black",
+    "quote": "CUFI’s membership swarmed the halls of Congress to lobby their representatives from the heartland",
+    "highlight": "swarmed the halls of Congress",
+    "source": "The Hill, 12 Ogos 2014",
+    "marquee": [
+     "CHRISTIANS UNITED FOR ISRAEL",
+     "LOBBY CONGRESS"
+    ]
    }
   },
   {
    "phrase": "Genesis 12 ayat 3",
    "pre": 0.1,
-   "dur": 2.6,
-   "tpl": "photo",
+   "dur": 3.6,
+   "tpl": "news",
    "data": {
-    "image": "ep7/img/bible.jpg",
-    "grade": "sepia",
-    "texture": [
-     "paper",
-     "scratches"
-    ],
-    "motion": "pan-down"
+    "outlet": "Oxford",
+    "date": "2009",
+    "kicker": "Evangelicals and Israel",
+    "headline": "Promise and Prophecy, Love and Remorse: The Bases of Evangelical Support for Israel",
+    "byline": "Stephen Spector",
+    "quote": "…God’s promise in Genesis 12:3 that he will bless those who bless the Jews and curse those who curse them.",
+    "highlight": "Genesis 12:3",
+    "source": "Stephen Spector, Evangelicals and Israel (Oxford University Press, 2009)",
+    "marquee": [
+     "GENESIS 12:3",
+     "CHRISTIAN ZIONISM"
+    ]
    }
   },
   {
@@ -148,19 +155,52 @@
    }
   },
   {
-   "phrase": "mereka putar spin",
+   "phrase": "di Amerika especially",
    "pre": 0.1,
-   "dur": 2.4,
-   "tpl": "photo",
+   "dur": 3.0,
+   "tpl": "map",
    "data": {
-    "image": "ep7/img/bible.jpg",
-    "grade": "bw",
-    "texture": [
-     "grain",
-     "scratches"
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       -45,
+       35
+      ],
+      "span": 85
+     },
+     {
+      "c": [
+       -96,
+       38
+      ],
+      "span": 52
+     }
     ],
-    "motion": "zoom-out",
-    "filter": "grayscale(1) brightness(0.45) contrast(1.25)"
+    "highlight": [
+     {
+      "country": "United States of America",
+      "at": 1.1
+     }
+    ],
+    "markers": [
+     {
+      "ll": [
+       -77.04,
+       38.9
+      ],
+      "type": "ring",
+      "at": 1.6,
+      "label": "WASHINGTON D.C."
+     }
+    ],
+    "big": {
+     "text": "AMERIKA",
+     "sub": "Christian Evangelist",
+     "at": 1.4,
+     "y": 250
+    },
+    "source": "Peta: Natural Earth"
    }
   },
   {
@@ -201,5 +241,6 @@
   "file": "work/music/crime_investigation_1646362.mp3",
   "volume": 0.1,
   "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
- }
+ },
+ "chroma": 4
 }

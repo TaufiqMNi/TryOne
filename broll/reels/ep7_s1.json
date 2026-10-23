@@ -114,19 +114,55 @@
   {
    "phrase": "ada Arab ada Kristian",
    "pre": 0.1,
-   "dur": 3.0,
-   "tpl": "photo",
+   "dur": 3.2,
+   "tpl": "map",
    "data": {
-    "image": "ep7/img/jerusalem.jpg",
-    "grade": "color",
-    "texture": [
-     "grain"
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       25,
+       38
+      ],
+      "span": 30
+     },
+     {
+      "c": [
+       35.1,
+       31.6
+      ],
+      "span": 5.5
+     }
     ],
-    "motion": "zoom-in",
-    "focus": {
-     "x": 0.5,
-     "y": 0.4
-    }
+    "highlight": [
+     {
+      "country": "Palestine",
+      "at": 1.3
+     },
+     {
+      "country": "Israel",
+      "fill": "#2f3b52",
+      "at": 1.5
+     }
+    ],
+    "markers": [
+     {
+      "ll": [
+       35.23,
+       31.78
+      ],
+      "type": "ring",
+      "at": 1.9,
+      "label": "BAITUL MAQDIS"
+     }
+    ],
+    "big": {
+     "text": "PALESTIN",
+     "sub": "Arab · Kristian · Yahudi",
+     "at": 1.6,
+     "y": 260
+    },
+    "source": "Peta: Natural Earth"
    }
   },
   {
@@ -169,5 +205,6 @@
   "file": "work/music/crime_investigation_1646362.mp3",
   "volume": 0.1,
   "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
- }
+ },
+ "chroma": 4
 }

@@ -1,0 +1,133 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Bebas'; src: url('../fonts/BebasNeue-Regular.ttf'); }
+  @font-face { font-family: 'Cormorant'; src: url('../fonts/cine/CormorantGaramond-Italic.ttf'); font-style: italic; }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #0e2235; }
+  svg { position: absolute; inset: 0; }
+  .land { stroke-linejoin: round; }
+  .lbl { font-family: 'Bebas', sans-serif; font-size: 46px; letter-spacing: .04em; fill: #fff; }
+  .lblbg { fill: #111; }
+  #big { position: absolute; left: 0; right: 0; text-align: center; font-family: 'Bebas', sans-serif; font-size: 190px;
+         color: #fff; letter-spacing: .02em; text-shadow: 0 6px 30px rgba(0,0,0,.6); }
+  #big small { display: inline-block; margin-top: 6px; padding: 4px 22px 8px; background: rgba(8,12,20,.62); border-radius: 6px;
+               font-family: 'Cormorant', serif; font-style: italic; font-size: 54px; letter-spacing: 0; color: #f4e6c4; }
+  .layer { position: absolute; inset: -40px; pointer-events: none; }
+  #grain { opacity: .22; mix-blend-mode: overlay;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  #paper { opacity: .28; mix-blend-mode: multiply;
+           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .04' numOctaves='4' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 .93  0 0 0 0 .88  0 0 0 0 .78  0 0 0 -1.4 1.25'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='%23f3ead8'/%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E"); }
+  #vignette { position: absolute; inset: 0; pointer-events: none;
+              background: radial-gradient(ellipse 80% 62% at 50% 42%, transparent 45%, rgba(0,0,0,.45) 85%, rgba(0,0,0,.7) 100%); }
+  #credit { position: absolute; left: 60px; right: 60px; top: 1282px; text-align: center; color: rgba(255,255,255,.6);
+            font: 22px Inter, sans-serif; text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+</style></head>
+<body>
+<svg id="svg" width="1080" height="1920"><defs id="defs"></defs><g id="g"></g><g id="fx"></g></svg>
+<div id="big"></div>
+<div id="vignette"></div><div id="paper" class="layer"></div><div id="grain" class="layer"></div>
+<div id="credit"></div>
+<script src="../node_modules/d3-array/dist/d3-array.min.js"></script>
+<script src="../node_modules/d3-geo/dist/d3-geo.min.js"></script>
+<script src="../geo/countries_50m.js"></script>
+<script>
+// Peta animasi gaya "explainer" (rujukan APHD): daratan cerah, laut gelap, negara diserlah (warna / bendera),
+// penanda pop, laluan beranimasi, label condensed, teks besar; tekstur kertas + grain + vignette.
+// Chromatic aberration ditambah semasa assemble (build_reel.py, config "chroma").
+// DATA: { duration, camera: [{c:[lon,lat], span:darjah_menegak}, ...] (keyframe, zum log-linear),
+//         theme?: "navy"|"light", highlight?: [{country, fill?|flag?, at}], markers?: [{ll, type:"dot"|"ring", color?, at, label?}],
+//         routes?: [{from, to, at, dur?, label?}], labels?: [{ll, text, at}], big?: {text, sub?, at, y?}, source? }
+const D = window.DATA || {};
+window.DURATION = Math.max(1.5, D.duration || 3);
+const T = window.DURATION;
+const TH = { navy: { sea: '#0e2235', land: '#e8e5dd', border: '#b5b0a6', hl: '#7d1717' },
+             light: { sea: '#5f7b98', land: '#ece9e2', border: '#bdb8ae', hl: '#7d1717' } }[D.theme || 'navy'];
+document.body.style.background = TH.sea;
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]);
+                                     (parent || document.getElementById('g')).appendChild(e); return e; };
+const clamp = x => Math.max(0, Math.min(1, x)), ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const outB = t => { const c = 1.70158; return 1 + (c + 1) * Math.pow(t - 1, 3) + c * Math.pow(t - 1, 2); };
+const proj = d3.geoMercator(), path = d3.geoPath(proj);
+const merY = lat => Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+const H = 1500, CY = 820;                                       // ketinggian peta yang dipapar, pusat (zon kandungan)
+let world = null;
+const cam = D.camera && D.camera.length ? D.camera : [{ c: [35, 31.5], span: 8 }];
+
+function camAt(t) {
+  if (cam.length === 1) return cam[0];
+  const p = ease(clamp(t / T)), seg = Math.min(cam.length - 2, Math.floor(p * (cam.length - 1)));
+  const u = p * (cam.length - 1) - seg, a = cam[seg], b = cam[seg + 1];
+  return { c: [a.c[0] + (b.c[0] - a.c[0]) * u, a.c[1] + (b.c[1] - a.c[1]) * u],
+           span: Math.exp(Math.log(a.span) + (Math.log(b.span) - Math.log(a.span)) * u) };
+}
+let landPaths = [], hlEls = [], mkEls = [], rtEls = [], lbEls = [];
+function build() {
+  const g = document.getElementById('g');
+  for (const f of world.features) landPaths.push([f, el('path', { class: 'land', fill: TH.land, stroke: TH.border, 'stroke-width': 1.2 })]);
+  (D.highlight || []).forEach((h, i) => {
+    const f = world.features.find(f => [f.properties.ADMIN, f.properties.NAME, f.properties.NAME_LONG].includes(h.country));
+    if (!f) throw new Error('negara tak jumpa: ' + h.country);
+    let fill = h.fill || TH.hl;
+    if (h.flag) {
+      const pat = el('pattern', { id: 'flag' + i, patternUnits: 'userSpaceOnUse', width: 1080, height: 1920 }, document.getElementById('defs'));
+      const img = el('image', { href: (D.baseDir || '') + h.flag, preserveAspectRatio: 'xMidYMid slice' }, pat);
+      fill = `url(#flag${i})`; h._img = img;
+    }
+    hlEls.push([h, f, el('path', { fill, stroke: '#fff', 'stroke-width': 3 })]);
+  });
+  (D.routes || []).forEach(r => {
+    const line = { type: 'LineString', coordinates: d3.range(0, 1.0001, 0.01).map(d3.geoInterpolate(r.from, r.to)) };
+    rtEls.push([r, line, el('path', { fill: 'none', stroke: '#ffd400', 'stroke-width': 7, 'stroke-linecap': 'round' }),
+                el('circle', { r: 13, fill: '#ffd400' })]);
+  });
+  (D.markers || []).forEach(m => mkEls.push([m, el('circle', { fill: m.type === 'ring' ? 'none' : (m.color || '#ffd400'),
+                                                               stroke: m.type === 'ring' ? (m.color || '#e53935') : '#111',
+                                                               'stroke-width': m.type === 'ring' ? 8 : 3 })]));
+  (D.labels || []).concat((D.markers || []).filter(m => m.label).map(m => ({ ll: m.ll, text: m.label, at: m.at + .15, dx: 40 })))
+    .forEach(l => { const gg = el('g', {}); const r = el('rect', { class: 'lblbg', rx: 4 }, gg);
+                    const tx = el('text', { class: 'lbl' }, gg); tx.textContent = l.text; lbEls.push([l, gg, r, tx]); });
+  document.getElementById('credit').textContent = D.source || '';
+}
+window.seek = t => {
+  const c = camAt(t);
+  proj.rotate([0, 0]).center([0, 0]).translate([0, 0]).scale(1);
+  const s = H / Math.abs(merY(c.c[1] + c.span / 2) - merY(c.c[1] - c.span / 2));
+  proj.scale(s).center(c.c).translate([540, CY]);
+  for (const [f, p] of landPaths) p.setAttribute('d', path(f) || '');
+  for (const [h, f, p] of hlEls) {
+    const a = clamp((t - (h.at || 0)) / 0.5);
+    p.setAttribute('d', path(f) || ''); p.style.opacity = a;
+    p.style.transform = `translateY(${(1 - outB(a)) * 18}px)`;
+    if (h._img) { const [[x0, y0], [x1, y1]] = path.bounds(f);
+                  Object.entries({ x: x0, y: y0, width: x1 - x0, height: y1 - y0 }).forEach(([k, v]) => h._img.setAttribute(k, v)); }
+  }
+  for (const [r, line, p, head] of rtEls) {
+    const a = ease(clamp((t - (r.at || 0)) / (r.dur || 1.2)));
+    p.setAttribute('d', path(line) || ''); const L = p.getTotalLength();
+    p.style.strokeDasharray = `${L}`; p.style.strokeDashoffset = `${L * (1 - a)}`;
+    const pt = proj(d3.geoInterpolate(r.from, r.to)(a)); head.setAttribute('cx', pt[0]); head.setAttribute('cy', pt[1]);
+    head.style.opacity = a > 0 && a < 1 ? 1 : (a >= 1 ? 1 : 0);
+  }
+  for (const [m, ci] of mkEls) {
+    const a = clamp((t - (m.at || 0)) / 0.35), [x, y] = proj(m.ll);
+    const pulse = m.type === 'ring' ? 1 + 0.12 * Math.sin((t - (m.at || 0)) * 6) : 1;
+    ci.setAttribute('cx', x); ci.setAttribute('cy', y); ci.setAttribute('r', (m.type === 'ring' ? 46 : 17) * outB(a) * pulse);
+    ci.style.opacity = a > 0 ? 1 : 0;
+  }
+  for (const [l, gg, r, tx] of lbEls) {
+    const a = clamp((t - (l.at || 0)) / 0.3), [x, y] = proj(l.ll), w = tx.getComputedTextLength();
+    let px = x + (l.dx || 0) - (l.dx ? 0 : w / 2);
+    if (px + w > 1040) px = l.dx ? x - l.dx - w : 1040 - w;   // label dekat tepi kanan: alih ke kiri penanda
+    tx.setAttribute('x', px); tx.setAttribute('y', y - (l.dx ? -16 : 40));
+    r.setAttribute('x', px - 12); r.setAttribute('y', y - (l.dx ? 26 : 82)); r.setAttribute('width', (w + 24) * a); r.setAttribute('height', 56);
+    tx.style.opacity = a; gg.style.opacity = a > 0 ? 1 : 0;
+  }
+  const B = D.big, big = document.getElementById('big');
+  if (B) { const a = clamp((t - (B.at || 0)) / 0.35);
+           big.innerHTML = B.text + (B.sub ? `<br><small>${B.sub}</small>` : ''); big.style.top = `${Math.max(B.y || 330, 330)}px`;
+           big.style.opacity = a; big.style.transform = `scale(${1.25 - 0.25 * outB(a)})`; }
+};
+world = window.WORLD; build(); document.fonts.ready.then(() => { window.seek(0); window.READY = true; });
+</script>
+</body></html>

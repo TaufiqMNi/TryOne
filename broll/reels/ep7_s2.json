@@ -150,16 +150,64 @@
   {
    "phrase": "yang kedua zaman Andalusia",
    "pre": 0.1,
-   "dur": 2.8,
-   "tpl": "photo",
+   "dur": 3.2,
+   "tpl": "map",
    "data": {
-    "image": "ep7/img/alhambra.jpg",
-    "grade": "color",
-    "texture": [
-     "grain",
-     "halftone"
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       12,
+       44
+      ],
+      "span": 34
+     },
+     {
+      "c": [
+       -4.2,
+       39.8
+      ],
+      "span": 19
+     }
     ],
-    "motion": "pan-up"
+    "highlight": [
+     {
+      "country": "Spain",
+      "at": 1.2
+     },
+     {
+      "country": "Portugal",
+      "fill": "#5e1212",
+      "at": 1.3
+     }
+    ],
+    "markers": [
+     {
+      "ll": [
+       -4.78,
+       37.88
+      ],
+      "type": "dot",
+      "at": 1.7,
+      "label": "CÓRDOBA"
+     },
+     {
+      "ll": [
+       -3.6,
+       37.18
+      ],
+      "type": "dot",
+      "at": 1.9,
+      "label": "GRANADA"
+     }
+    ],
+    "big": {
+     "text": "ANDALUSIA",
+     "sub": "711 – 1492 M",
+     "at": 1.5,
+     "y": 250
+    },
+    "source": "Peta: Natural Earth"
    }
   },
   {
@@ -185,5 +233,6 @@
   "file": "work/music/crime_investigation_1646362.mp3",
   "volume": 0.1,
   "_sumber": "CapCut: Crime Investigation. News, reports, mysteries (1646362) — dari pengguna"
- }
+ },
+ "chroma": 4
 }

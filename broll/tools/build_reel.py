@@ -653,11 +653,13 @@ def assemble(cid):
     last = "[vt]"
     for i, c in enumerate(P["cues"]):
         t, d = c["t"], c["dur"]
-        if c["tpl"] in ("photo", "footage"):
+        if c["tpl"] in ("photo", "footage", "map", "news"):
             # B-roll penuh skrin: fade alpha (dissolve = crossfade double-exposure 0.3s), keluar crossfade 0.2s
             fin = f"fade=t=in:st=0:d=0.3:alpha=1," if c.get("trans") == "dissolve" else ""
             fout = "" if c.get("hold") else f"fade=t=out:st={max(0, d - 0.2):.3f}:d=0.2:alpha=1,"   # penutup: kekal hingga akhir
-            fc.append(f"[{B0 + i}:v]format=yuva420p,{fin}{fout}"
+            # config "chroma" (px): chromatic aberration merah/biru pada B-roll (rujukan APHD)
+            ca = f"rgbashift=rh=-{C['chroma']}:bh={C['chroma']}:rv=1:bv=-1:edge=smear," if C.get("chroma") else ""
+            fc.append(f"[{B0 + i}:v]{ca}format=yuva420p,{fin}{fout}"
                       f"setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         elif c["tpl"] == "kinetic" and c["name"].endswith("_hooktype"):
             fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")   # intro tipografi: B-roll di bawah kekal tajam
@@ -694,7 +696,7 @@ def assemble(cid):
     fc.append(f"[vo][mu][fx]amix=inputs=3:normalize=0:duration=first,atrim=duration={total}[mix]")
     stills = os.environ.get("STILLS")              # STILLS="3.2,12,40": screencap satu frame (overlay penuh), tiada render video
     if stills:
-        ts = [float(x) for x in stills.split(",")]
+        ts = sorted(float(x) for x in stills.split(","))     # select keluarkan frame ikut urutan masa
         sel = "+".join(f"eq(n,{round(t * FPS)})" for t in ts)
         fc.append(f"movie={REPO}/template/overlay_1080x1920.png[ov];[vout][ov]overlay=0:0,select='{sel}'[vs];[ac]anullsink")
         open(f"{WORK}/{cid}.fc.txt", "w").write(";\n".join(x for x in fc if not x.startswith(("[ac]", "[2:a]", "[3:a]", "[vo]"))))
