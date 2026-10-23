@@ -36,3 +36,7 @@ Gaya ini **mengatasi** `STYLE_GUIDE.md` v2.0 untuk klip Podcast Bumi Merdeka yan
 6. Render **hanya selepas pengguna beri kebenaran**:
    `for s in faces plan render audio assemble final; do python3 tools/build_reel.py epN_sK $s; done`
    -> `broll/work/epN_sK_final.mp4`.
+
+## Penambahbaikan seterusnya (permintaan pengguna selepas EP7)
+- Pengguna mahu **look grafik baharu** untuk episod akan datang — cth. **glassmorphism** (kad kaca kabur lutsinar atas
+  footage), lebih banyak tipografi **kinetik**. Cadangkan 2-3 arah gaya dengan screencap satu frame sebelum render.
