@@ -268,11 +268,26 @@ def vo(cid):
     plan(cid)
 
 
+def shot_chain(C, s, nfr):
+    """Rantai penapis satu shot host (input -ss di s["src"][0]): crop -> 1080x1920 -> gerakan -> lift."""
+    a, b = s["src"]; w, h, x, y = s["crop"]
+    return (f"setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
+            f"{MOVES[s['move']].format(d=b - a) + ',' if s.get('move') else ''}"
+            # config "lift" (px): naikkan footage, buang logo tertanam di atas; bawah hitam (ditutup banner)
+            f"{'crop=1080:%d:0:%d,pad=1080:1920:0:0:black,' % (1920 - C['lift'], C['lift']) if C.get('lift') else ''}"
+            f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS")
+
+
 def render(cid):
     C = cfg(cid); P = json.load(open(f"{WORK}/{cid}.plan.json"))
     for c in P["cues"]:
         if c.get("bgswap"):                        # topeng orang untuk hook bgswap
-            subprocess.run(["python3", f"{BROLL}/tools/person_mask.py", C["src"], str(c["dur"] + 0.2),
+            # topeng dikira atas shot pertama yang sudah diproses (crop/gerakan/lift) -> sepadan tepat dengan [vg]
+            s0 = P["shots"][0]; hsrc = f"{WORK}/{cid}_hooksrc.mp4"
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{s0['src'][0]:.3f}", "-t", f"{s0['src'][1] - s0['src'][0] + 0.1:.3f}",
+                            "-i", C["src"], "-vf", shot_chain(C, s0, round((s0['src'][1] - s0['src'][0]) * FPS)), "-an",
+                            "-c:v", "libx264", "-crf", "12", hsrc], check=True)
+            subprocess.run(["python3", f"{BROLL}/tools/person_mask.py", hsrc, str(c["dur"] + 0.2),
                             f"{WORK}/{cid}_hookmask.mp4"] + (["--no-hair"] if C["hook"].get("no_hair") else [])
                            + (["--birefnet"] if C["hook"].get("matting") == "birefnet" else []), check=True)
     for c in P["cues"]:
@@ -647,11 +662,7 @@ def assemble(cid):
         # bilangan frame ikut masa audio kumulatif tepat -> tiada drift A/V terkumpul (maks 1/2 frame)
         nfr = round((acc + b - a) * FPS) - round(acc * FPS); acc += b - a
         # setiap shot = input sendiri (-ss/-t): trim dari satu [0:v] menimbun frame dalam RAM (OOM untuk sumber panjang)
-        chains.append(f"setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
-                  f"{MOVES[s['move']].format(d=b - a) + ',' if s.get('move') else ''}"
-                  # config "lift" (px): naikkan footage, buang logo tertanam di atas; bawah hitam (ditutup banner)
-                  f"{'crop=1080:%d:0:%d,pad=1080:1920:0:0:black,' % (1920 - C['lift'], C['lift']) if C.get('lift') else ''}"
-                  f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS")
+        chains.append(shot_chain(C, s, nfr))
         fc.append(f"[0:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={b - a - (0.08 if k == len(P["shots"]) - 1 else 0.012):.3f}:d={0.08 if k == len(P["shots"]) - 1 else 0.012}[a{k}]")
         as_.append(f"[a{k}]")
     n = len(P["shots"])
@@ -709,7 +720,7 @@ def assemble(cid):
     elif swap:
         # host penuh (gerakan sama dengan shot pertama) dipotong keluar guna topeng -> atas B-roll hook
         hd, s0 = swap[0]["dur"], P["shots"][0]
-        mv = MOVES[s0["move"]].format(d=s0["src"][1] - s0["src"][0]) + "," if s0.get("move") else ""
+        mv = ""                                    # topeng sudah termasuk gerakan shot pertama (lihat render)
         fc.append("[vg]split=2[vgm][vgp]")
         fc.append(f"[vgp]trim=end={hd},setpts=PTS-STARTPTS,format=yuva420p[pp0]")
         fc.append(f"[{B0 + len(P['cues'])}:v]trim=end={hd},setpts=PTS-STARTPTS,fps={FPS},{mv}format=gray[pm];[pp0][pm]alphamerge[pp]")
