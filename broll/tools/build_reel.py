@@ -639,22 +639,42 @@ def assemble(cid):
     swap = [c for c in P["cues"] if c.get("bgswap")]
     if swap:
         inp += ["-i", f"{WORK}/{cid}_hookmask.mp4"]
-    fc = []
-    vs, as_ = [], []
+    fc, chains = [], []
+    as_ = []
     acc = 0.0
     for k, s in enumerate(P["shots"]):
         a, b = s["src"]; w, h, x, y = s["crop"]
         # bilangan frame ikut masa audio kumulatif tepat -> tiada drift A/V terkumpul (maks 1/2 frame)
         nfr = round((acc + b - a) * FPS) - round(acc * FPS); acc += b - a
-        fc.append(f"[0:v]trim=start={a}:end={b + 0.1},setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
+        # setiap shot = input sendiri (-ss/-t): trim dari satu [0:v] menimbun frame dalam RAM (OOM untuk sumber panjang)
+        chains.append(f"setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
                   f"{MOVES[s['move']].format(d=b - a) + ',' if s.get('move') else ''}"
                   # config "lift" (px): naikkan footage, buang logo tertanam di atas; bawah hitam (ditutup banner)
                   f"{'crop=1080:%d:0:%d,pad=1080:1920:0:0:black,' % (1920 - C['lift'], C['lift']) if C.get('lift') else ''}"
-                  f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS[v{k}]")
+                  f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS")
         fc.append(f"[0:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={b - a - (0.08 if k == len(P["shots"]) - 1 else 0.012):.3f}:d={0.08 if k == len(P["shots"]) - 1 else 0.012}[a{k}]")
-        vs.append(f"[v{k}]"); as_.append(f"[a{k}]")
+        as_.append(f"[a{k}]")
     n = len(P["shots"])
-    fc.append("".join(v + a for v, a in zip(vs, as_)) + f"concat=n={n}:v=1:a=1[vc][ac]")
+    # shot host dirender satu-satu ke klip cache (-ss/-t, RAM rendah), dicantum -> satu input [hv]
+    # (trim banyak cabang dari satu [0:v] menimbun frame dalam RAM -> OOM untuk sumber panjang)
+    import hashlib
+    os.makedirs(f"{WORK}/shots", exist_ok=True)
+    clips = []
+    for k, (s, ch) in enumerate(zip(P["shots"], chains)):
+        a, b = s["src"]
+        key = hashlib.md5(f"{C['src']}|{a}|{b}|{ch}".encode()).hexdigest()[:10]
+        clip = f"{WORK}/shots/{cid}_{k:02d}_{key}.mp4"
+        if not os.path.exists(clip):
+            subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{a:.3f}", "-t", f"{b - a + 0.1:.3f}", "-i", C["src"],
+                            "-vf", ch, "-an", "-c:v", "libx264", "-preset", "veryfast", "-crf", "12", "-r", str(FPS), clip + ".tmp.mp4"], check=True)
+            os.replace(clip + ".tmp.mp4", clip)
+        clips.append(clip)
+    open(f"{WORK}/{cid}_shots.txt", "w").write("".join(f"file '{c}'\n" for c in clips))
+    host = f"{WORK}/{cid}_host.mp4"
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "concat", "-safe", "0", "-i", f"{WORK}/{cid}_shots.txt", "-c", "copy", host], check=True)
+    hv = len([x for x in inp if x == "-i"]); inp += ["-i", host]
+    fc.append(f"[{hv}:v]setpts=PTS-STARTPTS[vc]")
+    fc.append("".join(as_) + f"concat=n={n}:v=0:a=1[ac]")
     # gred host v2: warna asal studio (ungu/hijau), kulit hangat, kontras sederhana, vignette ringan
     # config "grade": rantai penapis ffmpeg ganti gred lalai (cth. Ep7: hitam dalam, kulit hangat, vignette pada muka)
     grade = C.get("grade") or "eq=contrast=1.05:saturation=1.04,colorbalance=rm=0.025:gm=0.005:bm=-0.02,vignette=angle=PI/5"
@@ -662,7 +682,7 @@ def assemble(cid):
               f"{grade},noise=alls=4:allf=t,format=yuv420p[vg]")
     pip = [c for c in P["cues"] if c.get("pip") is not None]
     if (C.get("hook") or {}).get("style") == "glass":
-        # kad kaca (glassmorphism): kawasan footage di belakang kad di-blur + cerah, bucu bulat, tepi & kilauan, lencana LIVE
+        # kad kaca (glassmorphism): kawasan footage di belakang kad di-blur + digelapkan (kaca asap, teks kuning kontras), bucu bulat, tepi & kilauan, lencana LIVE
         gx, gy, gw, gh, hd = 80, 960, 920, 460, P["hook_end"]
         gm = Image.new("L", (gw, gh), 0); ImageDraw.Draw(gm).rounded_rectangle((0, 0, gw - 1, gh - 1), 44, fill=255)
         gm.save(f"{WORK}/glassmask.png")
@@ -680,7 +700,7 @@ def assemble(cid):
         inp += ["-loop", "1", "-i", f"{WORK}/glassmask.png", "-loop", "1", "-i", f"{WORK}/glassedge.png"]
         gi = len([x for x in inp if x == "-i"]) - 2
         fc.append(f"[vg]split=2[vgm][vgk]")
-        fc.append(f"[vgk]crop={gw}:{gh}:{gx}:{gy},gblur=sigma=26,eq=brightness=0.08:saturation=1.2,format=yuva420p[gk0];"
+        fc.append(f"[vgk]crop={gw}:{gh}:{gx}:{gy},gblur=sigma=26,eq=brightness=-0.22:saturation=1.1,format=yuva420p[gk0];"
                   f"[{gi}:v]format=gray[gkm];[gk0][gkm]alphamerge,fade=t=in:d=0.25:alpha=1,"
                   f"fade=t=out:st={hd - 0.25:.3f}:d=0.25:alpha=1[gk]")
         fc.append(f"[vgm][gk]overlay={gx}:{gy}:enable='between(t,0,{hd})'[vg1];"
@@ -718,10 +738,12 @@ def assemble(cid):
             fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")   # intro tipografi: B-roll di bawah kekal tajam
         elif c["tpl"] == "kinetic":
             # host di bawah teks: blur + gelap, masuk/keluar beransur 0.35s
-            fc.append(f"{last}split[k{i}a][k{i}b];[k{i}b]trim=start={t}:end={t + d},setpts=PTS-STARTPTS,gblur=sigma=16,"
+            # latar kabur dari input host sendiri (-ss): cabang split+trim menahan semua frame sebelum t dalam RAM
+            ki = len([x for x in inp if x == "-i"]); inp += ["-ss", f"{t:.3f}", "-t", f"{d + 0.2:.3f}", "-i", host]
+            fc.append(f"[{ki}:v]setpts=PTS-STARTPTS,tpad=stop_mode=clone:stop_duration={d},trim=duration={d},{grade},gblur=sigma=16,"
                       f"eq=brightness=-0.16:saturation=0.75,format=yuva420p,fade=t=in:d=0.35:alpha=1,"
                       f"fade=t=out:st={max(0, d - 0.35):.3f}:d=0.35:alpha=1,setpts=PTS-STARTPTS+{t}/TB[k{i}c];"
-                      f"[k{i}a][k{i}c]overlay=0:0:eof_action=pass[k{i}d]")
+                      f"{last}[k{i}c]overlay=0:0:eof_action=pass[k{i}d]")
             last = f"[k{i}d]"
             fc.append(f"[{B0 + i}:v]setpts=PTS-STARTPTS+{t}/TB[b{i}]")
         else:
