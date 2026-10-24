@@ -1,0 +1,156 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short J",
+ "src": "work/footage/ep7f_J_src.mp4",
+ "start": 24.6,
+ "end": 152.5,
+ "skip": [
+  [
+   64.0,
+   66.25
+  ],
+  [
+   107.75,
+   110.75
+  ],
+  [
+   145.5,
+   147.5
+  ]
+ ],
+ "cuts": [
+  9.4
+ ],
+ "hook": {
+  "style": "glass",
+  "dur": 3.0,
+  "text": [
+   "Rakyat Amerika",
+   "sedar mereka",
+   "ditipu"
+  ]
+ },
+ "english": [
+  "blindly",
+  "live",
+  "mainstream",
+  "news",
+  "reporting",
+  "God is love",
+  "genocide",
+  "latest",
+  "journal",
+  "hardcore"
+ ],
+ "cues": [
+  {
+   "phrase": "selepas Oktober 7",
+   "pre": 0.1,
+   "dur": 2.4,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "7 Oktober"
+    ],
+    "highlight": "7 Oktober",
+    "kicker": "selepas"
+   }
+  },
+  {
+   "phrase": "mereka telah ditipu",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/protest.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "color",
+    "motion": "zoom-in"
+   }
+  },
+  {
+   "phrase": "anak-anak muda latest",
+   "pre": 0.1,
+   "dur": 3.8,
+   "tpl": "news",
+   "data": {
+    "outlet": "Al Jazeera",
+    "date": "27 Feb 2026",
+    "kicker": "News | Gallup poll",
+    "headline": "US citizens’ support for Israel at historic low over Gaza genocide: Poll",
+    "quote": "For the first time in Gallup’s surveys since 2001, a majority of US citizens aged between 18 and 34 are more sympathetic to the Palestinian people.",
+    "highlight": "more sympathetic to the Palestinian people",
+    "source": "Al Jazeera, 27 Februari 2026",
+    "marquee": [
+     "GALLUP POLL",
+     "HISTORIC LOW"
+    ]
+   }
+  },
+  {
+   "phrase": "yang tinggal cuma",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/capitol.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "bright",
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

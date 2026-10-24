@@ -18,6 +18,8 @@
   #rule { height: 3px; width: 0; margin-top: 34px; background: linear-gradient(90deg, transparent, #ffd400, transparent); }
   #source { margin-top: 22px; font-family: 'Cormorant', serif; font-style: italic; font-size: 34px; color: rgba(255,255,255,.8);
             text-shadow: 0 2px 12px rgba(0,0,0,.9); opacity: 0; }
+  .strike { position: absolute; left: -4%; width: 108%; top: 52%; height: 14px; background: #e3262b; border-radius: 4px;
+            transform-origin: left center; box-shadow: 0 2px 14px rgba(0,0,0,.6); }
 </style></head>
 <body>
 <div id="wrap"><div id="kicker"></div><div id="lines"></div><div id="rule"></div><div id="source"></div></div>
@@ -25,13 +27,14 @@
 // Tipografi kinetik sinematik (Ep7, ganti kad ungu): latar lutsinar, ditindih atas footage host yang digelap + blur
 // (tools/build_reel.py, tpl "kinetic"). Huruf masuk satu demi satu: jarak huruf lebar + blur -> tajam;
 // kata kunci emas dengan kilauan cahaya; garis emas dilukis dari tengah; zum perlahan; keluar blur + pudar.
-// DATA: { lines: [..], highlight?, kicker?, source?, duration, small?: [indeks baris lebih kecil], size?: px }
+// DATA: { lines: [..], highlight?, kicker?, source?, duration, small?: [indeks baris lebih kecil], size?: px,
+//         delay?: [saat tambahan per baris], strike?: {lines: [indeks], at: saat} (garis merah memangkah baris) }
 const D = window.DATA || {};
 window.DURATION = Math.max(1.5, D.duration || 2.6);
 const T = window.DURATION;
 const hl = (D.highlight || '').toLowerCase();
 const linesEl = document.getElementById('lines');
-const chars = [];
+const chars = [], strikes = [];
 (D.lines || []).forEach((txt, li) => {
   const el = document.createElement('div');
   el.className = 'line' + ((D.small || []).includes(li) ? ' small' : '');
@@ -44,6 +47,10 @@ const chars = [];
     el.appendChild(s); chars.push({ el: s, line: li, idx: i });
   });
   linesEl.appendChild(el);
+  if ((D.strike || {}).lines && D.strike.lines.includes(li)) {
+    el.style.position = 'relative'; el.style.width = 'fit-content'; el.style.margin = '0 auto';   // garis ikut lebar teks
+    const st = document.createElement('i'); st.className = 'strike'; el.appendChild(st); strikes.push(st);
+  }
 });
 document.getElementById('kicker').textContent = D.kicker || '';
 if (!D.kicker) document.getElementById('kicker').style.display = 'none';
@@ -58,7 +65,7 @@ const reveal = Math.min(0.9, T * 0.4);                 // semua huruf masuk dala
 window.seek = t => {
   // masuk: setiap baris bermula 0.16s selepas baris sebelum; huruf berperingkat dalam baris
   chars.forEach(c => {
-    const start = 0.1 + c.line * Math.min(0.16, reveal / Math.max(1, nLines)) + c.idx * 0.022;
+    const start = 0.1 + c.line * Math.min(0.16, reveal / Math.max(1, nLines)) + c.idx * 0.022 + ((D.delay || [])[c.line] || 0);
     const p = out(clamp((t - start) / 0.45));
     c.el.style.opacity = p;
     c.el.style.filter = c.el.classList.contains('hl') ? `blur(${(1 - p) * 10}px) drop-shadow(0 4px 22px rgba(0,0,0,.9))`
@@ -68,6 +75,7 @@ window.seek = t => {
     if (c.el.classList.contains('hl')) c.el.style.backgroundPosition = `${100 - clamp((t - 0.4) / 1.4) * 100}% 0`;
   });
   kick.style.opacity = out(clamp(t / 0.4));
+  strikes.forEach(st => st.style.transform = `translateY(-50%) rotate(-4deg) scaleX(${out(clamp((t - D.strike.at) / 0.3))})`);
   rule.style.width = `${out(clamp((t - reveal) / 0.5)) * 520}px`;
   src.style.opacity = out(clamp((t - reveal - 0.2) / 0.4));
   // zum perlahan sepanjang kad + keluar (blur + pudar) 0.3s terakhir

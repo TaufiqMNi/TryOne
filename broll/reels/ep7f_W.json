@@ -1,0 +1,175 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short W",
+ "src": "work/footage/ep7f_W_src.mp4",
+ "start": 31.3,
+ "end": 202.9,
+ "skip": [
+  [
+   34.4,
+   43.9
+  ],
+  [
+   77.6,
+   84.4
+  ],
+  [
+   98.1,
+   103.0
+  ],
+  [
+   119.0,
+   133.0
+  ],
+  [
+   141.8,
+   144.3
+  ],
+  [
+   154.1,
+   182.9
+  ]
+ ],
+ "cuts": [
+  28.64,
+  156.32,
+  172.6
+ ],
+ "hook": {
+  "style": "pip",
+  "dur": 3.0,
+  "text": [
+   "Kristian Palestin",
+   "dikhianati",
+   "sesama Kristian"
+  ],
+  "image": "ep7/img/church_in.jpg",
+  "grade": "color",
+  "texture": [
+   "grain",
+   "paper"
+  ],
+  "motion": "zoom-in"
+ },
+ "english": [
+  "apostle",
+  "Israel first",
+  "they compromise",
+  "collateral damage",
+  "alright"
+ ],
+ "cues": [
+  {
+   "phrase": "zaman Jesus lagi",
+   "pre": 0.1,
+   "dur": 2.8,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/church_in.jpg",
+    "texture": [
+     "paper",
+     "scratches"
+    ],
+    "grade": "sepia",
+    "motion": "pan-up"
+   }
+  },
+  {
+   "phrase": "agenda Israel first",
+   "pre": 0.1,
+   "dur": 2.4,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Israel",
+     "First"
+    ],
+    "highlight": "First",
+    "kicker": "agenda mereka"
+   }
+  },
+  {
+   "phrase": "collateral damage",
+   "pre": 0.4,
+   "dur": 3.8,
+   "tpl": "news",
+   "data": {
+    "outlet": "Catholic World Report",
+    "date": "17 Jul 2025",
+    "kicker": "CNA | Gaza",
+    "headline": "Latin Patriarchate confirms Holy Family Church in Gaza hit, damage and deaths reported",
+    "byline": "By Sanad Saheileh for CNA",
+    "quote": "The Holy Family Church in Gaza was struck by an Israeli attack on Thursday",
+    "highlight": "struck by an Israeli attack",
+    "source": "Catholic World Report / CNA, 17 Julai 2025",
+    "marquee": [
+     "HOLY FAMILY CHURCH",
+     "GAZA"
+    ]
+   }
+  },
+  {
+   "phrase": "sebagai Arab Muslim",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/nativity.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "bright",
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

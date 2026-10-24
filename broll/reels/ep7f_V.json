@@ -1,0 +1,226 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short V",
+ "src": "work/footage/ep7f_V_src.mp4",
+ "start": 28.2,
+ "end": 157.3,
+ "skip": [
+  [
+   32.5,
+   33.35
+  ],
+  [
+   91.6,
+   102.25
+  ]
+ ],
+ "cuts": [
+  13.28,
+  154.64,
+  166.8
+ ],
+ "hook": {
+  "style": "broll",
+  "tpl": "map",
+  "dur": 3.2,
+  "text": [
+   "Kenapa Al-Aqsa",
+   "jadi halangan",
+   "utama mereka?"
+  ],
+  "theme": "navy",
+  "camera": [
+   {
+    "c": [
+     35.2,
+     31.75
+    ],
+    "span": 6
+   },
+   {
+    "c": [
+     35.23,
+     31.775
+    ],
+    "span": 0.8
+   },
+   {
+    "c": [
+     35.2355,
+     31.7768
+    ],
+    "span": 0.16
+   }
+  ],
+  "markers": [
+   {
+    "ll": [
+     35.2355,
+     31.778
+    ],
+    "type": "ring",
+    "at": 2.2,
+    "label": "MASJID AL-AQSA"
+   }
+  ]
+ },
+ "english": [
+  "West Bank",
+  "connection",
+  "win-win situation",
+  "mastermind"
+ ],
+ "cues": [
+  {
+   "phrase": "masjid ketiga suci Islam",
+   "pre": 0.1,
+   "dur": 2.8,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/dome.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "color",
+    "motion": "zoom-in",
+    "focus": {
+     "x": 0.5,
+     "y": 0.45
+    }
+   }
+  },
+  {
+   "phrase": "bila Temple dah siap",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Temple siap",
+     "Jesus turun"
+    ],
+    "highlight": "Jesus turun",
+    "kicker": "kepercayaan mereka"
+   }
+  },
+  {
+   "phrase": "di West Bank",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       35,
+       31.7
+      ],
+      "span": 7
+     },
+     {
+      "c": [
+       35.25,
+       31.95
+      ],
+      "span": 3
+     }
+    ],
+    "highlight": [
+     {
+      "country": "Palestine",
+      "at": 0.9
+     }
+    ],
+    "labels": [
+     {
+      "ll": [
+       35.25,
+       32.05
+      ],
+      "text": "TEBING BARAT",
+      "at": 1.3
+     }
+    ],
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "masing-masing tunggang",
+   "pre": 0.1,
+   "dur": 2.4,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Masing-masing",
+     "tunggang"
+    ],
+    "highlight": "tunggang",
+    "kicker": "win-win situation"
+   }
+  },
+  {
+   "phrase": "tapi yang paling ditunggang",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/jerusalem.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "bright",
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

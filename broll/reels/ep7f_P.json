@@ -1,0 +1,239 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short P",
+ "src": "work/footage/ep7f_P_src.mp4",
+ "start": 23.9,
+ "end": 163.5,
+ "skip": [
+  [
+   100.9,
+   107.25
+  ],
+  [
+   114.9,
+   117.3
+  ],
+  [
+   119.0,
+   127.7
+  ],
+  [
+   129.4,
+   133.4
+  ],
+  [
+   139.68,
+   148.3
+  ]
+ ],
+ "cuts": [
+  23.92
+ ],
+ "hook": {
+  "style": "bgswap",
+  "matting": "birefnet",
+  "dur": 3.0,
+  "text": [
+   "3 cara tanah",
+   "Palestin",
+   "dirampas"
+  ],
+  "image": "ep7/img/walls.jpg",
+  "grade": "sepia",
+  "texture": [
+   "grain",
+   "paper"
+  ],
+  "motion": "zoom-in"
+ },
+ "english": [
+  "colonial settler",
+  "pretend to be",
+  "colonize the land",
+  "settle",
+  "policy",
+  "divine rights",
+  "right to expand",
+  "Greater Israel",
+  "legal fiction",
+  "the law of absentee",
+  "self-determination",
+  "take away"
+ ],
+ "cues": [
+  {
+   "phrase": "mereka panggil colonial settler",
+   "pre": 0.1,
+   "dur": 2.4,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Colonial",
+     "Settler"
+    ],
+    "highlight": "Settler",
+    "kicker": "cara pertama"
+   }
+  },
+  {
+   "phrase": "datang daripada Central Europe",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       24,
+       43
+      ],
+      "span": 30
+     }
+    ],
+    "routes": [
+     {
+      "from": [
+       15,
+       50
+      ],
+      "to": [
+       35.2,
+       31.8
+      ],
+      "at": 0.4,
+      "dur": 1.6
+     }
+    ],
+    "labels": [
+     {
+      "ll": [
+       15,
+       50
+      ],
+      "text": "EROPAH TENGAH",
+      "at": 0.3
+     },
+     {
+      "ll": [
+       35.2,
+       31.8
+      ],
+      "text": "PALESTIN",
+      "at": 1.9
+     }
+    ],
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "policy divine rights",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Divine Right",
+     "to Expand"
+    ],
+    "highlight": "Divine Right",
+    "kicker": "cara kedua"
+   }
+  },
+  {
+   "phrase": "guna legal fiction",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Absentees’",
+     "Property Law"
+    ],
+    "highlight": "Property Law",
+    "kicker": "“legal fiction”",
+    "source": "Undang-undang Israel, 1950",
+    "small": [
+     1
+    ]
+   }
+  },
+  {
+   "phrase": "mengambil hak self-determination",
+   "pre": 0.1,
+   "dur": 2.6,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/protest.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "color",
+    "motion": "pan-right"
+   }
+  },
+  {
+   "phrase": "semata-mata hak aku",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/jerusalem.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "bright",
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

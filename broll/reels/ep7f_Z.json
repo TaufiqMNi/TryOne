@@ -1,0 +1,175 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short Z",
+ "src": "work/footage/ep7f_Z_src.mp4",
+ "start": 20.65,
+ "end": 90.8,
+ "skip": [
+  [
+   83.95,
+   86.8
+  ]
+ ],
+ "cuts": [],
+ "hook": {
+  "style": "type",
+  "dur": 3.4,
+  "text": [
+   "Two-State",
+   "Solution",
+   "Ikut Malaysia"
+  ],
+  "kicker": "penyelesaian untuk Palestin?",
+  "highlight": "Ikut Malaysia",
+  "size": 116,
+  "small": [
+   1
+  ],
+  "delay": [
+   0,
+   0,
+   1.5
+  ],
+  "strike": {
+   "lines": [
+    0,
+    1
+   ],
+   "at": 1.0
+  },
+  "image": "ep7/img/walls.jpg",
+  "filter": "sepia(0.4) brightness(0.55) contrast(1.2)",
+  "texture": [
+   "grain",
+   "paper"
+  ],
+  "motion": "zoom-in"
+ },
+ "english": [
+  "two-state solution",
+  "nonsense",
+  "follow",
+  "two-state",
+  "two-nation state solution"
+ ],
+ "cues": [
+  {
+   "phrase": "ikut Malaysia",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/kl_crowd.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "color",
+    "motion": "zoom-in"
+   }
+  },
+  {
+   "phrase": "satu negara Palestin yang asal",
+   "pre": 0.1,
+   "dur": 3.2,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       25,
+       38
+      ],
+      "span": 30
+     },
+     {
+      "c": [
+       35.1,
+       31.6
+      ],
+      "span": 6
+     }
+    ],
+    "highlight": [
+     {
+      "country": "Palestine",
+      "at": 1.2
+     },
+     {
+      "country": "Israel",
+      "at": 1.2
+     }
+    ],
+    "big": {
+     "text": "PALESTIN",
+     "sub": "satu negara, pelbagai kaum & agama",
+     "at": 1.5
+    },
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "lagi pun Zionist tak nak",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/protest.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "bright",
+    "motion": "pan-up"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

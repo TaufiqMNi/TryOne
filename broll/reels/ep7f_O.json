@@ -1,0 +1,185 @@
+{
+ "preset": "PODCAST_BUMI_MERDEKA",
+ "tall": true,
+ "lift": 120,
+ "speaker_side": "full",
+ "host_thirds": false,
+ "fps": 25,
+ "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short O",
+ "src": "work/footage/ep7f_O_src.mp4",
+ "start": 23.8,
+ "end": 95.45,
+ "skip": [],
+ "cuts": [
+  25.48
+ ],
+ "hook": {
+  "style": "host",
+  "dur": 3.0,
+  "text": [
+   "Bukan agama.",
+   "Ini soal",
+   "kuasa."
+  ]
+ },
+ "english": [
+  "power",
+  "come second"
+ ],
+ "cues": [
+  {
+   "phrase": "tengah-tengah negara Arab",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       40,
+       29
+      ],
+      "span": 34
+     },
+     {
+      "c": [
+       37,
+       30
+      ],
+      "span": 20
+     }
+    ],
+    "highlight": [
+     {
+      "country": "Israel",
+      "at": 0.8
+     }
+    ],
+    "labels": [
+     {
+      "ll": [
+       34.9,
+       31.4
+      ],
+      "text": "ISRAEL",
+      "at": 1.2
+     }
+    ],
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "Rusia dengan China",
+   "pre": 0.1,
+   "dur": 3.0,
+   "tpl": "map",
+   "data": {
+    "theme": "navy",
+    "camera": [
+     {
+      "c": [
+       60,
+       42
+      ],
+      "span": 75
+     }
+    ],
+    "highlight": [
+     {
+      "country": "Russia",
+      "at": 0.5
+     },
+     {
+      "country": "China",
+      "at": 0.8,
+      "fill": "#5e1212"
+     },
+     {
+      "country": "Israel",
+      "fill": "#ffd400",
+      "at": 0.2
+     }
+    ],
+    "big": {
+     "text": "RUSIA & CHINA",
+     "sub": "menunggu masa",
+     "at": 1.1
+    },
+    "source": "Peta: Natural Earth"
+   }
+  },
+  {
+   "phrase": "sumber tenaga",
+   "pre": 0.1,
+   "dur": 2.4,
+   "tpl": "kinetic",
+   "data": {
+    "lines": [
+     "Sumber",
+     "Tenaga"
+    ],
+    "highlight": "Tenaga",
+    "kicker": "kenapa Timur Tengah penting"
+   }
+  },
+  {
+   "phrase": "come second",
+   "pre": 0.1,
+   "until_end": true,
+   "tpl": "photo",
+   "data": {
+    "image": "ep7/img/capitol.jpg",
+    "texture": [
+     "grain"
+    ],
+    "grade": "color",
+    "motion": "zoom-in"
+   },
+   "riser": true,
+   "trans": "dissolve"
+  }
+ ],
+ "proper": [
+  "Temple",
+  "Haikal",
+  "Sulaiman",
+  "Jesus",
+  "Zionis",
+  "Zionist",
+  "Baitul",
+  "Maqdis",
+  "West",
+  "Bank",
+  "Oktober",
+  "Amerika",
+  "TikTok",
+  "Facebook",
+  "Melayu",
+  "Cina",
+  "India",
+  "Hindu",
+  "Malaysia",
+  "Rusia",
+  "China",
+  "Central",
+  "Europe",
+  "Greater",
+  "Palestinian",
+  "Kristian",
+  "Christian",
+  "Islam",
+  "Israel",
+  "Arab",
+  "Muslim",
+  "Palestin",
+  "Gaza",
+  "Al-Aqsa",
+  "Bani",
+  "God",
+  "Republikan",
+  "Barat",
+  "Yahudi"
+ ],
+ "precut": false
+}

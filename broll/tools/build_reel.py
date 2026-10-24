@@ -69,6 +69,10 @@ def edl_shots(cid, C, words):
             segs.append([round(s, 3), round(a + 0.17, 3)])
             s = b - 0.17
     segs.append([round(s, 3), C["end"]])
+    # config "skip": [[a, b], ...] saat sumber dibuang (soalan host, filler, ayat berisiko)
+    for a0, b0 in C.get("skip", []):
+        segs = [p for a, b in segs for p in ([a, min(b, a0)], [max(a, b0), b]) if p[1] - p[0] > 0.25]
+    segs = [[round(a, 3), round(b, 3)] for a, b in segs]
     def out_t(t):
         acc = 0.0
         for a, b in segs:
@@ -80,11 +84,17 @@ def edl_shots(cid, C, words):
 
     # 2. Shot ~3s dalam setiap segmen, potong pada hujung perkataan (utamakan tanda baca/jeda)
     shots = []
+    # config "cuts": tukar kamera dalam sumber -> sempadan shot (crop ikut muka dikira semula selepas setiap tukar)
+    pieces = []
     for a, b in segs:
+        edges = [a] + [t for t in C.get("cuts", []) if a + 0.3 < t < b - 0.3] + [b]
+        pieces += [[x, y] for x, y in zip(edges, edges[1:])]
+    lo, hi, mx = (4.0, 6.0, 7.0) if C.get("tall") else (2.4, 3.8, 4.2)   # tall: shot host 4-6s (zum bersilih tak melompat)
+    for a, b in pieces:
         ends = [w["end"] for w in words if a < w["end"] < b - 0.8]
         cur = a
-        while b - cur > 4.2:
-            cands = [e for e in ends if 2.4 <= e - cur <= 3.8]
+        while b - cur > mx:
+            cands = [e for e in ends if lo <= e - cur <= hi]
             if not cands:
                 break
             pref = [e for e in cands if any(abs(w["end"] - e) < 1e-6 and (w["word"][-1:] in ",.?" ) for w in words)]
@@ -104,6 +114,16 @@ def edl_shots(cid, C, words):
         fs = [f["box"] for f in faces if a <= f["t"] <= b]
         cx = st.median(x + w / 2 for x, y, w, h in fs) if fs else allcx
         cy = st.median(y + h / 2 for x, y, w, h in fs) if fs else allcy
+        if C.get("tall"):
+            # gaya raw footage pengguna: crop 9:16 setinggi penuh pada muka (zum 1.0 / 1.1 bersilih), push/pull halus
+            z = 1.0 if k % 2 == 0 else 1.1
+            h = round(1080 / z / 2) * 2
+            w = round(h * 9 / 16 / 2) * 2
+            y0 = int(min(max(cy - 0.30 * h, 0), 1080 - h))
+            x0 = int(min(max(cx - 0.5 * w, 0), 1920 - w))
+            out_shots.append(dict(src=[round(a, 3), round(b, 3)], crop=[w, h, x0, y0], z=z, move="push" if k % 2 == 0 else "pull"))
+            face_y.append((cy - y0) * 1920 / h - C.get("lift", 0))
+            continue
         z = 1.15 if k % 2 == 0 else 1.3
         h = round(1080 / z / 2) * 2
         w = round(h * 9 / 16 / 2) * 2
@@ -155,7 +175,9 @@ def plan(cid):
     segs, out_shots, face_y, out_t, total = (precut_shots if C.get("precut") else edl_shots)(cid, C, words)
 
     # 4. Cue B-roll -> masa output
-    src_mapped = [dict(w, start=round(out_t(w["start"]), 3), end=round(out_t(w["end"]), 3)) for w in words]
+    # hanya perkataan yang kekal selepas potongan (titik tengah dalam segmen) dapat kapsyen
+    kept = [w for w in words if any(a <= (w["start"] + w["end"]) / 2 <= b for a, b in segs)]
+    src_mapped = [dict(w, start=round(out_t(w["start"]), 3), end=round(out_t(w["end"]), 3)) for w in kept]
     if os.path.exists(f"{WORK}/{cid}e.words.json"):
         # transkrip semula audio suntingan (masa tepat); bahagian yang Whisper tertinggal (bacaan Arab)
         # diambil dari transkrip asal, perkataan akhir disematkan ikut analisis tenaga audio
@@ -191,17 +213,20 @@ def plan(cid):
     # hook.style: "pip" (lalai: B-roll penuh + host dalam kad PiP) | "bgswap" (host penuh, latar studio diganti B-roll)
     #             | "type" (tipografi kinetik atas B-roll gelap, tiada host) | "host" (wajah host terus, teks hook slam)
     hs = (H or {}).get("style", "pip")
-    if H and hs != "host":
+    #             | "broll" (B-roll / peta penuh skrin + teks hook, tiada host) | "glass" (host + kad kaca kabur berisi hook)
+    if H and hs not in ("host", "glass"):
         pip_y = int(min(max(face_y[0] - 270, 0), 1920 - 540))
         cues.insert(0, dict(name=f"{cid}_hook", t=0.0, dur=H["dur"], tpl=H.get("tpl", "photo"),
-                            data={k: v for k, v in H.items() if k not in ("dur", "tpl", "style", "text", "kicker", "highlight", "size", "small")},
+                            data={k: v for k, v in H.items() if k not in ("dur", "tpl", "style", "text", "kicker", "highlight", "size", "small", "delay", "strike",
+                                                                  "matting", "no_hair")},
                             source=None, sfx="hit", riser=False, trans="cut",
                             pip=pip_y if hs == "pip" else None, bgswap=hs == "bgswap"))
         if hs == "type":
             cues.insert(1, dict(name=f"{cid}_hooktype", t=0.0, dur=H["dur"], tpl="kinetic", source=None, sfx="none",
                                 riser=False, trans="cut", data=dict(lines=H["text"], kicker=H.get("kicker"),
                                                                     highlight=H.get("highlight"), size=H.get("size", 150),
-                                                                    small=H.get("small", []))))
+                                                                    small=H.get("small", []), delay=H.get("delay", []),
+                                                                    strike=H.get("strike"))))
     if CTA:
         cues.append(dict(name=f"{cid}_cta", t=round(total, 3), dur=CTA["dur"], tpl=CTA["tpl"], data=CTA["data"], sfx="hit",
                          riser=False, source=None, trans="flash"))
@@ -538,12 +563,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
             def width(sz):
                 f = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-Black.otf", sz)
                 return max(f.getlength(t) - sz * 0.01 * (len(t) - 1) for t in H["text"])
-            fs = 150
-            while fs > 60 and width(fs) > 960:
-                fs -= 2
             hs = H.get("style", "pip")
+            fs, maxw = 150, (820 if hs == "glass" else 960)
+            while fs > 60 and width(fs) > maxw:
+                fs -= 2
             base = r"\an8\fnInter Black\b0\fs" + str(fs)
-            y = 400 if hs == "pip" else 990            # host penuh skrin: teks di bawah muka (atas baju)
+            # host penuh skrin: teks di bawah muka (atas baju); glass: dalam kad kaca
+            y = {"pip": 400, "broll": 400, "glass": 1050}.get(hs, 990)
             if hs == "host":
                 # slam perkataan demi perkataan: 140% -> 100%, pudar masuk 0.12s
                 ws = [(w, li) for li, t in enumerate(H["text"]) for w in t.split()]
@@ -622,6 +648,8 @@ def assemble(cid):
         nfr = round((acc + b - a) * FPS) - round(acc * FPS); acc += b - a
         fc.append(f"[0:v]trim=start={a}:end={b + 0.1},setpts=PTS-STARTPTS,crop={w}:{h}:{x}:{y},scale=1080:1920:flags=lanczos,setsar=1,fps={FPS},"
                   f"{MOVES[s['move']].format(d=b - a) + ',' if s.get('move') else ''}"
+                  # config "lift" (px): naikkan footage, buang logo tertanam di atas; bawah hitam (ditutup banner)
+                  f"{'crop=1080:%d:0:%d,pad=1080:1920:0:0:black,' % (1920 - C['lift'], C['lift']) if C.get('lift') else ''}"
                   f"tpad=stop_mode=clone:stop_duration=0.2,trim=end_frame={nfr},setpts=PTS-STARTPTS[v{k}]")
         fc.append(f"[0:a]atrim=start={a}:end={b},asetpts=PTS-STARTPTS,afade=t=in:d=0.012,afade=t=out:st={b - a - (0.08 if k == len(P["shots"]) - 1 else 0.012):.3f}:d={0.08 if k == len(P["shots"]) - 1 else 0.012}[a{k}]")
         vs.append(f"[v{k}]"); as_.append(f"[a{k}]")
@@ -633,7 +661,32 @@ def assemble(cid):
     fc.append(f"[vc]tpad=stop_mode=clone:stop_duration={total - P['total'] + 0.5},"
               f"{grade},noise=alls=4:allf=t,format=yuv420p[vg]")
     pip = [c for c in P["cues"] if c.get("pip") is not None]
-    if swap:
+    if (C.get("hook") or {}).get("style") == "glass":
+        # kad kaca (glassmorphism): kawasan footage di belakang kad di-blur + cerah, bucu bulat, tepi & kilauan, lencana LIVE
+        gx, gy, gw, gh, hd = 80, 960, 920, 460, P["hook_end"]
+        gm = Image.new("L", (gw, gh), 0); ImageDraw.Draw(gm).rounded_rectangle((0, 0, gw - 1, gh - 1), 44, fill=255)
+        gm.save(f"{WORK}/glassmask.png")
+        ge = Image.new("RGBA", (gw, gh), (0, 0, 0, 0)); d = ImageDraw.Draw(ge)
+        for yy in range(gh // 2):                          # kilauan atas
+            d.line([(0, yy), (gw, yy)], fill=(255, 255, 255, int(38 * (1 - yy / (gh / 2)) ** 2)))
+        ge.putalpha(Image.composite(ge.getchannel("A"), Image.new("L", (gw, gh), 0), gm))
+        d = ImageDraw.Draw(ge)
+        d.rounded_rectangle((1, 1, gw - 2, gh - 2), 44, outline=(255, 255, 255, 110), width=3)
+        from PIL import ImageFont
+        fnt = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-Bold.otf", 30)
+        d.rounded_rectangle((36, 30, 176, 78), 24, fill=(227, 38, 43, 235))
+        d.ellipse((54, 46, 70, 62), fill=(255, 255, 255, 255)); d.text((80, 35), "LIVE", font=fnt, fill=(255, 255, 255, 255))
+        ge.save(f"{WORK}/glassedge.png")
+        inp += ["-loop", "1", "-i", f"{WORK}/glassmask.png", "-loop", "1", "-i", f"{WORK}/glassedge.png"]
+        gi = len([x for x in inp if x == "-i"]) - 2
+        fc.append(f"[vg]split=2[vgm][vgk]")
+        fc.append(f"[vgk]crop={gw}:{gh}:{gx}:{gy},gblur=sigma=26,eq=brightness=0.08:saturation=1.2,format=yuva420p[gk0];"
+                  f"[{gi}:v]format=gray[gkm];[gk0][gkm]alphamerge,fade=t=in:d=0.25:alpha=1,"
+                  f"fade=t=out:st={hd - 0.25:.3f}:d=0.25:alpha=1[gk]")
+        fc.append(f"[vgm][gk]overlay={gx}:{gy}:enable='between(t,0,{hd})'[vg1];"
+                  f"[{gi + 1}:v]format=rgba,fade=t=in:d=0.25:alpha=1,fade=t=out:st={hd - 0.25:.3f}:d=0.25:alpha=1[ge];"
+                  f"[vg1][ge]overlay={gx}:{gy}:enable='between(t,0,{hd})'[vt]")
+    elif swap:
         # host penuh (gerakan sama dengan shot pertama) dipotong keluar guna topeng -> atas B-roll hook
         hd, s0 = swap[0]["dur"], P["shots"][0]
         mv = MOVES[s0["move"]].format(d=s0["src"][1] - s0["src"][0]) + "," if s0.get("move") else ""
@@ -745,8 +798,8 @@ def faces(cid):
         ok, f = cap.read()
         if not ok: break
         if i % step == 0:
-            off = 0 if side == "left" else f.shape[1] - 1100
-            g = cv2.cvtColor(f[:, off:off + 1100], cv2.COLOR_BGR2GRAY)
+            off = 0 if side in ("left", "full") else f.shape[1] - 1100
+            g = cv2.cvtColor(f[:, off:] if side == "full" else f[:, off:off + 1100], cv2.COLOR_BGR2GRAY)
             best = None
             for c in casc:
                 for flip in (False, True):
