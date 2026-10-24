@@ -130,6 +130,7 @@ window.seek = t => {
     const a = clamp((t - (l.at || 0)) / 0.3), [x, y] = proj(l.ll), w = tx.getComputedTextLength();
     let px = x + (l.dx || 0) - (l.dx ? 0 : w / 2);
     if (px + w > 1040) px = l.dx ? x - l.dx - w : 1040 - w;   // label dekat tepi kanan: alih ke kiri penanda
+    if (px < 40) px = 40;                                       // tepi kiri: kekal dalam frame
     tx.setAttribute('x', px); tx.setAttribute('y', y - (l.dx ? -16 : 40));
     r.setAttribute('x', px - 12); r.setAttribute('y', y - (l.dx ? 26 : 82)); r.setAttribute('width', (w + 24) * a); r.setAttribute('height', 56);
     tx.style.opacity = a; gg.style.opacity = a > 0 ? 1 : 0;
