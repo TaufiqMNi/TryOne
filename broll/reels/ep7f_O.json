@@ -7,12 +7,10 @@
  "fps": 25,
  "_nota": "Podcast Bumi Merdeka EP7 (video penuh) — short O",
  "src": "work/footage/ep7f_O_src.mp4",
- "start": 23.8,
+ "start": 25.48,
  "end": 95.45,
  "skip": [],
- "cuts": [
-  25.48
- ],
+ "cuts": [],
  "hook": {
   "style": "host",
   "dur": 3.0,
